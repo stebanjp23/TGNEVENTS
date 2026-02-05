@@ -19,6 +19,8 @@ import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.security.KeyPair;
 import java.time.LocalDate;
@@ -36,6 +38,8 @@ import java.util.stream.Collectors;
 
 public final class MainMenu extends AppCompatActivity
 {
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -52,33 +56,45 @@ public final class MainMenu extends AppCompatActivity
             }
         );
 
-        List<Event> events = new ArrayList<>();
-
-
-        // Sorts events by proximity of date
-        events.sort((e1, e2) -> e1.getDateTime().compareTo(e2.getDateTime()));
-        Map<LocalDate, List<Event>> dates = new LinkedHashMap<>();
-        for(Event event : events)
-        {
-            LocalDate date = event.getDate();
-            if(!dates.containsKey(date)) dates.put(date, new ArrayList<>());
-            dates.get(date).add(event);
-        }
-
-        List<Object> flattenedList = new ArrayList<>();
-        for(Map.Entry<LocalDate, List<Event>> entry : dates.entrySet())
-        {
-            flattenedList.add(entry.getKey());
-            flattenedList.addAll(entry.getValue());
-        }
-
+        // Initializes the event item display
         RecyclerView eventDisplay = findViewById(R.id.eventDisplay);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
         layoutManager.setFlexWrap(FlexWrap.WRAP);
         layoutManager.setJustifyContent(JustifyContent.FLEX_START);
         eventDisplay.setLayoutManager(layoutManager);
+
+        List<Object> flattenedList = new ArrayList<>();
         EventItemAdapter adapter = new EventItemAdapter(flattenedList);
         eventDisplay.setAdapter(adapter);
+
+        // Retrieves the events from the database
+        db.collection("Events").get().addOnSuccessListener
+        (
+            queryDocumentSnapshots ->
+            {
+                List<Event> events = new ArrayList<>();
+                for(DocumentSnapshot document : queryDocumentSnapshots.getDocuments())
+                    events.add(document.toObject(Event.class));
+
+                // Sorts events by proximity of date
+                events.sort((e1, e2) -> e1.getDateTime().compareTo(e2.getDateTime()));
+                Map<LocalDate, List<Event>> dates = new LinkedHashMap<>();
+                for(Event event : events)
+                {
+                    LocalDate date = event.getDate();
+                    if(!dates.containsKey(date)) dates.put(date, new ArrayList<>());
+                    dates.get(date).add(event);
+                }
+
+                for(Map.Entry<LocalDate, List<Event>> entry : dates.entrySet())
+                {
+                    flattenedList.add(entry.getKey());
+                    flattenedList.addAll(entry.getValue());
+                }
+
+                adapter.notifyDataSetChanged();
+            }
+        );
     }
 }

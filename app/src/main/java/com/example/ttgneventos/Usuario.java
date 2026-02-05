@@ -14,6 +14,12 @@ public class Usuario {
 
     }
 
+    public Usuario(String nombre, String correo) {
+        this.nombre = nombre;
+        this.correo = correo;
+
+    }
+
     public Usuario() {
     }
 

@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,14 +74,23 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 }
 
                 mAuth.signInWithEmailAndPassword(c, p)
-                            .addOnCompleteListener(this, task -> {
-                                if (task.isSuccessful()) {
-                                    ObtenerDatosUsuario(mAuth.getCurrentUser().getUid());
+                        .addOnCompleteListener(this, task -> {
+                            if (task.isSuccessful()) {
+                                com.google.firebase.auth.FirebaseUser user = mAuth.getCurrentUser();
 
+                                // 2. FILTRO G FOR LIVE: ¿Ha verificado el correo?
+                                if (user != null && user.isEmailVerified()) {
+                                    // Si está verificado, buscamos sus datos en Firestore
+                                    ObtenerDatosUsuario(user.getUid());
                                 } else {
-                                    Toast.makeText(this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    // Si NO está verificado, le avisamos y ofrecemos reenviar
+                                    mostrarPopupVerificacion(user);
+                                    mAuth.signOut(); // Cerramos sesión para que no se quede logueado a medias
                                 }
-                            });
+                            } else {
+                                mostrarPopupRegistro(c);
+                            }
+                        });
                 break;
         }
 
@@ -106,6 +116,24 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     });
         }
 
+        private void mostrarPopupRegistro(String emailOlvidado) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+
+            builder.setTitle("Usuario no encontrado");
+            builder.setMessage("El correo " + emailOlvidado + " no está registrado. ¿Quieres crear una cuenta ahora?");
+
+            // Botón para ir al Registro
+            builder.setPositiveButton("Registrarme", (dialog, which) -> {
+                Intent intent = new Intent(Login.this, Registro.class);
+                startActivity(intent);
+            });
+
+            // Botón para cancelar
+            builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+
+            builder.create().show();
+        }
+
         private boolean validarCampos(String c, String p) {
             if (c.isEmpty() || p.isEmpty()) {
                 Toast.makeText(this, "Rellena todos los campos", Toast.LENGTH_SHORT).show();
@@ -113,6 +141,28 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             }
             return true;
         }
+
+    private void mostrarPopupVerificacion(com.google.firebase.auth.FirebaseUser user) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+
+        builder.setTitle("Cuenta no verificada");
+        builder.setMessage("Tu correo no ha sido verificado. Revisa tu bandeja de entrada o solicita un nuevo enlace.");
+
+        builder.setPositiveButton("Reenviar Correo", (dialog, which) -> {
+            if (user != null) {
+                user.sendEmailVerification().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(Login.this, "Nuevo enlace enviado.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Login.this, "Error al enviar: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        builder.setNegativeButton("Entendido", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
+    }
 
 
     }

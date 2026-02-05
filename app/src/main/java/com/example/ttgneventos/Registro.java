@@ -2,19 +2,23 @@ package com.example.ttgneventos;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -53,72 +57,100 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         String nombre = Nombre_usuario.getText().toString().trim();
-        String correo = Correo_nuevo.getText().toString().trim();String password = Password_nueva.getText().toString().trim();
+        String correo = Correo_nuevo.getText().toString().trim();
+        String password = Password_nueva.getText().toString().trim();
 
         if (v.getId() == R.id.Registrarse) {
 
-            // 1. Validar campos vacíos
-            if (nombre.isEmpty()) {
-                Nombre_usuario.setError("El nombre es obligatorio");
-                return;
-            }
-            if (correo.isEmpty()) {
-                Correo_nuevo.setError("El correo es obligatorio");
-                return;
-            }
-            if (password.isEmpty()) {
-                Password_nueva.setError("La contraseña es obligatoria");
-                return;
-            }
+            // 1️⃣ Validar campos vacíos
+            if(!validarCampos(nombre, correo, password)) return;
 
-            // 2. Validar formato de correo
-            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
-                Correo_nuevo.setError("Formato de correo no válido");
-                return;
-            }
+            // 2️⃣ Deshabilitar botón para evitar doble click
+            Registrarse.setEnabled(false);
 
-            // 3. Validar seguridad de contraseña
-            if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
-                Password_nueva.setError("Contraseña demasiado débil (mínimo 8 caracteres, Mayús, Minús, Número y Especial)");
-                return;
-            }
+            // 3️⃣ Crear usuario en Firebase
+            mAuth.createUserWithEmailAndPassword(correo, password)
+                    .addOnCompleteListener(this, task -> {
 
-                // AQUÍ es donde realmente añadirías el usuario a tu lista persistente
-                mAuth.createUserWithEmailAndPassword(correo, password).addOnCompleteListener(this, task -> {
-                            if (task.isSuccessful()) {
-                                //1. Recibe el ID asignado por BD
-                                String uid = mAuth.getCurrentUser().getUid();
+                        // Volvemos a habilitar el botón
+                        Registrarse.setEnabled(true);
 
-                                //2. Crea el usuario en la base de datos
-                                Usuario nuevoUsuario = new Usuario(nombre, correo, password);
-                                nuevoUsuario.setAdmin(false);
-
-                                db = FirebaseFirestore.getInstance();
-                                //3. Guarda el usuario en la base de datos
-                                db.collection("Usuarios").document(uid).set(nuevoUsuario)
-                                        .addOnSuccessListener(aVoid -> {
-                                            // El usuario se ha registrado correctamente
-                                            Toast.makeText(this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
-                                            mAuth.signOut();
-                                            Intent intent = new Intent(this, Login.class);
-                                            startActivity(intent);
-                                            finish();
-
-                                        }
-                                    ).addOnFailureListener(e -> {
-                                            // Error al guardar el usuario en la base de datos
-                                            Toast.makeText(this, "Error al registrar el usuario", Toast.LENGTH_SHORT).show();
-                                        });
-
-
-                            }else if(task.getException() instanceof FirebaseAuthUserCollisionException){
-                                Toast.makeText(this, "Error: Este correo ya está registrado", Toast.LENGTH_SHORT).show();
-                            }else {
-                                Toast.makeText(this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        if(task.isSuccessful()) {
+                            com.google.firebase.auth.FirebaseUser user = mAuth.getCurrentUser();
+                            if(user != null) {
+                                // Enviar correo de verificación
+                                user.sendEmailVerification().addOnCompleteListener(verifyTask -> {
+                                    if(verifyTask.isSuccessful()) {
+                                        // Mostrar AlertDialog en lugar de pasar mensaje por intent
+                                        new AlertDialog.Builder(Registro.this)
+                                                .setTitle("Registro exitoso")
+                                                .setMessage("Se ha enviado un correo de verificación a " + correo + ". Revisa tu bandeja de entrada.")
+                                                .setPositiveButton("Aceptar", (dialog, which) -> {
+                                                    // Guardar datos en Firestore
+                                                    guardarUsuarioFirestore(user.getUid(), nombre, correo);
+                                                })
+                                                .setCancelable(false)
+                                                .show();
+                                    } else {
+                                        Toast.makeText(this, "Error al enviar correo de verificación: " +
+                                                verifyTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
 
-                });
+                        } else {
+                            // 4️⃣ Manejo completo de errores de Firebase
+                            if(task.getException() instanceof FirebaseAuthInvalidCredentialsException){
+                                Toast.makeText(this, "Correo inválido", Toast.LENGTH_SHORT).show();
+                            } else if(task.getException() instanceof FirebaseAuthUserCollisionException){
+                                Toast.makeText(this, "Este correo ya está registrado", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
+                    });
         }
     }
+
+    private void guardarUsuarioFirestore(String uid, String nombre, String correo){
+        Usuario nuevoUsuario = new Usuario(nombre, correo);
+        nuevoUsuario.setAdmin(false);
+
+        db.collection("Usuarios").document(uid)
+                .set(nuevoUsuario)
+                .addOnSuccessListener(aVoid -> {
+                    mAuth.signOut(); // No dejamos que el usuario entre sin verificar
+                    Intent intent = new Intent(Registro.this, Login.class);
+                    startActivity(intent);
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error al guardar datos: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private boolean validarCampos(String nombre, String correo, String password){
+        if(nombre.isEmpty()) {
+            Nombre_usuario.setError("El nombre es obligatorio");
+            return false;
+        }
+        if(correo.isEmpty()) {
+            Correo_nuevo.setError("El correo es obligatorio");
+            return false;
+        }
+        if(password.isEmpty()) {
+            Password_nueva.setError("La contraseña es obligatoria");
+            return false;
+        }
+
+        // Validar formato de correo
+        if(!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+            Correo_nuevo.setError("Formato de correo no válido");
+            return false;
+        }
+
+        return true;
+    }
+
 }

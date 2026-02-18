@@ -1,0 +1,77 @@
+package com.example.ttgneventos;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Lista_usuarios extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private usuarios_adapter adapter;
+    private List<Usuario> listaUsuarios;
+    private FirebaseFirestore db;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_lista_usuarios);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        // 1. Inicializar vistas y Firebase
+        recyclerView = findViewById(R.id.vista_lista_usuarios); // Cambia el ID por el de tu XML
+        db = FirebaseFirestore.getInstance();
+        listaUsuarios = new ArrayList<>();
+
+        // 2. Configurar RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new usuarios_adapter(listaUsuarios);
+        recyclerView.setAdapter(adapter);
+
+        // 3. Cargar datos
+        cargarUsuariosDeFirestore();
+    }
+
+    private void cargarUsuariosDeFirestore() {
+        // Usamos "usuarios" en minúscula como en tu Login
+        db.collection("Usuarios").get() //NO OLVIDAR, LA COLECCIÓN ES CON "U" EN MAYUSCULAS. NO MINUSCULAS!!!
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        listaUsuarios.clear();
+                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                            Usuario u = doc.toObject(Usuario.class);
+                            if (u != null) {
+                                // IMPORTANTE: Seteamos el UID del documento al objeto
+                                // para que el Spinner pueda actualizar luego
+                                u.setUid(doc.getId());
+                                listaUsuarios.add(u);
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error al cargar: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("FIRESTORE", "Error", e);
+                });
+    }
+
+
+}

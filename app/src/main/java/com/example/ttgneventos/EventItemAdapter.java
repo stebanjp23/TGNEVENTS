@@ -41,7 +41,7 @@ public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if(viewType == TYPE_EVENT_ITEM)
             return new EventItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.event_item, parent, false));
         else
-            return new EventHeaderText(LayoutInflater.from(parent.getContext()).inflate(R.layout.event_date_header, parent, false));
+            return new EventHeaderText(LayoutInflater.from(parent.getContext()).inflate(R.layout.event_date_header_item, parent, false));
     }
 
     @Override

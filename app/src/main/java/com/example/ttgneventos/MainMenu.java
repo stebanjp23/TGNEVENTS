@@ -1,7 +1,10 @@
 package com.example.ttgneventos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
@@ -36,6 +39,9 @@ import java.util.stream.Collectors;
 
 public final class MainMenu extends AppCompatActivity
 {
+    // ID references
+    private ImageButton _filterButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -51,6 +57,10 @@ public final class MainMenu extends AppCompatActivity
                 return insets;
             }
         );
+
+        // Initializes ID references
+        _filterButton = findViewById(R.id.filterButton);
+        _filterButton.setOnClickListener(v -> startActivity(new Intent(this, Filters.class)));
 
         List<Event> events = new ArrayList<>();
 

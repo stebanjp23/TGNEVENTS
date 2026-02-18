@@ -1,45 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/txtNombre"
+        <LinearLayout
+            android:id="@+id/layout_textos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/layout_controles"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txtCorreo"
+            <TextView
+                android:id="@+id/txtNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#212121"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Nombre del Usuario" />
+
+            <TextView
+                android:id="@+id/txtCorreo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="#757575"
+                android:textSize="14sp"
+                tools:text="correo@ejemplo.com" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_controles"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#666" />
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/op_permisos"
-            android:layout_width="103dp"
-            android:layout_height="wrap_content" />
+            <Spinner
+                android:id="@+id/op_permisos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp" />
 
-        <ImageButton
-            android:id="@+id/elimnar_user"
-            android:layout_width="47dp"
-            android:layout_height="38dp"
-            android:background="#C80000"
-            android:scaleType="fitXY"
-            tools:srcCompat="@drawable/trash_alt_svgrepo_com" />
+            <ImageButton
+                android:id="@+id/elimnar_user"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="6dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/trash_alt_svgrepo_com"
+                app:tint="#D32F2F"
+                tools:ignore="ContentDescription" />
+        </LinearLayout>
 
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

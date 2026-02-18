@@ -76,9 +76,21 @@ public class usuarios_adapter extends RecyclerView.Adapter<usuarios_adapter.View
         });
     }
 
-    private void eliminarUsuario(String uid, int adapterPosition, View view) {
+    private void eliminarUsuario(String uid, int position, View view) {
+        if (uid == null) return;
 
+        // IMPORTANTE: Usamos "Usuario" (con mayúscula como descubriste antes)
+        FirebaseFirestore.getInstance().collection("Usuarios").document(uid)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    usuarios.remove(position); // Lo quitamos de la lista que tiene el adaptador
+                    notifyItemRemoved(position); // Animación de borrado
+                    notifyItemRangeChanged(position, usuarios.size()); // Refresca posiciones
+                    Toast.makeText(view.getContext(), "Usuario eliminado", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Toast.makeText(view.getContext(), "Error al borrar", Toast.LENGTH_SHORT).show());
     }
+
 
     private void actualizarPermisoEnFirestore(String uid, boolean esAdmin, View view) {
         if (uid == null) return;
@@ -109,6 +121,7 @@ public class usuarios_adapter extends RecyclerView.Adapter<usuarios_adapter.View
             nombre = itemView.findViewById(R.id.txtNombre);
             correo = itemView.findViewById(R.id.txtCorreo);
             desplegable = itemView.findViewById(R.id.op_permisos);
+            bt_eliminar = itemView.findViewById(R.id.elimnar_user);
         }
     }
 }

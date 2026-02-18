@@ -104,7 +104,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                             Usuario usuario = documentSnapshot.toObject(Usuario.class);
 
                             if (usuario != null) {
-                                Intent intent = new Intent(Login.this, Inicio.class);
+                                Intent intent = new Intent(this, MainMenu.class);
                                 intent.putExtra("Es_admin", usuario.isAdmin());
                                 startActivity(intent);
                                 finish();

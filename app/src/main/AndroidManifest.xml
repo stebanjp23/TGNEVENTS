@@ -12,7 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ttgneventos">
         <activity
-            android:name=".MainMenu"
+            android:name=".Registro"
+            android:exported="false" />
+        <activity
+            android:name=".Inicio"
+            android:exported="false" />
+        <activity
+            android:name=".Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainMenu"
+            android:exported="false" />
     </application>
 
 </manifest>

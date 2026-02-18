@@ -1,6 +1,8 @@
 package com.example.ttgneventos;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public final class Event
 {
@@ -33,6 +35,8 @@ public final class Event
     public void setCategory(String category) { _category = category; }
 
     public LocalDateTime getDateTime() { return _dateTime; }
+    public LocalDate getDate() { return _dateTime.toLocalDate(); }
+    public LocalTime getTime() { return _dateTime.toLocalTime(); }
     public void setDateTime(LocalDateTime dateTime) { _dateTime = dateTime; }
 
     public String getLocation() { return _location; }

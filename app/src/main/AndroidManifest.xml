@@ -32,6 +32,12 @@
         <activity
             android:name=".MainMenu"
             android:exported="false" />
+        <activity
+            android:name=".Configuracion"
+            android:exported="false" />
+        <activity android:name=".AgregarEventos" android:exported="false" />
+        <activity android:name=".GestionUsuarios" android:exported="false" />
+        <activity android:name=".GestionCategorias" android:exported="false" />
     </application>
 
 </manifest>

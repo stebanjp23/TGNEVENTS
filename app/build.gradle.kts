@@ -49,6 +49,7 @@ dependencies {
     // Firebase (Usando las variables del catálogo libs)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation(libs.legacy.support.v4)
 
     // Tests (Eliminados duplicados)
     testImplementation(libs.junit)

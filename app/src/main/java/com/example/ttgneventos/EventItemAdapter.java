@@ -41,7 +41,7 @@ public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if(viewType == TYPE_EVENT_ITEM)
             return new EventItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.event_item, parent, false));
         else
-            return new EventHeaderText(LayoutInflater.from(parent.getContext()).inflate(R.layout.event_date_header_item, parent, false));
+            return new EventDateHeaderItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.event_date_header_item, parent, false));
     }
 
     @Override
@@ -64,14 +64,14 @@ public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
         else
         {
-            EventHeaderText eventHeaderText = (EventHeaderText) holder;
+            EventDateHeaderItem eventDateHeaderItem = (EventDateHeaderItem) holder;
 
             LocalDate eventDate = (LocalDate) _events.get(position);
             String dateString = eventDate.getDayOfMonth() + " de " + eventDate.getMonth() + " del " + eventDate.getYear();
 
-            eventHeaderText.getHeaderText().setText(dateString);
+            eventDateHeaderItem.getHeaderText().setText(dateString);
 
-            ViewGroup.LayoutParams lp = eventHeaderText.itemView.getLayoutParams();
+            ViewGroup.LayoutParams lp = eventDateHeaderItem.itemView.getLayoutParams();
             FlexboxLayoutManager.LayoutParams flexboxLp = (FlexboxLayoutManager.LayoutParams) lp;
             flexboxLp.setFlexBasisPercent(1f);
             flexboxLp.setFlexGrow(0.0f);
@@ -110,13 +110,13 @@ public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public ImageView getEventItemImage() { return _eventItemImage; }
     }
 
-    public static final class EventHeaderText extends RecyclerView.ViewHolder
+    public static final class EventDateHeaderItem extends RecyclerView.ViewHolder
     {
         // ID references
         private final TextView _headerText;
 
         // Constructor
-        public EventHeaderText(View itemView)
+        public EventDateHeaderItem(View itemView)
         {
             super(itemView);
 

@@ -100,6 +100,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/startDateField"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -112,7 +113,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:alpha="0.5"
                         android:text="DD/MM/YYYY"
                         android:textColor="#323232"
                         android:textStyle="bold" />
@@ -134,12 +134,30 @@
                 </FrameLayout>
 
                 <LinearLayout
+                    android:id="@+id/endDateField"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:background="@drawable/border"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
 
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="DD/MM/YYYY"
+                        android:textColor="#323232"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@drawable/calendar_icon" />
                 </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 
@@ -149,6 +167,58 @@
             android:background="#323232">
 
         </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Palabras clave"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <EditText
+                    android:id="@+id/keywordField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text="Name" />
+
+                <ImageButton
+                    android:id="@+id/addKeywordButton"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/plus_large_svgrepo_com" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/addedKeywordsList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

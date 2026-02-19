@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView; // IMPORTANTE
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,13 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore; // IMPORTANTE
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class usuarios_adapter extends RecyclerView.Adapter<usuarios_adapter.ViewHolder>{
     private List<Usuario> usuarios;
+    private List<Usuario> usuariosFull;
+
 
     public usuarios_adapter(List<Usuario> usuarios) {
         this.usuarios = usuarios;
+        this.usuariosFull = new ArrayList<>(usuarios);
+
     }
 
     @NonNull
@@ -74,7 +80,9 @@ public class usuarios_adapter extends RecyclerView.Adapter<usuarios_adapter.View
                     .setNegativeButton("Cancelar", null)
                     .show();
         });
+
     }
+
 
     private void eliminarUsuario(String uid, int position, View view) {
         if (uid == null) return;
@@ -103,9 +111,39 @@ public class usuarios_adapter extends RecyclerView.Adapter<usuarios_adapter.View
                         Toast.makeText(view.getContext(), "Error al actualizar", Toast.LENGTH_SHORT).show());
     }
 
+
+
+    public void filtrar(String texto) {
+        String filterPattern = texto.toLowerCase().trim();
+
+        // Limpiamos la lista que se muestra
+        usuarios.clear();
+
+        if (filterPattern.isEmpty()) {
+            // Si no hay texto, volvemos a mostrar todos los de la copia de seguridad
+            usuarios.addAll(usuariosFull);
+        } else {
+            // Filtramos la copia de seguridad y añadimos los que coincidan
+            for (Usuario u : usuariosFull) {
+                if (u.getNombre().toLowerCase().contains(filterPattern) ||
+                        u.getCorreo().toLowerCase().contains(filterPattern)) {
+                    usuarios.add(u);
+                }
+            }
+        }
+        notifyDataSetChanged(); // Refrescamos el RecyclerView
+    }
+
     @Override
     public int getItemCount() {
         return usuarios.size();
+    }
+
+
+    public void actualizarDatos(List<Usuario> nuevaLista) {
+        this.usuarios = nuevaLista;
+        this.usuariosFull = new ArrayList<>(nuevaLista); // Creamos la copia real aquí
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -114,6 +152,7 @@ public class usuarios_adapter extends RecyclerView.Adapter<usuarios_adapter.View
         public Spinner desplegable;
 
         public ImageButton bt_eliminar;
+
 
 
         public ViewHolder(View itemView) {

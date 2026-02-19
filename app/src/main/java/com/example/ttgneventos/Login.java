@@ -28,6 +28,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,20 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         db = FirebaseFirestore.getInstance();
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Verificamos si ya hay un usuario logueado en Firebase
+        com.google.firebase.auth.FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if (currentUser != null && currentUser.isEmailVerified()) {
+            // Si el usuario existe y verificó su correo, vamos directo a Firestore
+            // para saber si es admin y mandarlo a la pantalla de Inicio
+            ObtenerDatosUsuario(currentUser.getUid());
+        }
+        // Si no hay usuario o no está verificado, la app se queda en el Login normal
     }
 
     @Override

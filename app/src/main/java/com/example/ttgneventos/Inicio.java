@@ -11,15 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.navigation.NavigationView;
-
-public class Inicio extends AppCompatActivity{
+public class Inicio extends AppCompatActivity implements View.OnClickListener {
     private TextView estado_admin;
     public boolean admin;
     public Button gestion_users;
+
 
 
     @Override
@@ -27,11 +24,6 @@ public class Inicio extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_inicio);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navView = findViewById(R.id.nav_view);
-        IniciarMenu.setupDrawer(this, drawer, navView, toolbar, getIntent().getBooleanExtra("Es_admin", false));
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -47,6 +39,19 @@ public class Inicio extends AppCompatActivity{
             estado_admin.setText("NO ADMIN");
         }
 
+        gestion_users = findViewById(R.id.gestion_users);
+        gestion_users.setOnClickListener(this);
 
+
+    }
+
+
+    @Override
+    public void onClick(View v) {
+
+        if (v.getId() == R.id.gestion_users) {
+            Intent i = new Intent(this, Lista_usuarios.class);
+            startActivity(i);
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.example.ttgneventos;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -26,6 +27,8 @@ public class Lista_usuarios extends AppCompatActivity {
     private usuarios_adapter adapter;
     private List<Usuario> listaUsuarios;
     private FirebaseFirestore db;
+
+    private SearchView buscar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,24 @@ public class Lista_usuarios extends AppCompatActivity {
 
         // 3. Cargar datos
         cargarUsuariosDeFirestore();
+
+        // 4. Configurar SearchView
+        buscar = findViewById(R.id.buscar_usuario);
+        SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filtrar(newText);
+                return true;
+            }
+        };
+        buscar.setOnQueryTextListener(listener);
+
     }
 
     private void cargarUsuariosDeFirestore() {
@@ -69,10 +90,13 @@ public class Lista_usuarios extends AppCompatActivity {
                                 // para que el Spinner pueda actualizar luego
                                 u.setUid(doc.getId());
                                 listaUsuarios.add(u);
+
                             }
+                            adapter.notifyDataSetChanged();
                         }
-                        adapter.notifyDataSetChanged();
+
                     }
+                    adapter.actualizarDatos(listaUsuarios);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Error al cargar: " + e.getMessage(), Toast.LENGTH_SHORT).show();

@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class IniciarMenu {
 
@@ -62,6 +63,7 @@ public class IniciarMenu {
                         activity.startActivity(intent);
                     }
                 } else if (id == R.id.nav_logout) {
+                    FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent(activity, Login.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     activity.startActivity(intent);

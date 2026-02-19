@@ -12,7 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class Inicio extends AppCompatActivity implements View.OnClickListener {
+public class Inicio extends AppCompatActivity {
     private TextView estado_admin;
     public boolean admin;
     public Button gestion_users;
@@ -39,19 +39,9 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
             estado_admin.setText("NO ADMIN");
         }
 
-        gestion_users = findViewById(R.id.gestion_users);
-        gestion_users.setOnClickListener(this);
-
 
     }
 
 
-    @Override
-    public void onClick(View v) {
 
-        if (v.getId() == R.id.gestion_users) {
-            Intent i = new Intent(this, Lista_usuarios.class);
-            startActivity(i);
-        }
-    }
 }

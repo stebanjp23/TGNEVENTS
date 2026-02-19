@@ -26,21 +26,12 @@
             android:layout_height="62dp"
             android:background="#E4E4E4"
             android:gravity="center"
-            android:text="GESTIÓN DE CATEGORÍAS"
-            android:textStyle="bold"
+            android:text="CATEGORÍAS"
             android:textColor="#000000"
+            android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Listado de categorías aquí"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewGestionCategorias" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add_categoria"

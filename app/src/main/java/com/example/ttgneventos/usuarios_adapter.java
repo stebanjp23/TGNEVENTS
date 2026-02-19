@@ -102,7 +102,6 @@ public class usuarios_adapter extends RecyclerView.Adapter<usuarios_adapter.View
 
     private void actualizarPermisoEnFirestore(String uid, boolean esAdmin, View view) {
         if (uid == null) return;
-
         FirebaseFirestore.getInstance().collection("Usuarios").document(uid)
                 .update("admin", esAdmin)
                 .addOnSuccessListener(aVoid ->

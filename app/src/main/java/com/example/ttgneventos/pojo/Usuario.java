@@ -1,6 +1,7 @@
 package com.example.ttgneventos.pojo;
 
 public final class Usuario {
+    private String uid;
     private String nombre;
     private String correo;
     private String contraseña;
@@ -14,13 +15,29 @@ public final class Usuario {
 
     }
 
+    public Usuario(String uid, String nombre, String correo, String contraseña, boolean admin) {
+        this.uid = uid;
+        this.nombre = nombre;
+        this.correo = correo;
+        this.contraseña = contraseña;
+        this.admin = admin;
+    }
+
     public Usuario(String nombre, String correo) {
         this.nombre = nombre;
         this.correo = correo;
-
     }
 
+
     public Usuario() {
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public boolean isAdmin() {

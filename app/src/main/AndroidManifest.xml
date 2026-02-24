@@ -12,23 +12,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ttgneventos">
         <activity
-            android:name=".model.Filters"
-            android:exported="false" />
+            android:name=".model.Login"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".model.Registro"
             android:exported="false" />
         <activity
-            android:name=".model.Login"
+            android:name=".model.MainMenu"
             android:exported="false" />
         <activity
-            android:name=".model.MainMenu"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".model.Filters"
+            android:exported="false" />
+        <activity
+            android:name=".model.AgregarEventos"
+            android:exported="false" />
+        <activity
+            android:name=".model.GestionCategorias"
+            android:exported="false" />
+        <activity
+            android:name=".model.GestionUsuarios"
+            android:exported="false" />
     </application>
 
 </manifest>

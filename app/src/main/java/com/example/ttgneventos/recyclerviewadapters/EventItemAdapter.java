@@ -1,4 +1,4 @@
-package com.example.ttgneventos;
+package com.example.ttgneventos.recyclerviewadapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ttgneventos.pojo.Event;
+import com.example.ttgneventos.R;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.time.LocalDate;
@@ -39,9 +41,9 @@ public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         if(viewType == TYPE_EVENT_ITEM)
-            return new EventItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.event_item, parent, false));
+            return new EventItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapterview_event_item, parent, false));
         else
-            return new EventDateHeaderItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.event_date_header_item, parent, false));
+            return new EventDateHeaderItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapterview_event_date_header_item, parent, false));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.ttgneventos;
+package com.example.ttgneventos.model;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,16 +15,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.ttgneventos.pojo.Usuario;
+import com.example.ttgneventos.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Registro extends AppCompatActivity implements View.OnClickListener {
+public final class Registro extends AppCompatActivity implements View.OnClickListener {
     private EditText Nombre_usuario;
     private EditText Correo_nuevo;
     private EditText Password_nueva;

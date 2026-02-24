@@ -1,4 +1,4 @@
-package com.example.ttgneventos;
+package com.example.ttgneventos.model;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -15,15 +15,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ttgneventos.R;
+import com.example.ttgneventos.recyclerviewadapters.KeywordItemAdapter;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
-import com.google.type.DateTime;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public final class Filters extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.filters);
+        setContentView(R.layout.activity_filters);
         ViewCompat.setOnApplyWindowInsetsListener
         (
             findViewById(R.id.main), (v, insets) ->

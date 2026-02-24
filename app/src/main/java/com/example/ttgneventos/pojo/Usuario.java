@@ -1,6 +1,6 @@
-package com.example.ttgneventos;
+package com.example.ttgneventos.pojo;
 
-public class Usuario {
+public final class Usuario {
     private String nombre;
     private String correo;
     private String contraseña;

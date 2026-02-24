@@ -1,4 +1,4 @@
-package com.example.ttgneventos;
+package com.example.ttgneventos.model;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,14 +13,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.ttgneventos.pojo.Usuario;
+import com.example.ttgneventos.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import androidx.appcompat.app.AlertDialog;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public final class Login extends AppCompatActivity implements View.OnClickListener {
     private Button Registrar;
     private Button Iniciar;
     private EditText Correo;

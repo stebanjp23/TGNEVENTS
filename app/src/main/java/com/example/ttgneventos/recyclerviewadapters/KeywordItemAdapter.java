@@ -1,4 +1,4 @@
-package com.example.ttgneventos;
+package com.example.ttgneventos.recyclerviewadapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ttgneventos.R;
+
 import java.util.List;
 
-public class KeywordItemAdapter extends RecyclerView.Adapter<KeywordItemAdapter.KeywordItem>
+public final class KeywordItemAdapter extends RecyclerView.Adapter<KeywordItemAdapter.KeywordItem>
 {
     private final List<String> _keywords;
     public KeywordItemAdapter(List<String> keywords) { _keywords = keywords; }
@@ -20,7 +22,7 @@ public class KeywordItemAdapter extends RecyclerView.Adapter<KeywordItemAdapter.
     @Override
     public KeywordItem onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        return new KeywordItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.keyword_item, parent, false));
+        return new KeywordItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapterview_keyword_item, parent, false));
     }
 
     @Override

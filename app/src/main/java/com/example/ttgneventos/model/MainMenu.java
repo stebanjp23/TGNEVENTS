@@ -1,4 +1,4 @@
-package com.example.ttgneventos;
+package com.example.ttgneventos.model;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,16 +11,17 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ttgneventos.pojo.Event;
+import com.example.ttgneventos.R;
+import com.example.ttgneventos.recyclerviewadapters.EventItemAdapter;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,7 +41,7 @@ public final class MainMenu extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.main_menu);
+        setContentView(R.layout.activity_main_menu);
         ViewCompat.setOnApplyWindowInsetsListener
         (
             findViewById(R.id.main), (v, insets) ->

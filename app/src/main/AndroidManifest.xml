@@ -12,16 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ttgneventos">
         <activity
-            android:name=".Filters"
+            android:name=".model.Filters"
             android:exported="false" />
         <activity
-            android:name=".Registro"
+            android:name=".model.Registro"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".model.Login"
             android:exported="false" />
         <activity
-            android:name=".MainMenu"
+            android:name=".model.MainMenu"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

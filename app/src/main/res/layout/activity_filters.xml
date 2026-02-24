@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Filters">
+    tools:context=".model.Filters">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -32,7 +32,7 @@
                 android:background="#C80000"
                 android:padding="2.5dp"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/trash_icon" />
+                app:srcCompat="@drawable/icon_trash" />
         </LinearLayout>
 
         <LinearLayout
@@ -46,10 +46,10 @@
                 android:id="@+id/filterSearchButton"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
-                android:background="@drawable/border"
+                android:background="@drawable/other_border"
                 android:padding="2.5dp"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/search_icon" />
+                app:srcCompat="@drawable/icon_search" />
         </LinearLayout>
     </LinearLayout>
 
@@ -63,7 +63,7 @@
         android:gravity="start|center_horizontal"
         android:orientation="vertical"
         android:showDividers="middle"
-        android:divider="@drawable/linear_layout_gapper"
+        android:divider="@drawable/other_linear_layout_gapper"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +104,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/border"
+                    android:background="@drawable/other_border"
                     android:gravity="center_horizontal|center_vertical"
                     android:orientation="horizontal"
                     android:padding="5dp">
@@ -121,7 +121,7 @@
                         android:id="@+id/imageView"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        app:srcCompat="@drawable/calendar_icon" />
+                        app:srcCompat="@drawable/icon_calendar" />
                 </LinearLayout>
 
                 <FrameLayout
@@ -138,7 +138,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/border"
+                    android:background="@drawable/other_border"
                     android:gravity="center_horizontal|center_vertical"
                     android:orientation="horizontal"
                     android:padding="5dp">
@@ -155,7 +155,7 @@
                         android:id="@+id/imageView"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        app:srcCompat="@drawable/calendar_icon" />
+                        app:srcCompat="@drawable/icon_calendar" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -209,7 +209,7 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/plus_large_svgrepo_com" />
+                    app:srcCompat="@drawable/icon_plus" />
 
             </LinearLayout>
 

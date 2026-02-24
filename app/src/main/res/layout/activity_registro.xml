@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#D12C2C"
-    tools:context=".Registro">
+    tools:context=".model.Registro">
 
     <FrameLayout
         android:id="@+id/linea1"

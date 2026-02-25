@@ -78,11 +78,22 @@ public final class MainMenu extends AppCompatActivity
 
         );
 
+        // 2. GUARDAMOS EL ESTADO ACTUAL
+        esAdminInicial = getIntent().getBooleanExtra("Es_admin", false);
 
         // Initializes ID references
         _filterButton = findViewById(R.id.filterScreenButton);
-        _filterButton.setOnClickListener(v -> startActivity(new Intent(this, Filters.class)));
-        esAdminInicial = getIntent().getBooleanExtra("Es_admin", false);
+        _filterButton.setOnClickListener
+        (
+            v ->
+            {
+                Intent filters = new Intent(this, Filters.class);
+                filters.putExtra("Es_admin", esAdminInicial);
+                startActivity(filters);
+            }
+        );
+
+
 
         // Llamamos al metodo LISTENER, para saber si el usuario es admin y se apliquen los cambios en el contenido
         setupUserPermissionListener();
@@ -186,7 +197,7 @@ public final class MainMenu extends AppCompatActivity
                         // Extraemos el valor actual de la DB
                         Boolean nuevoEstadoAdmin = snapshot.getBoolean("admin");
 
-                        // Si nuevoEstadoAdmin es null (por error de campo), evitamos el crash
+
                         if (nuevoEstadoAdmin == null) return;
 
                         // COMPARACIÓN SEGURA

@@ -24,7 +24,8 @@
             android:exported="false" />
         <activity
             android:name=".model.MainMenu"
-            android:exported="false" />
+            android:exported="false"
+            android:label=""/>
         <activity
             android:name=".model.Filters"
             android:exported="false" />
@@ -33,10 +34,16 @@
             android:exported="false" />
         <activity
             android:name=".model.GestionCategorias"
-            android:exported="false" />
+            android:exported="false"
+            android:label=""/>
         <activity
             android:name=".model.GestionUsuarios"
-            android:exported="false" />
+            android:exported="false"
+            android:label=""/>
+        <activity
+            android:name=".model.Configuracion"
+            android:exported="false"
+            android:label=""/>
     </application>
 
 </manifest>

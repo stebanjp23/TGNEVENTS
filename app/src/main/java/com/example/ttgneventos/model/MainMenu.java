@@ -2,6 +2,8 @@ package com.example.ttgneventos.model;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
@@ -46,9 +48,15 @@ public final class MainMenu extends AppCompatActivity
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_menu);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navView = findViewById(R.id.nav_view);
+
+        Menu menu = navView.getMenu();
+        MenuItem itemAdmin = menu.findItem(R.id.administracion);
+        itemAdmin.setVisible(getIntent().getBooleanExtra("Es_admin", false));
+
         IniciarMenu.setupDrawer(this, drawer, navView, toolbar, getIntent().getBooleanExtra("Es_admin", false));
         ViewCompat.setOnApplyWindowInsetsListener
         (

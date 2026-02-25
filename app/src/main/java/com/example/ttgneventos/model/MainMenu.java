@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -42,6 +44,10 @@ public final class MainMenu extends AppCompatActivity
 
     private FirebaseFirestore db = null;
 
+    // 1. VARIABLE PARA GUARDAR EL ESTADO ACTUAL
+    private boolean esAdminInicial;
+    private com.google.firebase.firestore.ListenerRegistration userListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -51,6 +57,8 @@ public final class MainMenu extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+
         NavigationView navView = findViewById(R.id.nav_view);
 
         Menu menu = navView.getMenu();
@@ -66,11 +74,18 @@ public final class MainMenu extends AppCompatActivity
                 v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
                 return insets;
             }
+
+
         );
+
 
         // Initializes ID references
         _filterButton = findViewById(R.id.filterScreenButton);
         _filterButton.setOnClickListener(v -> startActivity(new Intent(this, Filters.class)));
+        esAdminInicial = getIntent().getBooleanExtra("Es_admin", false);
+
+        // Llamamos al metodo LISTENER, para saber si el usuario es admin y se apliquen los cambios en el contenido
+        setupUserPermissionListener();
 
         // Initializes the event item display
         RecyclerView eventDisplay = findViewById(R.id.eventDisplay);
@@ -156,5 +171,44 @@ public final class MainMenu extends AppCompatActivity
                 adapter.notifyDataSetChanged();
             }
         );
+    }
+
+    private void setupUserPermissionListener() {
+        String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // Guardamos el listener en una variable para poder cerrarlo después
+        userListener = FirebaseFirestore.getInstance().collection("Usuarios")
+                .document(currentUid)
+                .addSnapshotListener((snapshot, e) -> {
+                    if (e != null) return;
+
+                    if (snapshot != null && snapshot.exists()) {
+                        // Extraemos el valor actual de la DB
+                        Boolean nuevoEstadoAdmin = snapshot.getBoolean("admin");
+
+                        // Si nuevoEstadoAdmin es null (por error de campo), evitamos el crash
+                        if (nuevoEstadoAdmin == null) return;
+
+                        // COMPARACIÓN SEGURA
+                        if (nuevoEstadoAdmin != esAdminInicial) {
+                            Toast.makeText(this, "Tus permisos han cambiado. Reiniciando sesión...", Toast.LENGTH_LONG).show();
+
+                            FirebaseAuth.getInstance().signOut();
+                            Intent intent = new Intent(this, Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
+    }
+
+    // 3. MUY IMPORTANTE: Limpiar el listener al destruir la actividad
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (userListener != null) {
+            userListener.remove();
+        }
     }
 }

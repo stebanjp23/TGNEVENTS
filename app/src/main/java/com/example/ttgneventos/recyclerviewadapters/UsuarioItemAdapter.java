@@ -1,5 +1,6 @@
 package com.example.ttgneventos.recyclerviewadapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ttgneventos.R;
+import com.example.ttgneventos.model.Login;
 import com.google.firebase.firestore.FirebaseFirestore; // IMPORTANTE
 
 import java.util.ArrayList;

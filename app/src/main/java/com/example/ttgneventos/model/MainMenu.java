@@ -38,7 +38,7 @@ public final class MainMenu extends AppCompatActivity
     // ID references
     private ImageButton _filterButton;
 
-    private FirebaseFirestore db = null;
+    private FirebaseFirestore _db = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -84,8 +84,8 @@ public final class MainMenu extends AppCompatActivity
             filters = null;
 
         // Retrieves the events from Firestore and updates the event display
-        db = FirebaseFirestore.getInstance();
-        db.collection("Events").get().addOnSuccessListener
+        _db = FirebaseFirestore.getInstance();
+        _db.collection("Events").get().addOnSuccessListener
         (
             queryDocumentSnapshots ->
             {

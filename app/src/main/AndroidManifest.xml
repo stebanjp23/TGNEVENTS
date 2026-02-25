@@ -12,10 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ttgneventos">
         <activity
+            android:name=".model.EventDetails"
+            android:exported="false" />
+        <activity
             android:name=".model.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

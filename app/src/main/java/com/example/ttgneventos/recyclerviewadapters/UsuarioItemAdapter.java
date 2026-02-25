@@ -32,7 +32,6 @@ public final class UsuarioItemAdapter extends RecyclerView.Adapter<UsuarioItemAd
     public UsuarioItemAdapter(List<Usuario> usuarios) {
         this.usuarios = usuarios;
         this.usuariosFull = new ArrayList<>(usuarios);
-
     }
 
     @NonNull

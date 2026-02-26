@@ -66,7 +66,7 @@ public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             ViewGroup.LayoutParams lp = eventItem.itemView.getLayoutParams();
             FlexboxLayoutManager.LayoutParams flexboxLp = (FlexboxLayoutManager.LayoutParams) lp;
-            flexboxLp.setFlexBasisPercent(0.50f);
+            flexboxLp.setFlexBasisPercent(0.45f);
             flexboxLp.setFlexGrow(0.0f);
 
             eventItem.getEventItemCard().setOnClickListener

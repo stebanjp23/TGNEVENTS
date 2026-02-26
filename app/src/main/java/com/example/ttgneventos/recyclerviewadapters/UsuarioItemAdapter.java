@@ -1,6 +1,5 @@
 package com.example.ttgneventos.recyclerviewadapters;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ttgneventos.R;
-import com.example.ttgneventos.model.Login;
 import com.google.firebase.firestore.FirebaseFirestore; // IMPORTANTE
 
 import java.util.ArrayList;
@@ -163,7 +161,7 @@ public final class UsuarioItemAdapter extends RecyclerView.Adapter<UsuarioItemAd
             nombre = itemView.findViewById(R.id.txtNombre);
             correo = itemView.findViewById(R.id.txtCorreo);
             desplegable = itemView.findViewById(R.id.op_permisos);
-            bt_eliminar = itemView.findViewById(R.id.elimnar_user);
+            bt_eliminar = itemView.findViewById(R.id.editar_categoria);
         }
     }
 }

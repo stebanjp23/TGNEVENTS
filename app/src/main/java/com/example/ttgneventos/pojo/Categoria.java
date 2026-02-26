@@ -1,5 +1,7 @@
 package com.example.ttgneventos.pojo;
 
+import com.google.firebase.firestore.Exclude;
+
 public class Categoria {
     private String uid;
     private String nombre;
@@ -9,6 +11,13 @@ public class Categoria {
         this.nombre = nombre;
     }
 
+    public Categoria(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Categoria() {
+    }
+    @Exclude
     public String getUid() {
         return uid;
     }

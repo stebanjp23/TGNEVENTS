@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -24,6 +26,7 @@ import com.example.ttgneventos.recyclerviewadapters.CategoriaItemAdapter;
 import com.example.ttgneventos.recyclerviewadapters.UsuarioItemAdapter;
 import com.example.ttgneventos.util.IniciarMenu;
 import com.example.ttgneventos.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,7 +36,7 @@ import java.util.List;
 import java.util.Objects;
 
 public final class GestionCategorias extends AppCompatActivity {
-
+    FloatingActionButton fabAñadir;
     private RecyclerView recyclerView;
     private CategoriaItemAdapter adapter;
     private List<Categoria> listaCategorias;
@@ -55,6 +58,8 @@ public final class GestionCategorias extends AppCompatActivity {
         itemAdmin.setVisible(getIntent().getBooleanExtra("Es_admin", false));
 
         IniciarMenu.setupDrawer(this, drawer, navView, toolbar, getIntent().getBooleanExtra("Es_admin", false));
+        IniciarMenu.actualizarEmailEnHeader(navView);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -90,6 +95,45 @@ public final class GestionCategorias extends AppCompatActivity {
             }
         };
         buscar.setOnQueryTextListener(listener);
+
+        fabAñadir = findViewById(R.id.añadir_categoria);
+        fabAñadir.setOnClickListener(v -> {
+            mostrarDialogoNuevaCategoria();
+        });
+    }
+    private void mostrarDialogoNuevaCategoria() {
+        android.widget.EditText input = new android.widget.EditText(this);
+        input.setHint("Ej: Conferencias, Talleres...");
+
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Nueva Categoría")
+                .setMessage("Introduce el nombre de la categoría:")
+                .setView(input)
+                .setPositiveButton("Guardar", (dialog, which) -> {
+                    String nombre = input.getText().toString().trim();
+                    if (!nombre.isEmpty()) {
+                        guardarCategoriaEnFirestore(nombre);
+                    } else {
+                        Toast.makeText(this, "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancelar", null)
+                .show();
+    }
+    private void guardarCategoriaEnFirestore(String nombre) {
+        // Creamos un Map o el objeto POJO sin preocuparnos del UID
+        Categoria nuevaCategoria = new Categoria();
+        nuevaCategoria.setNombre(nombre);
+
+        db.collection("Categorias")
+                .add(nuevaCategoria)
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(this, "Categoría añadida: " + nombre, Toast.LENGTH_SHORT).show();
+                    cargarCategoriasDeFirestore();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error al guardar", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void cargarCategoriasDeFirestore() {

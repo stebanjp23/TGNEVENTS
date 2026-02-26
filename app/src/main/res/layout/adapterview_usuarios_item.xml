@@ -57,7 +57,7 @@
                 android:layout_marginEnd="4dp" />
 
             <ImageButton
-                android:id="@+id/elimnar_user"
+                android:id="@+id/editar_categoria"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"

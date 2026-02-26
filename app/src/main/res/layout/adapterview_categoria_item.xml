@@ -28,15 +28,15 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Nombre de la Categoria">
+                android:hint="Nombre de la Categoria" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtCategoria"
-                    android:layout_width="match_parent"
-                    android:layout_height="26dp"
-                    android:layout_marginBottom="3sp"
-                    android:hint="hint" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:id="@+id/txtCategoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:text="Nombre" />
 
         </LinearLayout>
 
@@ -50,9 +50,21 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/elimnar_user"
+                android:id="@+id/editar_categoria"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="6dp"
+                android:scaleType="fitCenter"
+                android:src="@android:drawable/ic_menu_edit"
+                app:tint="#A9A475"
+                tools:ignore="ContentDescription" />
+
+            <ImageButton
+                android:id="@+id/elimnar_categoria"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="6dp"
                 android:scaleType="fitCenter"

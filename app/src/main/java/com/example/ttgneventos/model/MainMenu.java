@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -66,6 +68,8 @@ public final class MainMenu extends AppCompatActivity
         itemAdmin.setVisible(getIntent().getBooleanExtra("Es_admin", false));
 
         IniciarMenu.setupDrawer(this, drawer, navView, toolbar, getIntent().getBooleanExtra("Es_admin", false));
+        IniciarMenu.actualizarEmailEnHeader(navView);
+
         ViewCompat.setOnApplyWindowInsetsListener
         (
             findViewById(R.id.main), (v, insets) ->

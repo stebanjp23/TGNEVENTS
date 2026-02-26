@@ -3,6 +3,8 @@ package com.example.ttgneventos.util;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -88,5 +90,19 @@ public final class IniciarMenu {
                 return true;
             });
         }
+    public static void actualizarEmailEnHeader(NavigationView navView) {
+        if (navView == null) return;
+
+        com.google.firebase.auth.FirebaseUser user = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null && user.getEmail() != null) {
+            View headerView = navView.getHeaderView(0);
+            TextView emailHeader = headerView.findViewById(R.id.textView_email);
+
+            if (emailHeader != null) {
+                emailHeader.setText(user.getEmail());
+            }
+        }
+    }
 
 }

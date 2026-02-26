@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -51,6 +53,8 @@ public final class GestionUsuarios extends AppCompatActivity {
         itemAdmin.setVisible(getIntent().getBooleanExtra("Es_admin", false));
 
         IniciarMenu.setupDrawer(this, drawer, navView, toolbar, getIntent().getBooleanExtra("Es_admin", false));
+        IniciarMenu.actualizarEmailEnHeader(navView);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -115,6 +119,4 @@ public final class GestionUsuarios extends AppCompatActivity {
                     Log.e("FIRESTORE", "Error", e);
                 });
     }
-
-
 }

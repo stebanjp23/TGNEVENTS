@@ -63,17 +63,34 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/vista_lista_categorias"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="411dp"
+            android:layout_height="702dp"
             android:layout_marginTop="16dp"
             android:clipToPadding="false"
             android:paddingBottom="80dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardSearch" />
+            app:layout_constraintTop_toBottomOf="@+id/cardSearch"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/añadir_categoria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:contentDescription="Añadir nueva categoría"
+            android:src="@android:drawable/ic_input_add"
+            app:backgroundTint="#FF0000"
+            app:tint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:elevation="6dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

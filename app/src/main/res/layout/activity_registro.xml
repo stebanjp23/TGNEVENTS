@@ -8,106 +8,128 @@
     android:background="#D12C2C"
     tools:context=".model.Registro">
 
-    <FrameLayout
-        android:id="@+id/linea1"
-        android:layout_width="409dp"
-        android:layout_height="20dp"
-        android:background="#FFEB3B"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.894">
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/linea1"
-        android:layout_width="409dp"
-        android:layout_height="20dp"
-        android:background="#FFEB3B"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.943">
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/linea1"
-        android:layout_width="409dp"
-        android:layout_height="25dp"
-        android:background="#FFEB3B"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-    </FrameLayout>
-
-    <EditText
-        android:id="@+id/Nombre"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutNombre"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="343dp"
-        android:layout_height="51dp"
-        android:background="#FFFDFD"
-        android:ems="10"
-        android:hint="Nombre Usuario"
-        android:inputType="text"
-        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        app:hintEnabled="false"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeColor="#FFEB3B"
+        app:boxStrokeWidthFocused="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.455"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.236" />
+        app:layout_constraintVertical_bias="0.236">
 
-    <EditText
-        android:id="@+id/Correo_nuevo"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre Usuario"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutCorreoNuevo"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="341dp"
-        android:layout_height="55dp"
-        android:background="#FFFDFD"
-        android:ems="10"
-        android:hint="Correo"
-        android:inputType="text"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.353" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:hintEnabled="false"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeColor="#FFEB3B"
+        app:boxStrokeWidthFocused="1dp"
+        app:layout_constraintEnd_toEndOf="@+id/layoutNombre"
+        app:layout_constraintStart_toStartOf="@+id/layoutNombre"
+        app:layout_constraintTop_toBottomOf="@+id/layoutNombre">
 
-    <EditText
-        android:id="@+id/Password_nueva"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Correo_nuevo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Correo"
+            android:inputType="textEmailAddress"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutPasswordNueva"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="340dp"
-        android:layout_height="52dp"
-        android:background="#FFFDFD"
-        android:ems="10"
-        android:hint="Contraseña"
-        android:inputType="text"
-        android:password="true"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.436"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.469" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:hintEnabled="false"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeColor="#FFEB3B"
+        app:boxStrokeWidthFocused="1dp"
+        app:endIconMode="password_toggle"
+        app:endIconTint="#D12C2C"
+        app:layout_constraintEnd_toEndOf="@+id/layoutCorreoNuevo"
+        app:layout_constraintStart_toStartOf="@+id/layoutCorreoNuevo"
+        app:layout_constraintTop_toBottomOf="@+id/layoutCorreoNuevo">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Password_nueva"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/Registrarse"
-        android:layout_width="164dp"
-        android:layout_height="59dp"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
         android:backgroundTint="#FFEB3B"
         android:text="Registrarme"
         android:textColor="#1A1A1A"
-        app:cornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.607" />
+        android:textStyle="bold"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/layoutPasswordNueva"
+        app:layout_constraintStart_toStartOf="@+id/layoutPasswordNueva"
+        app:layout_constraintTop_toBottomOf="@+id/layoutPasswordNueva" />
+
+    <FrameLayout
+        android:id="@+id/lineaDecorativa3"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="#FFEB3B"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/lineaDecorativa2"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="#FFEB3B"
+        app:layout_constraintBottom_toTopOf="@+id/lineaDecorativa3" />
+
+    <FrameLayout
+        android:id="@+id/lineaDecorativa1"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="#FFEB3B"
+        app:layout_constraintBottom_toTopOf="@+id/lineaDecorativa2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

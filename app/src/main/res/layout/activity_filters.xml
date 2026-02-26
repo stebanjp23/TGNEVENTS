@@ -5,227 +5,262 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5F5"
     tools:context=".model.Filters">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="64dp"
+        android:background="#D12C2C"
+        android:elevation="6dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="5dp"
+        android:paddingHorizontal="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Atrás"
+            android:src="?attr/homeAsUpIndicator"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/textViewTitle"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="start|center_vertical"
-            android:orientation="horizontal" >
-
-            <ImageButton
-                android:id="@+id/clearButton"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:background="#C80000"
-                android:padding="2.5dp"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/icon_trash" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical|end"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/filterSearchButton"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:background="@drawable/other_border"
-                android:padding="2.5dp"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/icon_search" />
-        </LinearLayout>
+            android:layout_marginEnd="48dp"
+            android:text="Filtrar Eventos"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="25dp"
-        android:gravity="start|center_horizontal"
-        android:orientation="vertical"
-        android:showDividers="middle"
-        android:divider="@drawable/other_linear_layout_gapper"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toTopOf="@+id/btnAplicarFiltros"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#323232">
-
-        </FrameLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="24dp">
 
             <TextView
-                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rango de fecha"
-                android:textSize="18sp"
+                android:textColor="#323232"
+                android:textSize="14sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1"
                 android:textStyle="bold" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/startDateField"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="56dp"
                     android:layout_weight="1"
                     android:background="@drawable/other_border"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
+                    android:backgroundTint="@color/white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp">
 
                     <TextView
+                        android:id="@+id/txtStartDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="DD/MM/YYYY"
-                        android:textColor="#323232"
-                        android:textStyle="bold" />
+                        android:text="Desde..."
+                        android:textColor="#757575" />
 
                     <ImageView
-                        android:id="@+id/imageView"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:alpha="0.6"
                         app:srcCompat="@drawable/icon_calendar" />
                 </LinearLayout>
 
-                <FrameLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#323232">
-
-                </FrameLayout>
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="match_parent" />
 
                 <LinearLayout
                     android:id="@+id/endDateField"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="56dp"
                     android:layout_weight="1"
                     android:background="@drawable/other_border"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
+                    android:backgroundTint="@color/white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp">
 
                     <TextView
+                        android:id="@+id/txtEndDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="DD/MM/YYYY"
-                        android:textColor="#323232"
-                        android:textStyle="bold" />
+                        android:text="Hasta..."
+                        android:textColor="#757575" />
 
                     <ImageView
-                        android:id="@+id/imageView"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:alpha="0.6"
                         app:srcCompat="@drawable/icon_calendar" />
                 </LinearLayout>
-
             </LinearLayout>
-        </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#323232">
-
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="24dp"
+                android:background="#E0E0E0" />
 
             <TextView
-                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Palabras clave"
-                android:textSize="18sp"
+                android:text="Buscar por nombre"
+                android:textColor="#323232"
+                android:textSize="14sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1"
                 android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxStrokeColor="#FFEB3B"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/keysearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ej: Concierto, Deportes..."
+                    android:inputType="text"
+                    android:padding="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="24dp"
+                android:background="#E0E0E0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ubicación"
+                android:textColor="#323232"
+                android:textSize="14sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxStrokeColor="#FFEB3B">
+
+                <AutoCompleteTextView
+                    android:id="@+id/spinnerCiudad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Selecciona zona"
+                    android:inputType="none"
+                    android:padding="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Categoría"
+                android:textColor="#323232"
+                android:textSize="14sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxStrokeColor="#FFEB3B">
+
+                <AutoCompleteTextView
+                    android:id="@+id/spinnerCategoria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Selecciona categoría"
+                    android:inputType="none"
+                    android:padding="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="10dp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal|center_vertical"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <EditText
-                    android:id="@+id/keywordField"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:text="Name" />
-
-                <ImageButton
-                    android:id="@+id/addKeywordButton"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/icon_plus" />
-
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/addedKeywordsList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="280dp" />
 
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#323232">
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAplicarFiltros"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_margin="20dp"
+        android:backgroundTint="#FFEB3B"
+        android:text="Aplicar Filtros"
+        android:textColor="#1A1A1A"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="12dp"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        </FrameLayout>
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

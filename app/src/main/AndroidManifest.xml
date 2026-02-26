@@ -41,6 +41,9 @@
         <activity
             android:name=".model.GestionUsuarios"
             android:exported="false" />
+        <activity
+            android:name=".model.Configuracion"
+            android:exported="false" />
     </application>
 
 </manifest>

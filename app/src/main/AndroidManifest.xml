@@ -13,19 +13,19 @@
         android:theme="@style/Theme.Ttgneventos">
         <activity
             android:name=".model.Login"
-            android:exported="false" />
-        <activity
-            android:name=".model.Registro"
-            android:exported="false" />
-        <activity
-            android:name=".model.MainMenu"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".model.Registro"
+            android:exported="false" />
+        <activity
+            android:name=".model.MainMenu"
+            android:exported="true" />
         <activity
             android:name=".model.EventDetails"
             android:exported="false" />

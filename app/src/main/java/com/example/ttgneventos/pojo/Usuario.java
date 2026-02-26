@@ -1,11 +1,15 @@
 package com.example.ttgneventos.pojo;
 
+import java.util.List;
+
 public final class Usuario {
     private String uid;
     private String nombre;
     private String correo;
     private String contraseña;
     private boolean admin;
+    private List<String> _favourites;
+
 
     public Usuario(String nombre, String correo, String contraseña) {
         this.nombre = nombre;
@@ -28,9 +32,9 @@ public final class Usuario {
         this.correo = correo;
     }
 
-
     public Usuario() {
     }
+
 
     public String getUid() {
         return uid;
@@ -43,7 +47,6 @@ public final class Usuario {
     public boolean isAdmin() {
         return admin;
     }
-
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
@@ -51,7 +54,6 @@ public final class Usuario {
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -59,7 +61,6 @@ public final class Usuario {
     public String getContraseña() {
         return contraseña;
     }
-
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
     }
@@ -67,8 +68,11 @@ public final class Usuario {
     public String getCorreo() {
         return correo;
     }
-
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public List<String> getFavourites() {
+        return _favourites;
     }
 }

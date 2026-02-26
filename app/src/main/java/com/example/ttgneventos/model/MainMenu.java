@@ -95,6 +95,7 @@ public final class MainMenu extends AppCompatActivity
                 {
                     Event event = document.toObject(Event.class);
                     if(event == null) continue;
+                    event.setId(document.getId());
 
                     // Tries to apply filters
                     if(filters != null)

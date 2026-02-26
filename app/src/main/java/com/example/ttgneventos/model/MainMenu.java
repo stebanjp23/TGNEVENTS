@@ -125,43 +125,55 @@ public final class MainMenu extends AppCompatActivity
             {
                 List<Event> events = new ArrayList<>();
 
-                for(DocumentSnapshot document : queryDocumentSnapshots.getDocuments())
-                {
+                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                     Event event = document.toObject(Event.class);
-                    if(event == null) continue;
+                    if (event == null) continue;
 
-                    // Tries to apply filters
-                    if(filters != null)
-                    {
-                        // Applies date filters
-                        if
-                        (
-                            filters.getStartDate() != null && event.getDate().isBefore(filters.getStartDate()) ||
-                            filters.getEndDate() != null && event.getDate().isAfter(filters.getEndDate())
-                        ) continue;
+                    // Aplicar Filtros si existen
+                    if (filters != null) {
 
-                        // Applies search keywords filter
-                        if(filters.getKeywords() != null)
-                        {
-                            boolean matchesAll = true;
-                            String description = event.getDescription().toLowerCase();
-                            for(String keyword : filters.getKeywords())
-                            {
-                                String lowerKeyword = keyword.toLowerCase();
-                                String regex = "\\b" + java.util.regex.Pattern.quote(lowerKeyword) + "\\b";
-                                Matcher matcher = Pattern.compile(regex).matcher(description);
-                                if(!matcher.find())
-                                {
-                                    matchesAll = false;
-                                    break;
-                                }
+                        // 1. Filtro de Fechas
+                        if (filters.getStartDate() != null && event.getDate().isBefore(filters.getStartDate()) ||
+                                filters.getEndDate() != null && event.getDate().isAfter(filters.getEndDate())) {
+                            continue;
+                        }
+
+                        // 2. Filtro de Localización (Zona de Tarragona)
+                        // filters.getCiudad() contiene el nombre de la locación seleccionada
+                        if (filters.getCiudad() != null) {
+                            // Suponiendo que tu POJO Event tiene el método getLocation()
+                            if (event.getLocation() == null || !event.getLocation().equalsIgnoreCase(filters.getCiudad())) {
+                                continue;
                             }
-                            if(!matchesAll) continue;
+                        }
+
+                        // 3. Filtro de Categoría
+                        if (filters.getCategoria() != null) {
+                            // Suponiendo que tu POJO Event tiene el método getCategory()
+                            if (event.getCategory() == null || !event.getCategory().equalsIgnoreCase(filters.getCategoria())) {
+                                continue;
+                            }
+                        }
+
+                        // 4. Filtro de Búsqueda por Texto (Nombre o Descripción)
+                        if (filters.getKeywords() != null && !filters.getKeywords().isEmpty()) {
+                            // Tomamos la primera palabra clave (la que el usuario escribió en el EditText)
+                            String searchInput = filters.getKeywords().get(0).toLowerCase();
+
+                            // Obtenemos nombre y descripción (asegúrate de que existan en el POJO)
+                            String eventName = (event.getTitle() != null) ? event.getTitle().toLowerCase() : "";
+                            String eventDesc = (event.getDescription() != null) ? event.getDescription().toLowerCase() : "";
+
+                            // Si el texto no está ni en el nombre ni en la descripción, descartamos
+                            if (!eventName.contains(searchInput) && !eventDesc.contains(searchInput)) {
+                                continue;
+                            }
                         }
                     }
 
                     events.add(event);
                 }
+
 
                 // Sorts events by proximity of date
                 events.sort((e1, e2) -> e1.getDateTime().compareTo(e2.getDateTime()));

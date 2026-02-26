@@ -3,6 +3,8 @@ package com.example.ttgneventos.model;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,12 +41,13 @@ import java.util.List;
 public final class Filters extends AppCompatActivity {
 
     // Referencias de UI
+    private ImageButton _btnBack; //bt para volver
     private LinearLayout _startDateField, _endDateField; //Fechas
-    private EditText _keywordField; //Campo de palabras clave
+    private EditText keysearch; //Campo de palabras clave
     private Button _btnAplicarFiltros; //bt para filtrar
     private AutoCompleteTextView _spinnerCiudad, _spinnerCategoria; //desplegables de ciudad y categoría
 
-    FirebaseFirestore db;
+
 
     // Lista de palabras clave
     private List<String> _keywords = new ArrayList<>();
@@ -54,28 +58,47 @@ public final class Filters extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_filters);
 
+
         // Configuración de Insets (márgenes de sistema)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+
         });
+
+        //Btn de Retroceso al menú principal
+        _btnBack = findViewById(R.id.btnBack);
+        _btnBack.setOnClickListener(v -> finish());
+
 
         // 1. Inicializar selectores de Fecha
         _startDateField = findViewById(R.id.startDateField);
         _endDateField = findViewById(R.id.endDateField);
         _startDateField.setOnClickListener(v -> datePickDialog(_startDateField));
         _endDateField.setOnClickListener(v -> datePickDialog(_endDateField));
+        keysearch = findViewById(R.id.keysearch);
 
-        // 2. Inicializar Selectores de Ciudad y Categoría (Exposed Dropdown)
-        setupSpinners();
+
+        // 2. Inicializar Selectores de Ciudad y Categoría (Exposed Dropdown)ç
+        try {
+            setupSpinners();
+        } catch (Exception e) {
+            Log.e("SPINERS CRASH", "Error al inicializar spinners", e);
+
+        }
+
 
         // 4. Botón de Aplicar Filtros
         _btnAplicarFiltros = findViewById(R.id.btnAplicarFiltros);
         _btnAplicarFiltros.setOnClickListener(v -> aplicarYEnviarFiltros());
     }
 
+
     private void setupSpinners() {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         // Configurar Ciudades
         _spinnerCiudad = findViewById(R.id.spinnerCiudad);
 
@@ -118,6 +141,14 @@ public final class Filters extends AppCompatActivity {
         // Limpiar valores si el usuario no seleccionó nada
         if (ciudad.isEmpty()) ciudad = null;
         if (categoria.isEmpty()) categoria = null;
+
+        // CAPTURAR LA BÚSQUEDA POR TEXTO LIBRE
+        String textoBusqueda = keysearch.getText().toString().trim();
+        if (!textoBusqueda.isEmpty()) {
+            // Añadimos el texto a la lista de palabras clave
+            _keywords.clear(); // Limpiamos para que solo busque lo que hay escrito ahora
+            _keywords.add(textoBusqueda);
+        }
 
         List<String> keywords = _keywords.isEmpty() ? null : new ArrayList<>(_keywords);
 

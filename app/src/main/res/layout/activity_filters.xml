@@ -11,20 +11,33 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="64dp"
         android:background="#D12C2C"
-        android:elevation="4dp"
-        android:gravity="center"
+        android:elevation="6dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Atrás"
+            android:src="?attr/homeAsUpIndicator"
+            app:tint="@color/white" />
+
         <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
+            android:id="@+id/textViewTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="48dp"
             android:text="Filtrar Eventos"
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -33,21 +46,26 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:clipToPadding="false"
         app:layout_constraintBottom_toTopOf="@+id/btnAplicarFiltros"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="24dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rango de fecha"
                 android:textColor="#323232"
-                android:textSize="16sp"
+                android:textSize="14sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -59,14 +77,14 @@
                 <LinearLayout
                     android:id="@+id/startDateField"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="56dp"
                     android:layout_weight="1"
                     android:background="@drawable/other_border"
                     android:backgroundTint="@color/white"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center_vertical"
-                    android:paddingHorizontal="12dp">
+                    android:paddingHorizontal="16dp">
 
                     <TextView
                         android:id="@+id/txtStartDate"
@@ -90,14 +108,14 @@
                 <LinearLayout
                     android:id="@+id/endDateField"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="56dp"
                     android:layout_weight="1"
                     android:background="@drawable/other_border"
                     android:backgroundTint="@color/white"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center_vertical"
-                    android:paddingHorizontal="12dp">
+                    android:paddingHorizontal="16dp">
 
                     <TextView
                         android:id="@+id/txtEndDate"
@@ -119,20 +137,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginVertical="24dp"
-                android:background="#DDDDDD" />
+                android:background="#E0E0E0" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Palabras clave"
+                android:text="Buscar por nombre"
                 android:textColor="#323232"
-                android:textSize="16sp"
+                android:textSize="14sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxCornerRadiusBottomEnd="12dp"
@@ -142,21 +162,8 @@
                 app:boxStrokeColor="#FFEB3B"
                 app:hintEnabled="false">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="12dp"
-                    app:boxBackgroundColor="@color/white"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxStrokeColor="#FFEB3B"
-                    app:hintEnabled="false" />
-
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/keywordField"
+                    android:id="@+id/keysearch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Ej: Concierto, Deportes..."
@@ -164,20 +171,27 @@
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="24dp"
+                android:background="#E0E0E0" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:text="Ubicación"
                 android:textColor="#323232"
-                android:textSize="16sp"
+                android:textSize="14sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
@@ -189,7 +203,7 @@
                     android:id="@+id/spinnerCiudad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Selecciona ciudad"
+                    android:hint="Selecciona zona"
                     android:inputType="none"
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -197,17 +211,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Categoría del evento"
+                android:layout_marginTop="24dp"
+                android:text="Categoría"
                 android:textColor="#323232"
-                android:textSize="16sp"
+                android:textSize="14sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
@@ -224,16 +240,14 @@
                     android:padding="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <View
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginVertical="24dp"
-                android:background="#DDDDDD" />
+                android:layout_height="280dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAplicarFiltros"
         android:layout_width="0dp"
         android:layout_height="60dp"
@@ -241,8 +255,10 @@
         android:backgroundTint="#FFEB3B"
         android:text="Aplicar Filtros"
         android:textColor="#1A1A1A"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:cornerRadius="12dp"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

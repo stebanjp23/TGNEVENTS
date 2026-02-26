@@ -1,5 +1,7 @@
 package com.example.ttgneventos.recyclerviewadapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ttgneventos.model.EventDetails;
 import com.example.ttgneventos.pojo.Event;
 import com.example.ttgneventos.R;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.material.card.MaterialCardView;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,8 +25,9 @@ import java.util.List;
 public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
     private List<Object> _events;
+    private boolean _isAdmin;
 
-    public EventItemAdapter(List<Object> events) { _events = events; }
+    public EventItemAdapter(List<Object> events, boolean isAdmin) { _events = events; _isAdmin = isAdmin; }
 
     // Gets the type of view to display
     private static final int TYPE_EVENT_ITEM = 0;
@@ -63,6 +68,17 @@ public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             FlexboxLayoutManager.LayoutParams flexboxLp = (FlexboxLayoutManager.LayoutParams) lp;
             flexboxLp.setFlexBasisPercent(0.50f);
             flexboxLp.setFlexGrow(0.0f);
+
+            eventItem.getEventItemCard().setOnClickListener
+            (
+                v ->
+                {
+                    Intent eventDetails = new Intent(v.getContext(), EventDetails.class);
+                    eventDetails.putExtra("Event", event);
+                    eventDetails.putExtra("Es_admin", _isAdmin);
+                    v.getContext().startActivity(eventDetails);
+                }
+            );
         }
         else
         {
@@ -86,6 +102,8 @@ public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public static final class EventItem extends RecyclerView.ViewHolder
     {
         // ID references
+        private final MaterialCardView _eventItemCard;
+
         private final TextView
             _eventItemTitle,
             _eventItemDescription,
@@ -99,6 +117,7 @@ public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(itemView);
 
             // Initialize IDs
+            _eventItemCard = itemView.findViewById(R.id.eventItemCard);
             _eventItemTitle = itemView.findViewById(R.id.eventItemTitle);
             _eventItemDescription = itemView.findViewById(R.id.eventItemDescription);
             _eventItemTime = itemView.findViewById(R.id.eventItemTime);
@@ -106,6 +125,7 @@ public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
         // Getters
+        public MaterialCardView getEventItemCard() { return _eventItemCard; }
         public TextView getEventItemTitle() { return _eventItemTitle; }
         public TextView getEventItemDescription() { return _eventItemDescription; }
         public TextView getEventItemTime() { return _eventItemTime; }

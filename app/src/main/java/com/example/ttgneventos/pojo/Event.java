@@ -3,12 +3,13 @@ package com.example.ttgneventos.pojo;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.PropertyName;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public final class Event
+public final class Event implements Serializable
 {
     // Fields
     private String _title;

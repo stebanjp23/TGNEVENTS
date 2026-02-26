@@ -39,12 +39,13 @@
             android:orientation="horizontal">
 
             <ImageButton
+                android:id="@+id/favouriteButton"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
                 android:background="@drawable/other_border"
                 android:padding="2.5dp"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/icon_search" />
+                app:srcCompat="@drawable/icon_favourite_empty" />
         </LinearLayout>
     </LinearLayout>
 
@@ -107,6 +108,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="[Category]"
+                            android:textColor="#323232"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>

@@ -73,7 +73,7 @@ public final class MainMenu extends AppCompatActivity
         eventDisplay.setLayoutManager(layoutManager);
 
         List<Object> flattenedList = new ArrayList<>();
-        EventItemAdapter adapter = new EventItemAdapter(flattenedList);
+        EventItemAdapter adapter = new EventItemAdapter(flattenedList, getIntent().getBooleanExtra("Es_admin", false));
         eventDisplay.setAdapter(adapter);
 
         // Retrieves filters if they exist

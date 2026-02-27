@@ -26,6 +26,7 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -49,20 +50,20 @@ public final class MainMenu extends AppCompatActivity
     // 1. VARIABLE PARA GUARDAR EL ESTADO ACTUAL
     private boolean esAdminInicial;
     private com.google.firebase.firestore.ListenerRegistration userListener;
+    private FloatingActionButton _limpiar_filtros;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_menu);
 
+        // --- Referencias UI ---
         Toolbar toolbar = findViewById(R.id.toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-
-
         NavigationView navView = findViewById(R.id.nav_view);
 
+        // --- Configuración Menú y Header ---
         Menu menu = navView.getMenu();
         MenuItem itemAdmin = menu.findItem(R.id.administracion);
         itemAdmin.setVisible(getIntent().getBooleanExtra("Es_admin", false));
@@ -70,39 +71,31 @@ public final class MainMenu extends AppCompatActivity
         IniciarMenu.setupDrawer(this, drawer, navView, toolbar, getIntent().getBooleanExtra("Es_admin", false));
         IniciarMenu.actualizarEmailEnHeader(navView);
 
-        ViewCompat.setOnApplyWindowInsetsListener
-        (
-            findViewById(R.id.main), (v, insets) ->
-            {
-                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-                return insets;
-            }
+        // --- Lógica de Limpieza Unificada ---
+        View.OnClickListener accionLimpiar = v -> {
+            getIntent().removeExtra("Filters");
+            recreate();
+        };
 
+        // --- Insets ---
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
-        );
-
-        // 2. GUARDAMOS EL ESTADO ACTUAL
         esAdminInicial = getIntent().getBooleanExtra("Es_admin", false);
 
-        // Initializes ID references
         _filterButton = findViewById(R.id.filterScreenButton);
-        _filterButton.setOnClickListener
-        (
-            v ->
-            {
-                Intent filters = new Intent(this, Filters.class);
-                filters.putExtra("Es_admin", esAdminInicial);
-                startActivity(filters);
-            }
-        );
+        _filterButton.setOnClickListener(v -> {
+            Intent intentFilters = new Intent(this, Filters.class);
+            intentFilters.putExtra("Es_admin", esAdminInicial);
+            startActivity(intentFilters);
+        });
 
-
-
-        // Llamamos al metodo LISTENER, para saber si el usuario es admin y se apliquen los cambios en el contenido
         setupUserPermissionListener();
 
-        // Initializes the event item display
+        // --- Configuración RecyclerView ---
         RecyclerView eventDisplay = findViewById(R.id.eventDisplay);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
@@ -114,92 +107,85 @@ public final class MainMenu extends AppCompatActivity
         EventItemAdapter adapter = new EventItemAdapter(flattenedList);
         eventDisplay.setAdapter(adapter);
 
-        // Retrieves filters if they exist
-        Filters.FilterObject filters;
-        if(getIntent().getExtras() != null && getIntent().getExtras().containsKey("Filters"))
-            filters = (Filters.FilterObject) getIntent().getExtras().getSerializable("Filters");
-        else
-            filters = null;
+        // CONFIGURACIÓN DE TU BOTÓN FLOTANTE
+        _limpiar_filtros = findViewById(R.id.limpiar_filtros); // Usamos el ID del XML
+        _limpiar_filtros.setOnClickListener(accionLimpiar);
 
-        // Retrieves the events from Firestore and updates the event display
+        // Si existen filtros, mostramos tu botón flotante
+        if (getIntent().hasExtra("Filters")) {
+            _limpiar_filtros.show();
+        } else {
+            _limpiar_filtros.hide();
+        }
+
+        Filters.FilterObject filters = (Filters.FilterObject) getIntent().getSerializableExtra("Filters");
+
+        // --- Carga de Firestore ---
         db = FirebaseFirestore.getInstance();
-        db.collection("Events").get().addOnSuccessListener
-        (
-            queryDocumentSnapshots ->
-            {
-                List<Event> events = new ArrayList<>();
+        db.collection("Events").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            List<Event> events = new ArrayList<>();
+            View layoutNoResults = findViewById(R.id.layoutNoResults);
 
-                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                    Event event = document.toObject(Event.class);
-                    if (event == null) continue;
+            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                Event event = document.toObject(Event.class);
+                if (event == null) continue;
 
-                    // Aplicar Filtros si existen
-                    if (filters != null) {
+                if (filters != null) {
+                    // (Tus filtros de fechas, ciudad, categoría, keywords...)
+                    if (filters.getStartDate() != null && event.getDate().isBefore(filters.getStartDate()) ||
+                            filters.getEndDate() != null && event.getDate().isAfter(filters.getEndDate())) continue;
 
-                        // 1. Filtro de Fechas
-                        if (filters.getStartDate() != null && event.getDate().isBefore(filters.getStartDate()) ||
-                                filters.getEndDate() != null && event.getDate().isAfter(filters.getEndDate())) {
-                            continue;
-                        }
+                    if (filters.getCiudad() != null && (event.getLocation() == null || !event.getLocation().equalsIgnoreCase(filters.getCiudad()))) continue;
 
-                        // 2. Filtro de Localización (Zona de Tarragona)
-                        // filters.getCiudad() contiene el nombre de la locación seleccionada
-                        if (filters.getCiudad() != null) {
-                            // Suponiendo que tu POJO Event tiene el método getLocation()
-                            if (event.getLocation() == null || !event.getLocation().equalsIgnoreCase(filters.getCiudad())) {
-                                continue;
-                            }
-                        }
+                    if (filters.getCategoria() != null && (event.getCategory() == null || !event.getCategory().equalsIgnoreCase(filters.getCategoria()))) continue;
 
-                        // 3. Filtro de Categoría
-                        if (filters.getCategoria() != null) {
-                            // Suponiendo que tu POJO Event tiene el método getCategory()
-                            if (event.getCategory() == null || !event.getCategory().equalsIgnoreCase(filters.getCategoria())) {
-                                continue;
-                            }
-                        }
-
-                        // 4. Filtro de Búsqueda por Texto (Nombre o Descripción)
-                        if (filters.getKeywords() != null && !filters.getKeywords().isEmpty()) {
-                            // Tomamos la primera palabra clave (la que el usuario escribió en el EditText)
-                            String searchInput = filters.getKeywords().get(0).toLowerCase();
-
-                            // Obtenemos nombre y descripción (asegúrate de que existan en el POJO)
-                            String eventName = (event.getTitle() != null) ? event.getTitle().toLowerCase() : "";
-                            String eventDesc = (event.getDescription() != null) ? event.getDescription().toLowerCase() : "";
-
-                            // Si el texto no está ni en el nombre ni en la descripción, descartamos
-                            if (!eventName.contains(searchInput) && !eventDesc.contains(searchInput)) {
-                                continue;
-                            }
-                        }
+                    if (filters.getKeywords() != null && !filters.getKeywords().isEmpty()) {
+                        String searchInput = filters.getKeywords().get(0).toLowerCase();
+                        String eventName = (event.getTitle() != null) ? event.getTitle().toLowerCase() : "";
+                        String eventDesc = (event.getDescription() != null) ? event.getDescription().toLowerCase() : "";
+                        if (!eventName.contains(searchInput) && !eventDesc.contains(searchInput)) continue;
                     }
+                }
+                events.add(event);
+            }
 
-                    events.add(event);
+            // 2. Gestión de la UI según resultados
+            if (events.isEmpty()) {
+                // Mostramos solo el mensaje de "No hay resultados"
+                layoutNoResults.setVisibility(View.VISIBLE);
+                eventDisplay.setVisibility(View.GONE);
+
+                // Mantenemos el FAB visible para que el usuario pueda resetear desde ahí
+                _limpiar_filtros.show();
+            } else {
+                layoutNoResults.setVisibility(View.GONE);
+                eventDisplay.setVisibility(View.VISIBLE);
+
+                // Si hay filtros, mostramos el FAB; si no, lo ocultamos
+                if (getIntent().hasExtra("Filters")) {
+                    _limpiar_filtros.show();
+                } else {
+                    _limpiar_filtros.hide();
                 }
 
-
-                // Sorts events by proximity of date
+                // Ordenar y mostrar (tu lógica actual de flattenedList)
                 events.sort((e1, e2) -> e1.getDateTime().compareTo(e2.getDateTime()));
+                flattenedList.clear();
                 Map<LocalDate, List<Event>> dates = new LinkedHashMap<>();
-                for(Event event : events)
-                {
+                for(Event event : events) {
                     LocalDate date = event.getDate();
                     if(!dates.containsKey(date)) dates.put(date, new ArrayList<>());
                     dates.get(date).add(event);
                 }
 
-                for(Map.Entry<LocalDate, List<Event>> entry : dates.entrySet())
-                {
+                for(Map.Entry<LocalDate, List<Event>> entry : dates.entrySet()) {
                     flattenedList.add(entry.getKey());
                     flattenedList.addAll(entry.getValue());
                 }
-
                 adapter.notifyDataSetChanged();
             }
-        );
+        });
     }
-
     private void setupUserPermissionListener() {
         String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 

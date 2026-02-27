@@ -118,10 +118,25 @@ public final class Filters extends AppCompatActivity {
 
         // Configurar Categorías
         _spinnerCategoria = findViewById(R.id.spinnerCategoria);
-        String[] categorias = {"Conciertos", "Deportes", "Cultura", "Gastronomía", "Fiestas", "Infantil"};
-        ArrayAdapter<String> adapterCategorias = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, categorias);
-        _spinnerCategoria.setAdapter(adapterCategorias);
+
+        // 1. Cargar Categorias desde la BD
+
+        db.collection("Categorias").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            List<String> categorias = new ArrayList<>();
+            try {
+                for (com.google.firebase.firestore.DocumentSnapshot doc : queryDocumentSnapshots) {
+                    String nombre_categoria = doc.getString("nombre");
+                    if (nombre_categoria != null) categorias.add(nombre_categoria);
+                }
+
+            }catch (Exception e){
+                Log.e("CATEGORIAS CRASH", "Error al inicializar categorias", e);
+            }
+
+            ArrayAdapter<String> spiner_categorias = new ArrayAdapter<>(this,
+                    android.R.layout.simple_dropdown_item_1line, categorias);
+            _spinnerCategoria.setAdapter(spiner_categorias); // _spinnercat es el ID de tu XML
+        });
     }
 
 

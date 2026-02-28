@@ -20,7 +20,7 @@
             android:id="@+id/headerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DÍA de MES del AÑO"
+            android:text="[DÍA de MES del AÑO]"
             android:textColor="#323232"
             android:textSize="20sp"
             android:textStyle="bold" />

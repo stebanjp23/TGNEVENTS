@@ -85,7 +85,9 @@ public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             EventDateHeaderItem eventDateHeaderItem = (EventDateHeaderItem) holder;
 
             LocalDate eventDate = (LocalDate) _events.get(position);
-            String dateString = eventDate.getDayOfMonth() + " de " + eventDate.getMonth() + " del " + eventDate.getYear();
+
+            String[] spanishMonths = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
+            String dateString = eventDate.getDayOfMonth() + " de " + spanishMonths[eventDate.getMonthValue() - 1] + " del " + eventDate.getYear();
 
             eventDateHeaderItem.getHeaderText().setText(dateString);
 

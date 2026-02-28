@@ -40,7 +40,9 @@ public final class EventDetails extends AppCompatActivity
 
     private ImageView _eventImage;
 
-    private ImageButton _favouriteButton;
+    private ImageButton
+        _btnBack,
+        _favouriteButton;
 
 
     private FirebaseAuth _auth = null;
@@ -75,7 +77,10 @@ public final class EventDetails extends AppCompatActivity
         _eventEntrancePrice = findViewById(R.id.eventEntrancePrice);
         _eventDescription = findViewById(R.id.eventDescription);
         _eventImage = findViewById(R.id.eventImage);
+        _btnBack = findViewById(R.id.btnBack);
         _favouriteButton = findViewById(R.id.favouriteButton);
+
+        _btnBack.setOnClickListener(v -> finish());
 
         // Fetches the event's information
         Event event = (Event) getIntent().getExtras().getSerializable("Event");
@@ -84,7 +89,7 @@ public final class EventDetails extends AppCompatActivity
         _eventDateText.setText(event.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         _eventTimeText.setText(event.getTime().format(DateTimeFormatter.ofPattern("HH:mm")));
         _eventLocationText.setText(event.getLocation());
-        _eventEntrancePrice.setText("Entrada: " + String.valueOf(event.getPrice()) + " €");
+        _eventEntrancePrice.setText("Entrada: " + event.getPrice() + " €");
         _eventDescription.setText(event.getDescription());
 
         // Checks if the user has this event marked as favourite

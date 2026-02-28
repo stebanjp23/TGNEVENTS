@@ -94,8 +94,6 @@ public final class MainMenu extends AppCompatActivity
             }
         );
 
-
-
         // Llamamos al metodo LISTENER, para saber si el usuario es admin y se apliquen los cambios en el contenido
         setupUserPermissionListener();
 

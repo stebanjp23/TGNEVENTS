@@ -45,7 +45,7 @@ public final class MainMenu extends AppCompatActivity
     // ID references
     private ImageButton _filterButton;
 
-    private FirebaseFirestore db = null;
+    private FirebaseFirestore _db = null;
 
     // 1. VARIABLE PARA GUARDAR EL ESTADO ACTUAL
     private boolean esAdminInicial;
@@ -53,7 +53,8 @@ public final class MainMenu extends AppCompatActivity
     private FloatingActionButton _limpiar_filtros;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_menu);
@@ -104,7 +105,7 @@ public final class MainMenu extends AppCompatActivity
         eventDisplay.setLayoutManager(layoutManager);
 
         List<Object> flattenedList = new ArrayList<>();
-        EventItemAdapter adapter = new EventItemAdapter(flattenedList);
+        EventItemAdapter adapter = new EventItemAdapter(flattenedList, esAdminInicial);
         eventDisplay.setAdapter(adapter);
 
         // CONFIGURACIÓN DE TU BOTÓN FLOTANTE

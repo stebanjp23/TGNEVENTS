@@ -11,13 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.ttgneventos.model.AgregarEventos;
-import com.example.ttgneventos.model.Configuracion;
+import com.example.ttgneventos.model.*;
 import com.example.ttgneventos.R;
-import com.example.ttgneventos.model.GestionCategorias;
-import com.example.ttgneventos.model.GestionUsuarios;
-import com.example.ttgneventos.model.Login;
-import com.example.ttgneventos.model.MainMenu;
 import com.google.android.material.navigation.NavigationView;
 
 public final class IniciarMenu {
@@ -49,10 +44,9 @@ public final class IniciarMenu {
                         }
                         break;
                     case R.id.nav_favorito:
-                        if (!(activity instanceof MainMenu)) {
-                            Intent intent = new Intent(activity, MainMenu.class);
+                        if (!(activity instanceof Favourites)) {
+                            Intent intent = new Intent(activity, Favourites.class);
                             intent.putExtra("Es_admin", isAdmin);
-                            intent.putExtra("Favoritos", true);
                             activity.startActivity(intent);
                         }
                         break;

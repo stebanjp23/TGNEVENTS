@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriaItemAdapter extends RecyclerView.Adapter<CategoriaItemAdapter.CategoriaItem>{
+public final class CategoriaItemAdapter extends RecyclerView.Adapter<CategoriaItemAdapter.CategoriaItem>{
     private List<Categoria> categorias;
     private List<Categoria> categoriasFull;
 

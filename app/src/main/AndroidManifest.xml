@@ -10,12 +10,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Ttgneventos">
+        android:theme="@style/Theme.Ttgneventos" >
         <activity
             android:name=".model.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,26 +25,28 @@
             android:exported="false" />
         <activity
             android:name=".model.MainMenu"
-            android:exported="false"
-            android:label=""/>
+            android:exported="true" />
+        <activity
+            android:name=".model.EventDetails"
+            android:exported="false" />
         <activity
             android:name=".model.Filters"
+            android:exported="false" />
+        <activity
+            android:name=".model.Favourites"
             android:exported="false" />
         <activity
             android:name=".model.AgregarEventos"
             android:exported="false" />
         <activity
             android:name=".model.GestionCategorias"
-            android:exported="false"
-            android:label=""/>
+            android:exported="false" />
         <activity
             android:name=".model.GestionUsuarios"
-            android:exported="false"
-            android:label=""/>
+            android:exported="false" />
         <activity
             android:name=".model.Configuracion"
-            android:exported="false"
-            android:label=""/>
+            android:exported="false" />
     </application>
 
 </manifest>

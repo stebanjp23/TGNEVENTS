@@ -122,14 +122,15 @@ public final class MainMenu extends AppCompatActivity
         Filters.FilterObject filters = (Filters.FilterObject) getIntent().getSerializableExtra("Filters");
 
         // --- Carga de Firestore ---
-        db = FirebaseFirestore.getInstance();
-        db.collection("Events").get().addOnSuccessListener(queryDocumentSnapshots -> {
+        _db = FirebaseFirestore.getInstance();
+        _db.collection("Events").get().addOnSuccessListener(queryDocumentSnapshots -> {
             List<Event> events = new ArrayList<>();
             View layoutNoResults = findViewById(R.id.layoutNoResults);
 
             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                 Event event = document.toObject(Event.class);
                 if (event == null) continue;
+                event.setId(document.getId());
 
                 if (filters != null) {
                     // (Tus filtros de fechas, ciudad, categoría, keywords...)

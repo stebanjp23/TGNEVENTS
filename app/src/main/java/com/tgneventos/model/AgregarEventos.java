@@ -1,4 +1,4 @@
-package com.example.ttgneventos.model;
+package com.tgneventos.model;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.ttgneventos.R;
-import com.example.ttgneventos.util.IniciarMenu;
+import com.tgneventos.R;
+import com.tgneventos.util.IniciarMenu;
 import com.google.android.material.navigation.NavigationView;
 
 public final class AgregarEventos extends AppCompatActivity {

@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ttgneventos"
+    namespace = "com.tgneventos"
     compileSdk = 36
     // Es recomendable usar el SDK 35 (Android 15), el 36 es muy experimental aún
 
     defaultConfig {
-        applicationId = "com.example.ttgneventos"
+        applicationId = "com.tgneventos"
         minSdk = 29
         targetSdk = 36
         versionCode = 1

@@ -1,4 +1,4 @@
-package com.example.ttgneventos.recyclerviewadapters;
+package com.tgneventos.recyclerviewadapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +10,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ttgneventos.R;
-import com.example.ttgneventos.pojo.Categoria;
+import com.tgneventos.R;
+import com.tgneventos.pojo.Categoria;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;

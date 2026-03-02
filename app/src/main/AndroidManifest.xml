@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ttgneventos" >
         <activity
-            android:name=".model.Login"
+            android:name="com.tgneventos.model.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,31 +21,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".model.Registro"
+            android:name="com.tgneventos.model.Registro"
             android:exported="false" />
         <activity
-            android:name=".model.MainMenu"
+            android:name="com.tgneventos.model.MainMenu"
             android:exported="true" />
         <activity
-            android:name=".model.EventDetails"
+            android:name="com.tgneventos.model.EventDetails"
             android:exported="false" />
         <activity
-            android:name=".model.Filters"
+            android:name="com.tgneventos.model.Filters"
             android:exported="false" />
         <activity
-            android:name=".model.Favourites"
+            android:name="com.tgneventos.model.Favourites"
             android:exported="false" />
         <activity
-            android:name=".model.AgregarEventos"
+            android:name="com.tgneventos.model.AgregarEventos"
             android:exported="false" />
         <activity
-            android:name=".model.GestionCategorias"
+            android:name="com.tgneventos.model.GestionCategorias"
             android:exported="false" />
         <activity
-            android:name=".model.GestionUsuarios"
+            android:name="com.tgneventos.model.GestionUsuarios"
             android:exported="false" />
         <activity
-            android:name=".model.Configuracion"
+            android:name="com.tgneventos.model.Configuracion"
             android:exported="false" />
     </application>
 

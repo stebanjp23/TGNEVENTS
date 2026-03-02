@@ -1,8 +1,8 @@
-package com.example.ttgneventos.pojo;
+package com.tgneventos.pojo;
 
 import com.google.firebase.firestore.Exclude;
 
-public class Categoria {
+public final class Categoria {
     private String uid;
     private String nombre;
 

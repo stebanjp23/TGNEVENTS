@@ -1,7 +1,6 @@
-package com.example.ttgneventos.model;
+package com.tgneventos.model;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -15,10 +14,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ttgneventos.R;
-import com.example.ttgneventos.pojo.Event;
-import com.example.ttgneventos.recyclerviewadapters.EventItemAdapter;
-import com.example.ttgneventos.util.IniciarMenu;
+import com.tgneventos.R;
+import com.tgneventos.pojo.Event;
+import com.tgneventos.recyclerviewadapters.EventItemAdapter;
+import com.tgneventos.util.IniciarMenu;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;

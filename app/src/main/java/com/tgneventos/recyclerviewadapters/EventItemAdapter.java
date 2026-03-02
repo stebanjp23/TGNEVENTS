@@ -1,6 +1,5 @@
-package com.example.ttgneventos.recyclerviewadapters;
+package com.tgneventos.recyclerviewadapters;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ttgneventos.model.EventDetails;
-import com.example.ttgneventos.pojo.Event;
-import com.example.ttgneventos.R;
+import com.tgneventos.model.EventDetails;
+import com.tgneventos.pojo.Event;
+import com.tgneventos.R;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.material.card.MaterialCardView;
 

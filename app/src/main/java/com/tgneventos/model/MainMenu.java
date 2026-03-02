@@ -1,4 +1,4 @@
-package com.example.ttgneventos.model;
+package com.tgneventos.model;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,10 +17,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ttgneventos.pojo.Event;
-import com.example.ttgneventos.R;
-import com.example.ttgneventos.recyclerviewadapters.EventItemAdapter;
-import com.example.ttgneventos.util.IniciarMenu;
+import com.tgneventos.pojo.Event;
+import com.tgneventos.R;
+import com.tgneventos.recyclerviewadapters.EventItemAdapter;
+import com.tgneventos.util.IniciarMenu;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -37,8 +36,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public final class MainMenu extends AppCompatActivity
 {

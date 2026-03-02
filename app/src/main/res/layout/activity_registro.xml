@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#D12C2C"
-    tools:context=".model.Registro">
+    tools:context="com.tgneventos.model.Registro">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutNombre"

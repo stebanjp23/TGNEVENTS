@@ -1,4 +1,4 @@
-package com.example.ttgneventos.util;
+package com.tgneventos.util;
 
 
 import android.annotation.SuppressLint;
@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.ttgneventos.model.*;
-import com.example.ttgneventos.R;
+import com.tgneventos.model.*;
+import com.tgneventos.R;
 import com.google.android.material.navigation.NavigationView;
 
 public final class IniciarMenu {

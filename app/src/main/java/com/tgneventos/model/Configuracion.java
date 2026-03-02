@@ -1,12 +1,10 @@
-package com.example.ttgneventos.model;
+package com.tgneventos.model;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -19,11 +17,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.ttgneventos.R;
-import com.example.ttgneventos.util.IniciarMenu;
+import com.tgneventos.R;
+import com.tgneventos.util.IniciarMenu;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public final class Configuracion extends AppCompatActivity {
 
@@ -118,6 +115,4 @@ public final class Configuracion extends AppCompatActivity {
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .show();
     }
-
-
 }

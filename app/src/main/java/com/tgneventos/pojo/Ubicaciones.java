@@ -1,6 +1,6 @@
-package com.example.ttgneventos.pojo;
+package com.tgneventos.pojo;
 
-public class Ubicaciones {
+public final class Ubicaciones {
     private String nombre;
 
     public Ubicaciones(String nombre) {

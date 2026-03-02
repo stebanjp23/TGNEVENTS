@@ -1,7 +1,6 @@
-package com.example.ttgneventos.model;
+package com.tgneventos.model;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,8 +12,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.ttgneventos.R;
-import com.example.ttgneventos.pojo.Event;
+import com.tgneventos.R;
+import com.tgneventos.pojo.Event;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;

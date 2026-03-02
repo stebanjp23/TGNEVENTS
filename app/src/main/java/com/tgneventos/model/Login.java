@@ -1,11 +1,10 @@
-package com.example.ttgneventos.model;
+package com.tgneventos.model;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -14,9 +13,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.ttgneventos.pojo.Usuario;
-import com.example.ttgneventos.R;
-import com.google.android.material.navigation.NavigationView;
+import com.tgneventos.pojo.Usuario;
+import com.tgneventos.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import androidx.appcompat.app.AlertDialog;
@@ -178,11 +176,4 @@ public final class Login extends AppCompatActivity implements View.OnClickListen
         builder.setNegativeButton("Entendido", (dialog, which) -> dialog.dismiss());
         builder.create().show();
     }
-
-
-
-    }
-
-
-
-
+}

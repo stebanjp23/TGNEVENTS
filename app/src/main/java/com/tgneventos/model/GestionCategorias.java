@@ -1,13 +1,11 @@
-package com.example.ttgneventos.model;
+package com.tgneventos.model;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -20,12 +18,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ttgneventos.pojo.Categoria;
-import com.example.ttgneventos.pojo.Usuario;
-import com.example.ttgneventos.recyclerviewadapters.CategoriaItemAdapter;
-import com.example.ttgneventos.recyclerviewadapters.UsuarioItemAdapter;
-import com.example.ttgneventos.util.IniciarMenu;
-import com.example.ttgneventos.R;
+import com.tgneventos.pojo.Categoria;
+import com.tgneventos.recyclerviewadapters.CategoriaItemAdapter;
+import com.tgneventos.util.IniciarMenu;
+import com.tgneventos.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -33,7 +29,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public final class GestionCategorias extends AppCompatActivity {
     FloatingActionButton fabAñadir;

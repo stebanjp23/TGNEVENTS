@@ -1,4 +1,4 @@
-package com.example.ttgneventos.pojo;
+package com.tgneventos.pojo;
 
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.PropertyName;

@@ -1,4 +1,4 @@
-package com.example.ttgneventos.recyclerviewadapters;
+package com.tgneventos.recyclerviewadapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +13,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ttgneventos.R;
+import com.tgneventos.R;
 import com.google.firebase.firestore.FirebaseFirestore; // IMPORTANTE
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.ttgneventos.pojo.Usuario;
+import com.tgneventos.pojo.Usuario;
 
 
 public final class UsuarioItemAdapter extends RecyclerView.Adapter<UsuarioItemAdapter.UsuarioItem>{

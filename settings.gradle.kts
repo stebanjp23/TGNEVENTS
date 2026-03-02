@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "T.tgneventos"
+rootProject.name = "TGN Eventos"
 include(":app")
  

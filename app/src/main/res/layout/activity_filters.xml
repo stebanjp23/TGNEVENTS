@@ -62,10 +62,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rango de fecha"
+                android:textAllCaps="true"
                 android:textColor="#323232"
                 android:textSize="14sp"
-                android:textAllCaps="true"
-                android:letterSpacing="0.1"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -92,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Desde..."
-                        android:textColor="#757575" />
+                        android:textColor="#323232" />
 
                     <ImageView
                         android:layout_width="20dp"
@@ -123,7 +122,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Hasta..."
-                        android:textColor="#757575" />
+                        android:textColor="#323232" />
 
                     <ImageView
                         android:layout_width="20dp"
@@ -137,16 +136,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginVertical="24dp"
-                android:background="#E0E0E0" />
+                android:background="#999999" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Buscar por nombre"
+                android:textAllCaps="true"
                 android:textColor="#323232"
                 android:textSize="14sp"
-                android:textAllCaps="true"
-                android:letterSpacing="0.1"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -168,23 +166,24 @@
                     android:layout_height="wrap_content"
                     android:hint="Ej: Concierto, Deportes..."
                     android:inputType="text"
-                    android:padding="16dp" />
+                    android:padding="16dp"
+                    android:textColor="#323232"
+                    android:textColorHint="#999999" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginVertical="24dp"
-                android:background="#E0E0E0" />
+                android:background="#999999" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ubicación"
+                android:text="Zona"
+                android:textAllCaps="true"
                 android:textColor="#323232"
                 android:textSize="14sp"
-                android:textAllCaps="true"
-                android:letterSpacing="0.1"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -205,7 +204,9 @@
                     android:layout_height="wrap_content"
                     android:hint="Selecciona zona"
                     android:inputType="none"
-                    android:padding="16dp" />
+                    android:padding="16dp"
+                    android:textColor="#323232"
+                    android:textColorHint="#999999" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -213,10 +214,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="Categoría"
+                android:textAllCaps="true"
                 android:textColor="#323232"
                 android:textSize="14sp"
-                android:textAllCaps="true"
-                android:letterSpacing="0.1"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -237,7 +237,9 @@
                     android:layout_height="wrap_content"
                     android:hint="Selecciona categoría"
                     android:inputType="none"
-                    android:padding="16dp" />
+                    android:padding="16dp"
+                    android:textColor="#323232"
+                    android:textColorHint="#999999" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Space
@@ -253,12 +255,12 @@
         android:layout_height="60dp"
         android:layout_margin="20dp"
         android:backgroundTint="#FFEB3B"
-        android:text="Aplicar Filtros"
-        android:textColor="#1A1A1A"
+        android:elevation="8dp"
+        android:text="Aplicar filtros"
+        android:textColor="#323232"
         android:textSize="16sp"
         android:textStyle="bold"
         app:cornerRadius="12dp"
-        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

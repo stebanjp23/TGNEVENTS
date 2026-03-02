@@ -62,7 +62,7 @@ public final class GestionUsuarios extends AppCompatActivity {
         });
 
         // 1. Inicializar vistas y Firebase
-        recyclerView = findViewById(R.id.vista_lista_usuarios); // Cambia el ID por el de tu XML
+        recyclerView = findViewById(R.id.vista_lista_usuarios);
         db = FirebaseFirestore.getInstance();
         listaUsuarios = new ArrayList<>();
 

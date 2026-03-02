@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.legacy.support.v4)
+    implementation(libs.cardview)
 
     // Tests (Eliminados duplicados)
     testImplementation(libs.junit)

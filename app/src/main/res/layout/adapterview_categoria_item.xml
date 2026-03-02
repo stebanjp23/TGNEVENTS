@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="12dp"
-    android:layout_marginVertical="6dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/layout_textos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginVertical="14dp"
-            android:layout_marginStart="14dp"
             android:layout_marginEnd="2dp"
             android:layout_toStartOf="@+id/layout_controles"
             android:orientation="vertical">
@@ -34,9 +31,11 @@
                 android:id="@+id/txtCategoria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="#323232"
                 android:ems="10"
                 android:inputType="text"
-                android:text="Nombre" />
+                android:text="Nombre"
+                android:textColor="#323232" />
 
         </LinearLayout>
 
@@ -57,7 +56,7 @@
                 android:padding="6dp"
                 android:scaleType="fitCenter"
                 android:src="@android:drawable/ic_menu_edit"
-                app:tint="#A9A475"
+                app:tint="#323232"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -69,9 +68,18 @@
                 android:padding="6dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/icon_trash"
-                app:tint="#D32F2F"
+                app:tint="#D12C2C"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
 
     </RelativeLayout>
-</androidx.cardview.widget.CardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#999999"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@color/app_background"
     tools:context="com.tgneventos.model.EventDetails">
 
     <LinearLayout
@@ -26,7 +26,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Atrás"
+            android:contentDescription="Atras"
             android:scaleType="fitXY"
             android:src="?attr/homeAsUpIndicator"
             app:tint="@color/white" />
@@ -71,7 +71,7 @@
                 android:layout_marginTop="25dp"
                 android:text="[Title]"
                 android:textAlignment="center"
-                android:textColor="#323232"
+                android:textColor="@color/text_primary"
                 android:textSize="28sp" />
 
             <FrameLayout
@@ -106,7 +106,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="[Category]"
-                            android:textColor="#323232"
+                            android:textColor="@color/text_primary"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
@@ -130,7 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="[Date]"
-                    android:textColor="#323232"
+                    android:textColor="@color/text_primary"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -143,7 +143,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="[Time]"
-                    android:textColor="#323232"
+                    android:textColor="@color/text_primary"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -162,7 +162,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="[Locaton]"
-                    android:textColor="#323232"
+                    android:textColor="@color/text_primary"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -172,7 +172,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="[Entrance]"
-                android:textColor="#323232"
+                android:textColor="@color/text_primary"
                 android:textStyle="bold" />
 
             <TextView
@@ -180,7 +180,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="[Description]"
-                android:textColor="#323232" />
+                android:textColor="@color/text_primary" />
 
         </LinearLayout>
     </ScrollView>

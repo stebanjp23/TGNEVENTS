@@ -6,24 +6,24 @@ public final class Usuario {
     private String uid;
     private String nombre;
     private String correo;
-    private String contraseña;
+    private String contrasena;
     private boolean admin;
     private List<String> _favourites;
 
 
-    public Usuario(String nombre, String correo, String contraseña) {
+    public Usuario(String nombre, String correo, String contrasena) {
         this.nombre = nombre;
         this.correo = correo;
-        this.contraseña = contraseña;
+        this.contrasena = contrasena;
         this.admin = false;
 
     }
 
-    public Usuario(String uid, String nombre, String correo, String contraseña, boolean admin) {
+    public Usuario(String uid, String nombre, String correo, String contrasena, boolean admin) {
         this.uid = uid;
         this.nombre = nombre;
         this.correo = correo;
-        this.contraseña = contraseña;
+        this.contrasena = contrasena;
         this.admin = admin;
     }
 
@@ -58,11 +58,11 @@ public final class Usuario {
         this.nombre = nombre;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public String getCorreo() {

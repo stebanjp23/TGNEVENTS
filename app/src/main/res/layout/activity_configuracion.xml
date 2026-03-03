@@ -11,7 +11,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F5F5F5">
+        android:background="@color/app_background">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -24,24 +24,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingEnd="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Configuración"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Configuracion"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
 
         <ScrollView
@@ -63,7 +52,7 @@
                     android:padding="16dp"
                     android:text="CUENTA DE USUARIO"
                     android:textAllCaps="true"
-                    android:textColor="#323232"
+                    android:textColor="@color/text_primary"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -71,10 +60,10 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    android:id="@+id/config_contraseña"
+                    android:id="@+id/config_contrasena"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
+                    android:background="@color/surface_background"
                     android:clickable="true"
                     android:focusable="true"
                     android:orientation="horizontal"
@@ -87,15 +76,15 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Cambiar contraseña"
-                        android:textColor="#333333"
+                        android:text="Cambiar contrasena"
+                        android:textColor="@color/text_primary"
                         android:textSize="16sp" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_lock_lock"
-                        app:tint="#CCCCCC" />
+                        app:tint="@color/icon_muted" />
                 </LinearLayout>
 
                 <TextView
@@ -105,18 +94,18 @@
                     android:padding="16dp"
                     android:text="PREFERENCIAS"
                     android:textAllCaps="true"
-                    android:textColor="#323232"
+                    android:textColor="@color/text_primary"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/config_contraseña" />
+                    app:layout_constraintTop_toBottomOf="@id/config_contrasena" />
 
                 <LinearLayout
                     android:id="@+id/layout_modo_oscuro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
+                    android:background="@color/surface_background"
                     android:orientation="horizontal"
                     android:padding="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -128,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Modo Oscuro"
-                        android:textColor="#333333"
+                        android:textColor="@color/text_primary"
                         android:textSize="16sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -143,7 +132,7 @@
                     android:id="@+id/layout_notificaciones"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
+                    android:background="@color/surface_background"
                     android:orientation="horizontal"
                     android:padding="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -155,7 +144,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Notificaciones"
-                        android:textColor="#333333"
+                        android:textColor="@color/text_primary"
                         android:textSize="16sp" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -171,9 +160,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:text="SOPORTE E INFORMACIÓN"
+                    android:text="SOPORTE E INFORMACION"
                     android:textAllCaps="true"
-                    android:textColor="#323232"
+                    android:textColor="@color/text_primary"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -184,7 +173,7 @@
                     android:id="@+id/config_soporte"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
+                    android:background="@color/surface_background"
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="16dp"
@@ -196,7 +185,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Contactar con soporte"
-                        android:textColor="#333333"
+                        android:textColor="@color/text_primary"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -205,8 +194,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:text="Versión de la aplicación: 1.0.0"
-                    android:textColor="#999999"
+                    android:text="Version de la aplicacion: 1.0.0"
+                    android:textColor="@color/text_secondary"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -217,7 +206,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:background="#FFFFFF"
+                    android:background="@color/surface_background"
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="16dp"
@@ -229,7 +218,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Cerrar sesión"
+                        android:text="Cerrar sesion"
                         android:textColor="#D12C2C"
                         android:textSize="16sp"
                         android:textStyle="bold" />

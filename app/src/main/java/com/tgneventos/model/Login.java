@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.tgneventos.pojo.Usuario;
 import com.tgneventos.R;
+import com.tgneventos.util.NotificationPreferences;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import androidx.appcompat.app.AlertDialog;
@@ -57,11 +58,11 @@ public final class Login extends AppCompatActivity implements View.OnClickListen
         com.google.firebase.auth.FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null && currentUser.isEmailVerified()) {
-            // Si el usuario existe y verificó su correo, vamos directo a Firestore
+            // Si el usuario existe y verifico su correo, vamos directo a Firestore
             // para saber si es admin y mandarlo a la pantalla de Inicio
             ObtenerDatosUsuario(currentUser.getUid());
         }
-        // Si no hay usuario o no está verificado, la app se queda en el Login normal
+        // Si no hay usuario o no esta verificado, la app se queda en el Login normal
     }
 
     @Override
@@ -82,7 +83,7 @@ public final class Login extends AppCompatActivity implements View.OnClickListen
                 }
 
                 if (!android.util.Patterns.EMAIL_ADDRESS.matcher(c).matches()) {
-                    Correo.setError("Formato de correo no válido");
+                    Correo.setError("Formato de correo no valido");
                     return;
                 }
 
@@ -93,12 +94,12 @@ public final class Login extends AppCompatActivity implements View.OnClickListen
 
                                 // 2. FILTRO G FOR LIVE: ¿Ha verificado el correo?
                                 if (user != null && user.isEmailVerified()) {
-                                    // Si está verificado, buscamos sus datos en Firestore
+                                    // Si esta verificado, buscamos sus datos en Firestore
                                     ObtenerDatosUsuario(user.getUid());
                                 } else {
-                                    // Si NO está verificado, le avisamos y ofrecemos reenviar
+                                    // Si NO esta verificado, le avisamos y ofrecemos reenviar
                                     mostrarPopupVerificacion(user);
-                                    mAuth.signOut(); // Cerramos sesión para que no se quede logueado a medias
+                                    mAuth.signOut(); // Cerramos sesion para que no se quede logueado a medias
                                 }
                             } else {
                                 mostrarPopupRegistro(c);
@@ -117,6 +118,8 @@ public final class Login extends AppCompatActivity implements View.OnClickListen
                             Usuario usuario = documentSnapshot.toObject(Usuario.class);
 
                             if (usuario != null) {
+                                NotificationPreferences.syncTopicWithStoredSetting(this);
+                                NotificationPreferences.refreshAndStoreCurrentToken();
                                 Intent intent = new Intent(this, MainMenu.class);
                                 intent.putExtra("Es_admin", usuario.isAdmin());
                                 startActivity(intent);
@@ -133,15 +136,15 @@ public final class Login extends AppCompatActivity implements View.OnClickListen
             AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
 
             builder.setTitle("Usuario no encontrado");
-            builder.setMessage("El correo " + emailOlvidado + " no está registrado. ¿Quieres crear una cuenta ahora?");
+            builder.setMessage("El correo " + emailOlvidado + " no esta registrado. ¿Quieres crear una cuenta ahora?");
 
-            // Botón para ir al Registro
+            // Boton para ir al Registro
             builder.setPositiveButton("Registrarme", (dialog, which) -> {
                 Intent intent = new Intent(Login.this, Registro.class);
                 startActivity(intent);
             });
 
-            // Botón para cancelar
+            // Boton para cancelar
             builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
             builder.create().show();

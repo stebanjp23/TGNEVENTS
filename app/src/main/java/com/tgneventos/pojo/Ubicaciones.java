@@ -15,5 +15,5 @@ public final class Ubicaciones {
         this.nombre = nombre;
     }
 
-    // Otros métodos y propiedades de la clase Ubicaciones
+    // Otros metodos y propiedades de la clase Ubicaciones
 }

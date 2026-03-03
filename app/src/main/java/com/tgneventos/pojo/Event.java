@@ -19,11 +19,20 @@ public final class Event implements Serializable
     private String _location;
     private double _price;
     private String _description;
+    private String _imageUrl;
 
     // Constructors
     public Event() {}
 
-    public Event(String title, String category, LocalDateTime dateTime, String location, double price, String description)
+    public Event(
+            String title,
+            String category,
+            LocalDateTime dateTime,
+            String location,
+            double price,
+            String description,
+            String imageUrl
+    )
     {
         _title = title;
         _category = category;
@@ -31,6 +40,7 @@ public final class Event implements Serializable
         _location = location;
         _price = price;
         _description = description;
+        _imageUrl = imageUrl;
     }
 
     // Getters & setters
@@ -53,6 +63,9 @@ public final class Event implements Serializable
 
     public String getDescription() { return _description; }
     public void setDescription(String description) { _description = description; }
+
+    public String getImageUrl() { return _imageUrl; }
+    public void setImageUrl(String imageUrl) { _imageUrl = imageUrl; }
 
     public String getId() { return _id; }
     public void setId(String id) { _id = id; }

@@ -1,6 +1,6 @@
 package com.tgneventos.model;
 
-import android.content.SharedPreferences;
+import android.Manifest;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,8 +8,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
@@ -17,21 +18,39 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.tgneventos.R;
-import com.tgneventos.util.IniciarMenu;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.tgneventos.R;
+import com.tgneventos.util.IniciarMenu;
+import com.tgneventos.util.NotificationPreferences;
+import com.tgneventos.util.ThemePreferences;
 
 public final class Configuracion extends AppCompatActivity {
 
-    private FirebaseAuth db_auth = FirebaseAuth.getInstance();
-    private LinearLayout _conf_contraseña;
-    private SwitchCompat _conf_modo_oscuro;
-    private SwitchCompat _conf_notificaciones;
-    private SharedPreferences preferencias;
+    private final FirebaseAuth dbAuth = FirebaseAuth.getInstance();
+    private LinearLayout confContrasena;
+    private SwitchCompat confModoOscuro;
+    private SwitchCompat confNotificaciones;
+    private boolean updatingNotificationSwitch = false;
+    private boolean permissionRequestedFromToggle = false;
 
+    private final ActivityResultLauncher<String> notificationPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (!permissionRequestedFromToggle) {
+                    return;
+                }
 
+                permissionRequestedFromToggle = false;
 
+                if (isGranted) {
+                    applyNotificationSetting(true, true);
+                    return;
+                }
+
+                setNotificationSwitchChecked(false);
+                applyNotificationSetting(false, false);
+                Toast.makeText(this, "Permiso de notificaciones denegado", Toast.LENGTH_SHORT).show();
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,61 +75,117 @@ public final class Configuracion extends AppCompatActivity {
             return insets;
         });
 
-        _conf_contraseña = findViewById(R.id.config_contraseña);
-        _conf_modo_oscuro = findViewById(R.id.config_modo_oscuro);
-        _conf_notificaciones = findViewById(R.id.config_notificaciones);
-        preferencias = getSharedPreferences("preferencias_usuario", MODE_PRIVATE);
+        confContrasena = findViewById(R.id.config_contrasena);
+        confModoOscuro = findViewById(R.id.config_modo_oscuro);
+        confNotificaciones = findViewById(R.id.config_notificaciones);
 
+        setupPasswordReset();
+        setupDarkModeToggle();
+        setupNotificationToggle();
+    }
 
-        _conf_contraseña.setOnClickListener(v -> {
-            String emailAddress = db_auth.getCurrentUser().getEmail();
+    private void setupPasswordReset() {
+        if (confContrasena == null) {
+            return;
+        }
 
-            if (emailAddress != null) {
-                // Mostramos un diálogo de confirmación antes de enviar
-                new androidx.appcompat.app.AlertDialog.Builder(this)
-                        .setTitle("Restablecer Contraseña")
-                        .setMessage("¿Deseas recibir un correo electrónico en " + emailAddress + " para cambiar tu contraseña?")
-                        .setPositiveButton("Enviar", (dialog, which) -> {
+        confContrasena.setOnClickListener(v -> {
+            if (dbAuth.getCurrentUser() == null) {
+                Toast.makeText(this, "No hay usuario autenticado", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                            // Si el usuario acepta, enviamos el correo
-                            db_auth.sendPasswordResetEmail(emailAddress)
+            String emailAddress = dbAuth.getCurrentUser().getEmail();
+            if (emailAddress == null || emailAddress.isEmpty()) {
+                Toast.makeText(this, "No se encontro un correo valido", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Restablecer contrasena")
+                    .setMessage("Deseas recibir un correo en " + emailAddress + " para cambiar tu contrasena?")
+                    .setPositiveButton("Enviar", (dialog, which) ->
+                            dbAuth.sendPasswordResetEmail(emailAddress)
                                     .addOnCompleteListener(task -> {
                                         if (task.isSuccessful()) {
-                                            // Ventana de éxito
                                             mostrarMensajeExito(emailAddress);
                                         } else {
                                             Toast.makeText(this, "Error al enviar el correo", Toast.LENGTH_SHORT).show();
                                         }
-                                    });
-                        })
-                        .setNegativeButton("Cancelar", null)
-                        .show();
+                                    }))
+                    .setNegativeButton("Cancelar", null)
+                    .show();
+        });
+    }
+
+    private void setupDarkModeToggle() {
+        confModoOscuro.setChecked(ThemePreferences.isDarkModeEnabled(this));
+
+        confModoOscuro.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            ThemePreferences.setDarkModeEnabled(this, isChecked);
+            ThemePreferences.applySavedNightMode(this);
+        });
+    }
+
+    private void setupNotificationToggle() {
+        boolean notificationsEnabled = NotificationPreferences.isNotificationsEnabled(this);
+        if (notificationsEnabled && !NotificationPreferences.hasRuntimePermission(this)) {
+            notificationsEnabled = false;
+            NotificationPreferences.setNotificationsEnabled(this, false);
+        }
+
+        setNotificationSwitchChecked(notificationsEnabled);
+        NotificationPreferences.syncTopicWithStoredSetting(this);
+        NotificationPreferences.refreshAndStoreCurrentToken();
+
+        confNotificaciones.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (updatingNotificationSwitch) {
+                return;
             }
-        });
-        _conf_modo_oscuro.setChecked(preferencias.getBoolean("modo_oscuro", false));
-        _conf_notificaciones.setChecked(preferencias.getBoolean("notificaciones", true));
 
-        _conf_modo_oscuro.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            if (isChecked && !NotificationPreferences.hasRuntimePermission(this)) {
+                permissionRequestedFromToggle = true;
+                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+                return;
             }
-            preferencias.edit().putBoolean("modo_oscuro", isChecked).apply();
-        });
 
-        _conf_notificaciones.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            preferencias.edit().putBoolean("notificaciones", isChecked).apply();
-            String msg = isChecked ? "Notificaciones activadas" : "Notificaciones silenciadas";
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            applyNotificationSetting(isChecked, true);
         });
+    }
 
+    private void setNotificationSwitchChecked(boolean checked) {
+        updatingNotificationSwitch = true;
+        confNotificaciones.setChecked(checked);
+        updatingNotificationSwitch = false;
+    }
+
+    private void applyNotificationSetting(boolean enabled, boolean showToast) {
+        NotificationPreferences.setNotificationsEnabled(this, enabled);
+        NotificationPreferences.updateCurrentUserNotificationPreference(this);
+        NotificationPreferences.updateTopicSubscription(enabled)
+                .addOnSuccessListener(unused -> {
+                    if (!showToast) {
+                        return;
+                    }
+                    String message = enabled ? "Notificaciones activadas" : "Notificaciones desactivadas";
+                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    if (!showToast) {
+                        return;
+                    }
+                    String message = enabled
+                            ? "No se pudo activar la suscripcion de notificaciones"
+                            : "No se pudo desactivar la suscripcion de notificaciones";
+                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void mostrarMensajeExito(String email) {
         new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("¡Correo Enviado!")
-                .setMessage("Hemos enviado un correo para restablecer su contraseña a:\n\n" + email + "\n\nPor favor, revisa tu bandeja de entrada (y la carpeta de spam).")
+                .setTitle("Correo enviado")
+                .setMessage("Hemos enviado un correo para restablecer tu contrasena a:\n\n" + email
+                        + "\n\nRevisa tu bandeja de entrada y la carpeta de spam.")
                 .setPositiveButton("Entendido", null)
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .show();

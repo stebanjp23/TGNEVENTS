@@ -6,7 +6,6 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -15,34 +14,53 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/layout_textos"
+            android:id="@+id/layout_textos_evento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/layout_controles"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@+id/layout_controles_evento"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtNombre"
+                android:id="@+id/txtTituloEvento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_primary"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                tools:text="Nombre del Usuario" />
+                tools:text="Evento de ejemplo" />
 
             <TextView
-                android:id="@+id/txtCorreo"
+                android:id="@+id/txtFechaHoraEvento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp"
+                tools:text="20/03/2026 19:30" />
+
+            <TextView
+                android:id="@+id/txtUbicacionEvento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:textColor="@color/text_secondary"
-                android:textSize="14sp"
-                tools:text="correo@ejemplo.com" />
+                android:textSize="13sp"
+                tools:text="Tarragona - Categoria" />
+
+            <TextView
+                android:id="@+id/txtPrecioEvento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp"
+                tools:text="Entrada: 15.0 EUR" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_controles"
+            android:id="@+id/layout_controles_evento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -50,14 +68,19 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <Spinner
-                android:id="@+id/op_permisos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp" />
+            <ImageButton
+                android:id="@+id/editar_evento"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="6dp"
+                android:scaleType="fitCenter"
+                android:src="@android:drawable/ic_menu_edit"
+                app:tint="@color/text_primary"
+                tools:ignore="ContentDescription" />
 
             <ImageButton
-                android:id="@+id/editar_categoria"
+                android:id="@+id/eliminar_evento"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"

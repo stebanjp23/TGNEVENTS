@@ -21,6 +21,7 @@ import com.tgneventos.pojo.Event;
 import com.tgneventos.R;
 import com.tgneventos.recyclerviewadapters.EventItemAdapter;
 import com.tgneventos.util.IniciarMenu;
+import com.tgneventos.util.ThemePreferences;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -52,6 +53,7 @@ public final class MainMenu extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        ThemePreferences.applySavedNightMode(this);
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_menu);
@@ -61,7 +63,7 @@ public final class MainMenu extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navView = findViewById(R.id.nav_view);
 
-        // --- Configuración Menú y Header ---
+        // --- Configuracion Menu y Header ---
         Menu menu = navView.getMenu();
         MenuItem itemAdmin = menu.findItem(R.id.administracion);
         itemAdmin.setVisible(getIntent().getBooleanExtra("Es_admin", false));
@@ -69,7 +71,7 @@ public final class MainMenu extends AppCompatActivity
         IniciarMenu.setupDrawer(this, drawer, navView, toolbar, getIntent().getBooleanExtra("Es_admin", false));
         IniciarMenu.actualizarEmailEnHeader(navView);
 
-        // --- Lógica de Limpieza Unificada ---
+        // --- Logica de Limpieza Unificada ---
         View.OnClickListener accionLimpiar = v -> {
             getIntent().removeExtra("Filters");
             recreate();
@@ -93,7 +95,7 @@ public final class MainMenu extends AppCompatActivity
 
         setupUserPermissionListener();
 
-        // --- Configuración RecyclerView ---
+        // --- Configuracion RecyclerView ---
         RecyclerView eventDisplay = findViewById(R.id.eventDisplay);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         layoutManager.setFlexDirection(FlexDirection.ROW);
@@ -105,11 +107,11 @@ public final class MainMenu extends AppCompatActivity
         EventItemAdapter adapter = new EventItemAdapter(flattenedList, esAdminInicial);
         eventDisplay.setAdapter(adapter);
 
-        // CONFIGURACIÓN DE TU BOTÓN FLOTANTE
+        // CONFIGURACION DE TU BOTON FLOTANTE
         _limpiar_filtros = findViewById(R.id.limpiar_filtros); // Usamos el ID del XML
         _limpiar_filtros.setOnClickListener(accionLimpiar);
 
-        // Si existen filtros, mostramos tu botón flotante
+        // Si existen filtros, mostramos tu boton flotante
         if (getIntent().hasExtra("Filters")) {
             _limpiar_filtros.show();
         } else {
@@ -130,7 +132,7 @@ public final class MainMenu extends AppCompatActivity
                 event.setId(document.getId());
 
                 if (filters != null) {
-                    // (Tus filtros de fechas, ciudad, categoría, keywords...)
+                    // (Tus filtros de fechas, ciudad, categoria, keywords...)
                     if (filters.getStartDate() != null && event.getDate().isBefore(filters.getStartDate()) ||
                             filters.getEndDate() != null && event.getDate().isAfter(filters.getEndDate())) continue;
 
@@ -148,13 +150,13 @@ public final class MainMenu extends AppCompatActivity
                 events.add(event);
             }
 
-            // 2. Gestión de la UI según resultados
+            // 2. Gestion de la UI segun resultados
             if (events.isEmpty()) {
                 // Mostramos solo el mensaje de "No hay resultados"
                 layoutNoResults.setVisibility(View.VISIBLE);
                 eventDisplay.setVisibility(View.GONE);
 
-                // Mantenemos el FAB visible para que el usuario pueda resetear desde ahí
+                // Mantenemos el FAB visible para que el usuario pueda resetear desde ahi
                 _limpiar_filtros.show();
             } else {
                 layoutNoResults.setVisibility(View.GONE);
@@ -167,7 +169,7 @@ public final class MainMenu extends AppCompatActivity
                     _limpiar_filtros.hide();
                 }
 
-                // Ordenar y mostrar (tu lógica actual de flattenedList)
+                // Ordenar y mostrar (tu logica actual de flattenedList)
                 events.sort((e1, e2) -> e1.getDateTime().compareTo(e2.getDateTime()));
                 flattenedList.clear();
                 Map<LocalDate, List<Event>> dates = new LinkedHashMap<>();
@@ -188,7 +190,7 @@ public final class MainMenu extends AppCompatActivity
     private void setupUserPermissionListener() {
         String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        // Guardamos el listener en una variable para poder cerrarlo después
+        // Guardamos el listener en una variable para poder cerrarlo despues
         userListener = FirebaseFirestore.getInstance().collection("Usuarios")
                 .document(currentUid)
                 .addSnapshotListener((snapshot, e) -> {
@@ -201,9 +203,9 @@ public final class MainMenu extends AppCompatActivity
 
                         if (nuevoEstadoAdmin == null) return;
 
-                        // COMPARACIÓN SEGURA
+                        // COMPARACION SEGURA
                         if (nuevoEstadoAdmin != esAdminInicial) {
-                            Toast.makeText(this, "Tus permisos han cambiado. Reiniciando sesión...", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, "Tus permisos han cambiado. Reiniciando sesion...", Toast.LENGTH_LONG).show();
 
                             FirebaseAuth.getInstance().signOut();
                             Intent intent = new Intent(this, Login.class);

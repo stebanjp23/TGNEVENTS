@@ -13,8 +13,10 @@ playServicesMaps = "20.0.0"
 googleGmsGoogleServices = "4.4.4"
 firebaseAuth = "24.0.1"
 firebaseFirestore = "26.1.0"
+firebaseMessaging = "25.0.1"
 legacySupportV4 = "1.0.0"
 cardview = "1.0.0"
+glide = "4.16.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -29,8 +31,10 @@ recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
 cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

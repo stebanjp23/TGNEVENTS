@@ -52,7 +52,7 @@ public final class UsuarioItemAdapter extends RecyclerView.Adapter<UsuarioItemAd
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         holder.desplegable.setAdapter(adapter);
 
-        // Seteamos la selección actual sin disparar el listener todavía
+        // Seteamos la seleccion actual sin disparar el listener todavia
         holder.desplegable.setSelection(u.isAdmin() ? 1 : 0, false);
 
         holder.desplegable.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -70,13 +70,13 @@ public final class UsuarioItemAdapter extends RecyclerView.Adapter<UsuarioItemAd
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        // --- Botón Eliminar ---
+        // --- Boton Eliminar ---
         holder.bt_eliminar.setOnClickListener(v -> {
             // Un aviso antes de borrar siempre viene bien
             new androidx.appcompat.app.AlertDialog.Builder(holder.itemView.getContext())
                     .setTitle("Eliminar usuario")
-                    .setMessage("¿Estás seguro de borrar a " + u.getNombre() + "?")
-                    .setPositiveButton("Sí, borrar", (dialog, which) -> {
+                    .setMessage("¿Estas seguro de borrar a " + u.getNombre() + "?")
+                    .setPositiveButton("Si, borrar", (dialog, which) -> {
                         eliminarUsuario(u.getUid(), holder.getAdapterPosition(), holder.itemView);
                     })
                     .setNegativeButton("Cancelar", null)
@@ -89,12 +89,12 @@ public final class UsuarioItemAdapter extends RecyclerView.Adapter<UsuarioItemAd
     private void eliminarUsuario(String uid, int position, View view) {
         if (uid == null) return;
 
-        // IMPORTANTE: Usamos "Usuario" (con mayúscula como descubriste antes)
+        // IMPORTANTE: Usamos "Usuario" (con mayuscula como descubriste antes)
         FirebaseFirestore.getInstance().collection("Usuarios").document(uid)
                 .delete()
                 .addOnSuccessListener(aVoid -> {
                     usuarios.remove(position); // Lo quitamos de la lista que tiene el adaptador
-                    notifyItemRemoved(position); // Animación de borrado
+                    notifyItemRemoved(position); // Animacion de borrado
                     notifyItemRangeChanged(position, usuarios.size()); // Refresca posiciones
                     Toast.makeText(view.getContext(), "Usuario eliminado", Toast.LENGTH_SHORT).show();
                 })
@@ -124,7 +124,7 @@ public final class UsuarioItemAdapter extends RecyclerView.Adapter<UsuarioItemAd
             // Si no hay texto, volvemos a mostrar todos los de la copia de seguridad
             usuarios.addAll(usuariosFull);
         } else {
-            // Filtramos la copia de seguridad y añadimos los que coincidan
+            // Filtramos la copia de seguridad y anadimos los que coincidan
             for (Usuario u : usuariosFull) {
                 if (u.getNombre().toLowerCase().contains(filterPattern) ||
                         u.getCorreo().toLowerCase().contains(filterPattern)) {
@@ -143,7 +143,7 @@ public final class UsuarioItemAdapter extends RecyclerView.Adapter<UsuarioItemAd
 
     public void actualizarDatos(List<Usuario> nuevaLista) {
         this.usuarios = nuevaLista;
-        this.usuariosFull = new ArrayList<>(nuevaLista); // Creamos la copia real aquí
+        this.usuariosFull = new ArrayList<>(nuevaLista); // Creamos la copia real aqui
         notifyDataSetChanged();
     }
 

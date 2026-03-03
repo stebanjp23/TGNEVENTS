@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@color/app_background"
     tools:context="com.tgneventos.model.Filters">
 
     <LinearLayout
@@ -26,7 +26,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Atrás"
+            android:contentDescription="Atras"
             android:src="?attr/homeAsUpIndicator"
             app:tint="@color/white" />
 
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:text="Rango de fecha"
                 android:textAllCaps="true"
-                android:textColor="#323232"
+                android:textColor="@color/text_primary"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Desde..."
-                        android:textColor="#323232" />
+                        android:textColor="@color/text_primary" />
 
                     <ImageView
                         android:layout_width="20dp"
@@ -122,7 +122,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Hasta..."
-                        android:textColor="#323232" />
+                        android:textColor="@color/text_primary" />
 
                     <ImageView
                         android:layout_width="20dp"
@@ -136,14 +136,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginVertical="24dp"
-                android:background="#999999" />
+                android:background="@color/divider_color" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Buscar por nombre"
                 android:textAllCaps="true"
-                android:textColor="#323232"
+                android:textColor="@color/text_primary"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -167,22 +167,22 @@
                     android:hint="Ej: Concierto, Deportes..."
                     android:inputType="text"
                     android:padding="16dp"
-                    android:textColor="#323232"
-                    android:textColorHint="#999999" />
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginVertical="24dp"
-                android:background="#999999" />
+                android:background="@color/divider_color" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Zona"
                 android:textAllCaps="true"
-                android:textColor="#323232"
+                android:textColor="@color/text_primary"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -205,17 +205,17 @@
                     android:hint="Selecciona zona"
                     android:inputType="none"
                     android:padding="16dp"
-                    android:textColor="#323232"
-                    android:textColorHint="#999999" />
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Categoría"
+                android:text="Categoria"
                 android:textAllCaps="true"
-                android:textColor="#323232"
+                android:textColor="@color/text_primary"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -235,11 +235,11 @@
                     android:id="@+id/spinnerCategoria"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Selecciona categoría"
+                    android:hint="Selecciona categoria"
                     android:inputType="none"
                     android:padding="16dp"
-                    android:textColor="#323232"
-                    android:textColorHint="#999999" />
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Space
@@ -257,7 +257,7 @@
         android:backgroundTint="#FFEB3B"
         android:elevation="8dp"
         android:text="Aplicar filtros"
-        android:textColor="#323232"
+        android:textColor="@color/text_primary"
         android:textSize="16sp"
         android:textStyle="bold"
         app:cornerRadius="12dp"

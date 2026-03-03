@@ -10,14 +10,14 @@
         android:id="@+id/eventItemCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:cardBackgroundColor="#FFFFFFFF"
+        app:cardBackgroundColor="@color/surface_background"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="#323232"
+        app:strokeColor="@color/divider_color"
         app:strokeWidth="2dp">
 
 
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:text="Event"
                     android:textAlignment="center"
-                    android:textColor="#323232"
+                    android:textColor="@color/text_primary"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:text="Description"
                     android:textAlignment="center"
-                    android:textColor="#323232"
+                    android:textColor="@color/text_primary"
                     android:textSize="12sp" />
             </LinearLayout>
 

@@ -60,29 +60,29 @@ public final class Registro extends AppCompatActivity implements View.OnClickLis
 
         if (v.getId() == R.id.Registrarse) {
 
-            // 1️⃣ Validar campos vacíos
+            // 1ï¸âƒ£ Validar campos vacios
             if(!validarCampos(nombre, correo, password)) return;
 
-            // 2️⃣ Deshabilitar botón para evitar doble click
+            // 2ï¸âƒ£ Deshabilitar boton para evitar doble click
             Registrarse.setEnabled(false);
 
-            // 3️⃣ Crear usuario en Firebase
+            // 3ï¸âƒ£ Crear usuario en Firebase
             mAuth.createUserWithEmailAndPassword(correo, password)
                     .addOnCompleteListener(this, task -> {
 
-                        // Volvemos a habilitar el botón
+                        // Volvemos a habilitar el boton
                         Registrarse.setEnabled(true);
 
                         if(task.isSuccessful()) {
                             com.google.firebase.auth.FirebaseUser user = mAuth.getCurrentUser();
                             if(user != null) {
-                                // Enviar correo de verificación
+                                // Enviar correo de verificacion
                                 user.sendEmailVerification().addOnCompleteListener(verifyTask -> {
                                     if(verifyTask.isSuccessful()) {
                                         // Mostrar AlertDialog en lugar de pasar mensaje por intent
                                         new AlertDialog.Builder(Registro.this)
                                                 .setTitle("Registro exitoso")
-                                                .setMessage("Se ha enviado un correo de verificación a " + correo + ". Revisa tu bandeja de entrada.")
+                                                .setMessage("Se ha enviado un correo de verificacion a " + correo + ". Revisa tu bandeja de entrada.")
                                                 .setPositiveButton("Aceptar", (dialog, which) -> {
                                                     // Guardar datos en Firestore
                                                     guardarUsuarioFirestore(user.getUid(), nombre, correo);
@@ -90,18 +90,18 @@ public final class Registro extends AppCompatActivity implements View.OnClickLis
                                                 .setCancelable(false)
                                                 .show();
                                     } else {
-                                        Toast.makeText(this, "Error al enviar correo de verificación: " +
+                                        Toast.makeText(this, "Error al enviar correo de verificacion: " +
                                                 verifyTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
 
                         } else {
-                            // 4️⃣ Manejo completo de errores de Firebase
+                            // 4ï¸âƒ£ Manejo completo de errores de Firebase
                             if(task.getException() instanceof FirebaseAuthInvalidCredentialsException){
-                                Toast.makeText(this, "Correo inválido", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Correo invalido", Toast.LENGTH_SHORT).show();
                             } else if(task.getException() instanceof FirebaseAuthUserCollisionException){
-                                Toast.makeText(this, "Este correo ya está registrado", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Este correo ya esta registrado", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -138,13 +138,13 @@ public final class Registro extends AppCompatActivity implements View.OnClickLis
             return false;
         }
         if(password.isEmpty()) {
-            Password_nueva.setError("La contraseña es obligatoria");
+            Password_nueva.setError("La contrasena es obligatoria");
             return false;
         }
 
         // Validar formato de correo
         if(!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
-            Correo_nuevo.setError("Formato de correo no válido");
+            Correo_nuevo.setError("Formato de correo no valido");
             return false;
         }
 

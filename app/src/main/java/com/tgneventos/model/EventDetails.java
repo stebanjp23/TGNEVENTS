@@ -12,36 +12,36 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.tgneventos.R;
-import com.tgneventos.pojo.Event;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.tgneventos.R;
+import com.tgneventos.pojo.Event;
 
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class EventDetails extends AppCompatActivity
-{
+public final class EventDetails extends AppCompatActivity {
     // References IDs
     private TextView
-        _eventTitleText,
-        _eventCategoryText,
-        _eventDateText,
-        _eventTimeText,
-        _eventLocationText,
-        _eventEntrancePrice,
-        _eventDescription;
+            _eventTitleText,
+            _eventCategoryText,
+            _eventDateText,
+            _eventTimeText,
+            _eventLocationText,
+            _eventEntrancePrice,
+            _eventDescription;
 
     private ImageView _eventImage;
 
     private ImageButton
-        _btnBack,
-        _favouriteButton;
+            _btnBack,
+            _favouriteButton;
 
 
     private FirebaseAuth _auth = null;
@@ -49,20 +49,19 @@ public final class EventDetails extends AppCompatActivity
     private boolean _isFavourite = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_event_details);
         ViewCompat.setOnApplyWindowInsetsListener
-        (
-            findViewById(R.id.main), (v, insets) ->
-            {
-                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-                return insets;
-            }
-        );
+                (
+                        findViewById(R.id.main), (v, insets) ->
+                        {
+                            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+                            return insets;
+                        }
+                );
 
         _auth = FirebaseAuth.getInstance();
         _db = FirebaseFirestore.getInstance();
@@ -85,66 +84,77 @@ public final class EventDetails extends AppCompatActivity
         Event event = (Event) getIntent().getExtras().getSerializable("Event");
         _eventTitleText.setText(event.getTitle());
         _eventCategoryText.setText(event.getCategory());
-        _eventDateText.setText(event.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        _eventTimeText.setText(event.getTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+
+        if (event.getDateTime() != null) {
+            _eventDateText.setText(event.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            _eventTimeText.setText(event.getTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+        } else {
+            _eventDateText.setText("-");
+            _eventTimeText.setText("-");
+        }
+
         _eventLocationText.setText(event.getLocation());
-        _eventEntrancePrice.setText("Entrada: " + event.getPrice() + " €");
+        _eventEntrancePrice.setText("Entrada: " + event.getPrice() + " EUR");
         _eventDescription.setText(event.getDescription());
+
+        if (event.getImageUrl() != null && !event.getImageUrl().trim().isEmpty()) {
+            Glide.with(this)
+                    .load(event.getImageUrl())
+                    .centerCrop()
+                    .placeholder(R.drawable.logopocho)
+                    .error(R.drawable.logopocho)
+                    .into(_eventImage);
+        } else {
+            _eventImage.setImageResource(R.drawable.logopocho);
+        }
 
         // Checks if the user has this event marked as favourite
         String userId = _auth.getCurrentUser().getUid();
         DocumentReference userReference = _db.collection("Usuarios").document(userId);
         userReference.get().addOnSuccessListener
-        (
-            documentSnapshot ->
-            {
-                if(documentSnapshot.exists())
-                {
-                    List<String> favourites = (List<String>) documentSnapshot.get("favourites");
-                    if(favourites != null && favourites.contains(event.getId()))
-                    {
-                        _isFavourite = true;
-                        _favouriteButton.setImageResource(R.drawable.icon_favourite_full);
-                    }
-                    else
-                    {
-                        _isFavourite = false;
-                        _favouriteButton.setImageResource(R.drawable.icon_favourite_empty);
-                    }
-                }
-            }
-        );
-
-        _favouriteButton.setOnClickListener
-        (
-            v ->
-            {
-                // Determines if the user is adding or removing from the favourite list based on the event's current state
-                FieldValue operation = _isFavourite ? FieldValue.arrayRemove(event.getId()) : FieldValue.arrayUnion(event.getId());
-
-                Map<String, Object> updates = new HashMap<>();
-                updates.put("favourites", operation);
-
-                userReference.set(updates, SetOptions.merge())
-                    .addOnSuccessListener
-                    (
-                        unused ->
+                (
+                        documentSnapshot ->
                         {
-                            // Flips the state and updates the favourite button icon
-                            _isFavourite = !_isFavourite;
-                            if(_isFavourite)
-                            {
-                                _favouriteButton.setImageResource(R.drawable.icon_favourite_full);
-                                Toast.makeText(this, "Evento añadido a favoritos", Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                            {
-                                _favouriteButton.setImageResource(R.drawable.icon_favourite_empty);
-                                Toast.makeText(this, "Evento eliminado de favoritos", Toast.LENGTH_SHORT).show();
+                            if (documentSnapshot.exists()) {
+                                List<String> favourites = (List<String>) documentSnapshot.get("favourites");
+                                if (favourites != null && favourites.contains(event.getId())) {
+                                    _isFavourite = true;
+                                    _favouriteButton.setImageResource(R.drawable.icon_favourite_full);
+                                } else {
+                                    _isFavourite = false;
+                                    _favouriteButton.setImageResource(R.drawable.icon_favourite_empty);
+                                }
                             }
                         }
-                    );
-            }
-        );
+                );
+
+        _favouriteButton.setOnClickListener
+                (
+                        v ->
+                        {
+                            // Determines if the user is adding or removing from the favourite list based on the event's current state
+                            FieldValue operation = _isFavourite ? FieldValue.arrayRemove(event.getId()) : FieldValue.arrayUnion(event.getId());
+
+                            Map<String, Object> updates = new HashMap<>();
+                            updates.put("favourites", operation);
+
+                            userReference.set(updates, SetOptions.merge())
+                                    .addOnSuccessListener
+                                            (
+                                                    unused ->
+                                                    {
+                                                        // Flips the state and updates the favourite button icon
+                                                        _isFavourite = !_isFavourite;
+                                                        if (_isFavourite) {
+                                                            _favouriteButton.setImageResource(R.drawable.icon_favourite_full);
+                                                            Toast.makeText(this, "Evento anadido a favoritos", Toast.LENGTH_SHORT).show();
+                                                        } else {
+                                                            _favouriteButton.setImageResource(R.drawable.icon_favourite_empty);
+                                                            Toast.makeText(this, "Evento eliminado de favoritos", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                            );
+                        }
+                );
     }
 }

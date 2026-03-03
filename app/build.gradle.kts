@@ -49,8 +49,10 @@ dependencies {
     // Firebase (Usando las variables del catálogo libs)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.messaging)
     implementation(libs.legacy.support.v4)
     implementation(libs.cardview)
+    implementation(libs.glide)
 
     // Tests (Eliminados duplicados)
     testImplementation(libs.junit)

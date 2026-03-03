@@ -45,7 +45,7 @@ public final class CategoriaItemAdapter extends RecyclerView.Adapter<CategoriaIt
 
             // 1. Validaciones previas
             if (nuevoNombre.isEmpty()) {
-                Toast.makeText(holder.itemView.getContext(), "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show();
+                Toast.makeText(holder.itemView.getContext(), "El nombre no puede estar vacio", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -55,11 +55,11 @@ public final class CategoriaItemAdapter extends RecyclerView.Adapter<CategoriaIt
             }
 
             new androidx.appcompat.app.AlertDialog.Builder(holder.itemView.getContext())
-                    .setTitle("Confirmar actualización")
+                    .setTitle("Confirmar actualizacion")
                     .setMessage("¿Deseas cambiar el nombre de '" + c.getNombre() + "' a '" + nuevoNombre + "'?")
                     .setPositiveButton("Actualizar", (dialog, which) -> {
                         actualizarCategoriaEnFirestore(c.getUid(), nuevoNombre, holder.itemView);
-                        c.setNombre(nuevoNombre); // Actualización local
+                        c.setNombre(nuevoNombre); // Actualizacion local
                         holder.nombre.clearFocus();
                     })
                     .setNegativeButton("Cancelar", (dialog, which) -> {
@@ -70,9 +70,9 @@ public final class CategoriaItemAdapter extends RecyclerView.Adapter<CategoriaIt
 
         holder.bt_eliminar.setOnClickListener(v -> {
             new androidx.appcompat.app.AlertDialog.Builder(holder.itemView.getContext())
-                    .setTitle("Eliminar categoría")
-                    .setMessage("¿Estás seguro de borrar " + c.getNombre() + "?")
-                    .setPositiveButton("Sí, borrar", (dialog, which) -> {
+                    .setTitle("Eliminar categoria")
+                    .setMessage("¿Estas seguro de borrar " + c.getNombre() + "?")
+                    .setPositiveButton("Si, borrar", (dialog, which) -> {
                         eliminarUsuario(c.getUid(), holder.getAdapterPosition(), holder.itemView);
                     })
                     .setNegativeButton("Cancelar", null)
@@ -85,7 +85,7 @@ public final class CategoriaItemAdapter extends RecyclerView.Adapter<CategoriaIt
         FirebaseFirestore.getInstance().collection("Categorias").document(uid)
                 .update("nombre", nuevoNombre)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(view.getContext(), "Categoría actualizada", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Categoria actualizada", Toast.LENGTH_SHORT).show();
                     // Actualizamos la lista de respaldo para que el filtro funcione con el nuevo nombre
                     this.categoriasFull = new ArrayList<>(this.categorias);
                 })

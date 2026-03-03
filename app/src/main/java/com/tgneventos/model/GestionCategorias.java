@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class GestionCategorias extends AppCompatActivity {
-    FloatingActionButton fabAñadir;
+    FloatingActionButton fabAnadir;
     private RecyclerView recyclerView;
     private CategoriaItemAdapter adapter;
     private List<Categoria> listaCategorias;
@@ -91,8 +91,8 @@ public final class GestionCategorias extends AppCompatActivity {
         };
         buscar.setOnQueryTextListener(listener);
 
-        fabAñadir = findViewById(R.id.añadir_categoria);
-        fabAñadir.setOnClickListener(v -> {
+        fabAnadir = findViewById(R.id.anadir_categoria);
+        fabAnadir.setOnClickListener(v -> {
             mostrarDialogoNuevaCategoria();
         });
     }
@@ -101,15 +101,15 @@ public final class GestionCategorias extends AppCompatActivity {
         input.setHint("Ej: Conferencias, Talleres...");
 
         new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("Nueva Categoría")
-                .setMessage("Introduce el nombre de la categoría:")
+                .setTitle("Nueva Categoria")
+                .setMessage("Introduce el nombre de la categoria:")
                 .setView(input)
                 .setPositiveButton("Guardar", (dialog, which) -> {
                     String nombre = input.getText().toString().trim();
                     if (!nombre.isEmpty()) {
                         guardarCategoriaEnFirestore(nombre);
                     } else {
-                        Toast.makeText(this, "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "El nombre no puede estar vacio", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Cancelar", null)
@@ -123,7 +123,7 @@ public final class GestionCategorias extends AppCompatActivity {
         db.collection("Categorias")
                 .add(nuevaCategoria)
                 .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(this, "Categoría añadida: " + nombre, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Categoria anadida: " + nombre, Toast.LENGTH_SHORT).show();
                     cargarCategoriasDeFirestore();
                 })
                 .addOnFailureListener(e -> {

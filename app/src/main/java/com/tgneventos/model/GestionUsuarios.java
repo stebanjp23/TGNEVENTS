@@ -92,8 +92,8 @@ public final class GestionUsuarios extends AppCompatActivity {
     }
 
     private void cargarUsuariosDeFirestore() {
-        // Usamos "usuarios" en minúscula como en tu Login
-        db.collection("Usuarios").get() //NO OLVIDAR, LA COLECCIÓN ES CON "U" EN MAYUSCULAS. NO MINUSCULAS!!!
+        // Usamos "usuarios" en minuscula como en tu Login
+        db.collection("Usuarios").get() // NO OLVIDAR: LA COLECCION ES CON "U" MAYUSCULA
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         listaUsuarios.clear();

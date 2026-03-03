@@ -89,7 +89,7 @@
             android:id="@+id/Password_nueva"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Contraseña"
+            android:hint="Contrasena"
             android:inputType="textPassword"
             android:textAlignment="center"
             android:textColor="@color/black" />

@@ -1,6 +1,7 @@
 package com.tgneventos.recyclerviewadapters;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tgneventos.model.EventDetails;
 import com.tgneventos.pojo.Event;
 import com.tgneventos.R;
+import com.bumptech.glide.Glide;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.material.card.MaterialCardView;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -61,7 +64,22 @@ public final class EventItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             eventItem.getEventItemTitle().setText(event.getTitle());
             eventItem.getEventItemDescription().setText(event.getDescription());
-            eventItem.getEventItemTime().setText(event.getTime().toString());
+            if (event.getDateTime() != null) {
+                eventItem.getEventItemTime().setText(event.getTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+            } else {
+                eventItem.getEventItemTime().setText("--:--");
+            }
+
+            if (!TextUtils.isEmpty(event.getImageUrl())) {
+                Glide.with(eventItem.itemView)
+                        .load(event.getImageUrl())
+                        .centerCrop()
+                        .placeholder(R.drawable.logopocho)
+                        .error(R.drawable.logopocho)
+                        .into(eventItem.getEventItemImage());
+            } else {
+                eventItem.getEventItemImage().setImageResource(R.drawable.logopocho);
+            }
 
             ViewGroup.LayoutParams lp = eventItem.itemView.getLayoutParams();
             FlexboxLayoutManager.LayoutParams flexboxLp = (FlexboxLayoutManager.LayoutParams) lp;

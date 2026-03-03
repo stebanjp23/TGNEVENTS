@@ -34,7 +34,7 @@ public final class Filters extends AppCompatActivity {
     private LinearLayout _startDateField, _endDateField; //Fechas
     private EditText keysearch; //Campo de palabras clave
     private Button _btnAplicarFiltros; //bt para filtrar
-    private AutoCompleteTextView _spinnerCiudad, _spinnerCategoria; //desplegables de ciudad y categoría
+    private AutoCompleteTextView _spinnerCiudad, _spinnerCategoria; //desplegables de ciudad y categoria
 
 
 
@@ -48,7 +48,7 @@ public final class Filters extends AppCompatActivity {
         setContentView(R.layout.activity_filters);
 
 
-        // Configuración de Insets (márgenes de sistema)
+        // Configuracion de Insets (margenes de sistema)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -56,7 +56,7 @@ public final class Filters extends AppCompatActivity {
 
         });
 
-        //Btn de Retroceso al menú principal
+        //Btn de Retroceso al menu principal
         _btnBack = findViewById(R.id.btnBack);
         _btnBack.setOnClickListener(v -> finish());
 
@@ -67,9 +67,7 @@ public final class Filters extends AppCompatActivity {
         _startDateField.setOnClickListener(v -> datePickDialog(_startDateField));
         _endDateField.setOnClickListener(v -> datePickDialog(_endDateField));
         keysearch = findViewById(R.id.keysearch);
-
-
-        // 2. Inicializar Selectores de Ciudad y Categoría (Exposed Dropdown)ç
+        // 2. Inicializar selectores de ciudad y categoria (Exposed Dropdown)
         try {
             setupSpinners();
         } catch (Exception e) {
@@ -78,7 +76,7 @@ public final class Filters extends AppCompatActivity {
         }
 
 
-        // 4. Botón de Aplicar Filtros
+        // 4. Boton de Aplicar Filtros
         _btnAplicarFiltros = findViewById(R.id.btnAplicarFiltros);
         _btnAplicarFiltros.setOnClickListener(v -> aplicarYEnviarFiltros());
     }
@@ -95,7 +93,7 @@ public final class Filters extends AppCompatActivity {
         db.collection("Locacions").get().addOnSuccessListener(queryDocumentSnapshots -> {
             List<String> ubicaciones = new ArrayList<>();
             for (com.google.firebase.firestore.DocumentSnapshot doc : queryDocumentSnapshots) {
-                // Asegúrate de que el campo en Firebase se llame "nombre"
+                // Asegurate de que el campo en Firebase se llame "nombre"
                 String nombre_ubi = doc.getString("Nom");
                 if (nombre_ubi != null) ubicaciones.add(nombre_ubi);
             }
@@ -105,7 +103,7 @@ public final class Filters extends AppCompatActivity {
             _spinnerCiudad.setAdapter(adapterUbi); // _spinnerCiudad es el ID de tu XML
         });
 
-        // Configurar Categorías
+        // Configurar Categorias
         _spinnerCategoria = findViewById(R.id.spinnerCategoria);
 
         // 1. Cargar Categorias desde la BD
@@ -138,18 +136,18 @@ public final class Filters extends AppCompatActivity {
         LocalDate startDate = parseLocalDate(startDateTextView.getText().toString());
         LocalDate endDate = parseLocalDate(endDateTextView.getText().toString());
 
-        // Obtener Ciudad y Categoría
+        // Obtener Ciudad y Categoria
         String ciudad = _spinnerCiudad.getText().toString();
         String categoria = _spinnerCategoria.getText().toString();
 
-        // Limpiar valores si el usuario no seleccionó nada
+        // Limpiar valores si el usuario no selecciono nada
         if (ciudad.isEmpty()) ciudad = null;
         if (categoria.isEmpty()) categoria = null;
 
-        // CAPTURAR LA BÚSQUEDA POR TEXTO LIBRE
+        // CAPTURAR LA BUSQUEDA POR TEXTO LIBRE
         String textoBusqueda = keysearch.getText().toString().trim();
         if (!textoBusqueda.isEmpty()) {
-            // Añadimos el texto a la lista de palabras clave
+            // Anadimos el texto a la lista de palabras clave
             _keywords.clear(); // Limpiamos para que solo busque lo que hay escrito ahora
             _keywords.add(textoBusqueda);
         }
@@ -162,7 +160,7 @@ public final class Filters extends AppCompatActivity {
         mainMenu.putExtra("Filters", filterData);
         mainMenu.putExtra("Es_admin", getIntent().getBooleanExtra("Es_admin", false));
 
-        // Usar FLAG_ACTIVITY_CLEAR_TOP para volver a la instancia existente del menú si es necesario
+        // Usar FLAG_ACTIVITY_CLEAR_TOP para volver a la instancia existente del menu si es necesario
         mainMenu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mainMenu);
         finish();

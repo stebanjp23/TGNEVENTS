@@ -38,7 +38,7 @@
             android:name="com.tgneventos.model.Favourites"
             android:exported="false" />
         <activity
-            android:name="com.tgneventos.model.AgregarEventos"
+            android:name="com.tgneventos.model.GestionEventos"
             android:exported="false" />
         <activity
             android:name="com.tgneventos.model.GestionCategorias"

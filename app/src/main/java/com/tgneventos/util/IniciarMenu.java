@@ -65,8 +65,8 @@ public final class IniciarMenu {
                         }
                         break;
                     case R.id.nav_agregarEventos:
-                        if (!(activity instanceof AgregarEventos)) {
-                            Intent intent = new Intent(activity, AgregarEventos.class);
+                        if (!(activity instanceof GestionEventos)) {
+                            Intent intent = new Intent(activity, GestionEventos.class);
                             intent.putExtra("Es_admin", isAdmin);
                             activity.startActivity(intent);
                         }

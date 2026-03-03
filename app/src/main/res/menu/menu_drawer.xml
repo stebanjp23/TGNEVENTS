@@ -12,8 +12,8 @@
         android:icon="@android:drawable/btn_star" />
     <item
         android:id="@+id/nav_config"
-        android:title="Configuracion"
-        android:icon="@android:drawable/ic_menu_preferences" />
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="Configuración" />
 
     <item android:id="@+id/administracion"
         android:title="Administracion" >
@@ -26,7 +26,7 @@
                 <item
                     android:id="@+id/nav_gesCategoria"
                     android:icon="@android:drawable/ic_menu_agenda"
-                    android:title="Gestion de Categorias" />
+                    android:title="Gestion de Categorías" />
                 <item
                     android:id="@+id/nav_agregarEventos"
                     android:icon="@android:drawable/ic_menu_add"
@@ -38,8 +38,8 @@
     <group android:id="@+id/group_logout">
         <item
             android:id="@+id/nav_logout"
-            android:title="Cerrar Sesion"
-            android:icon="@android:drawable/ic_lock_power_off" />
+            android:icon="@android:drawable/ic_lock_power_off"
+            android:title="Cerrar Sesión" />
     </group>
 
 </menu>

@@ -43,7 +43,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class AgregarEventos extends AppCompatActivity {
+public final class GestionEventos extends AppCompatActivity {
 
     private static final String TAG = "GestionEventos";
     private static final DateTimeFormatter DATE_INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -60,7 +60,7 @@ public final class AgregarEventos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_agregar_eventos);
+        setContentView(R.layout.activity_gestion_eventos);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

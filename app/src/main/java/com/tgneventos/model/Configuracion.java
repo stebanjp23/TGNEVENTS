@@ -1,6 +1,7 @@
 package com.tgneventos.model;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,8 +32,10 @@ public final class Configuracion extends AppCompatActivity {
     private LinearLayout confContrasena;
     private SwitchCompat confModoOscuro;
     private SwitchCompat confNotificaciones;
+    private LinearLayout confCerrarSesion;
     private boolean updatingNotificationSwitch = false;
     private boolean permissionRequestedFromToggle = false;
+    private boolean isUpdatingDarkModeSwitch = false;
 
     private final ActivityResultLauncher<String> notificationPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
@@ -78,10 +81,22 @@ public final class Configuracion extends AppCompatActivity {
         confContrasena = findViewById(R.id.config_contrasena);
         confModoOscuro = findViewById(R.id.config_modo_oscuro);
         confNotificaciones = findViewById(R.id.config_notificaciones);
+        confCerrarSesion = findViewById(R.id.config_cerrar_sesion);
 
         setupPasswordReset();
         setupDarkModeToggle();
         setupNotificationToggle();
+        confCerrarSesion.setOnClickListener
+        (
+            v ->
+            {
+                com.google.firebase.auth.FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(this, Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        );
     }
 
     private void setupPasswordReset() {
@@ -119,11 +134,22 @@ public final class Configuracion extends AppCompatActivity {
     }
 
     private void setupDarkModeToggle() {
-        confModoOscuro.setChecked(ThemePreferences.isDarkModeEnabled(this));
+        boolean isCurrentlyDark = ThemePreferences.isDarkModeEnabled(this);
+
+        isUpdatingDarkModeSwitch = true;
+        confModoOscuro.setChecked(isCurrentlyDark);
+        isUpdatingDarkModeSwitch = false;
 
         confModoOscuro.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isUpdatingDarkModeSwitch) return;
+
+            if (isChecked == ThemePreferences.isDarkModeEnabled(this)) return;
+
             ThemePreferences.setDarkModeEnabled(this, isChecked);
-            ThemePreferences.applySavedNightMode(this);
+
+            buttonView.post(() -> {
+                ThemePreferences.applySavedNightMode(Configuracion.this);
+            });
         });
     }
 

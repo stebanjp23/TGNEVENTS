@@ -8,8 +8,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -257,10 +260,10 @@ public final class GestionEventos extends AppCompatActivity {
         View formView = getLayoutInflater().inflate(R.layout.dialog_evento_form, null);
 
         EditText inputTitulo = formView.findViewById(R.id.input_titulo_evento);
-        EditText inputCategoria = formView.findViewById(R.id.input_categoria_evento);
+        AutoCompleteTextView inputCategoria = formView.findViewById(R.id.input_categoria_evento);
         EditText inputFecha = formView.findViewById(R.id.input_fecha_evento);
         EditText inputHora = formView.findViewById(R.id.input_hora_evento);
-        EditText inputUbicacion = formView.findViewById(R.id.input_ubicacion_evento);
+        AutoCompleteTextView inputUbicacion = formView.findViewById(R.id.input_ubicacion_evento);
         EditText inputPrecio = formView.findViewById(R.id.input_precio_evento);
         EditText inputDescripcion = formView.findViewById(R.id.input_descripcion_evento);
         EditText inputImagen = formView.findViewById(R.id.input_imagen_evento);
@@ -270,8 +273,37 @@ public final class GestionEventos extends AppCompatActivity {
 
         if (esEdicion) {
             inputTitulo.setText(eventoExistente.getTitle());
-            inputCategoria.setText(eventoExistente.getCategory());
-            inputUbicacion.setText(eventoExistente.getLocation());
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            // 1. Cargar Ubicaciones desde la BD
+            db.collection("Locacions").get().addOnSuccessListener(queryDocumentSnapshots -> {
+                List<String> ubicaciones = new ArrayList<>();
+                for (com.google.firebase.firestore.DocumentSnapshot doc : queryDocumentSnapshots) {
+                    // Asegurate de que el campo en Firebase se llame "nombre"
+                    String nombre_ubi = doc.getString("Nom");
+                    if (nombre_ubi != null) ubicaciones.add(nombre_ubi);
+                }
+
+                ArrayAdapter<String> adapterUbi = new ArrayAdapter<>(this,
+                        android.R.layout.simple_dropdown_item_1line, ubicaciones);
+                inputUbicacion.setAdapter(adapterUbi); // _spinnerCiudad es el ID de tu XML
+            });
+
+            db.collection("Categorias").get().addOnSuccessListener(queryDocumentSnapshots -> {
+                List<String> categorias = new ArrayList<>();
+                try {
+                    for (com.google.firebase.firestore.DocumentSnapshot doc : queryDocumentSnapshots) {
+                        String nombre_categoria = doc.getString("nombre");
+                        if (nombre_categoria != null) categorias.add(nombre_categoria);
+                    }
+
+                }catch (Exception e){
+                    Log.e("CATEGORIAS CRASH", "Error al inicializar categorias", e);
+                }
+
+                ArrayAdapter<String> spiner_categorias = new ArrayAdapter<>(this,
+                        android.R.layout.simple_dropdown_item_1line, categorias);
+                inputCategoria.setAdapter(spiner_categorias); // _spinnercat es el ID de tu XML
+            });
             inputDescripcion.setText(eventoExistente.getDescription());
             inputPrecio.setText(String.valueOf(eventoExistente.getPrice()));
             inputImagen.setText(eventoExistente.getImageUrl());
@@ -370,10 +402,10 @@ public final class GestionEventos extends AppCompatActivity {
 
     private Event construirEventoDesdeFormulario(
             EditText inputTitulo,
-            EditText inputCategoria,
+            AutoCompleteTextView inputCategoria,
             EditText inputFecha,
             EditText inputHora,
-            EditText inputUbicacion,
+            AutoCompleteTextView inputUbicacion,
             EditText inputPrecio,
             EditText inputDescripcion,
             EditText inputImagen
@@ -392,11 +424,11 @@ public final class GestionEventos extends AppCompatActivity {
             return null;
         }
         if (categoria.isEmpty()) {
-            inputCategoria.setError("Categoria obligatoria");
+            inputTitulo.setError("Categoria obligatorio");
             return null;
         }
         if (ubicacion.isEmpty()) {
-            inputUbicacion.setError("Ubicacion obligatoria");
+            inputDescripcion.setError("Ubicacion obligatoria");
             return null;
         }
         if (descripcion.isEmpty()) {
@@ -521,4 +553,5 @@ public final class GestionEventos extends AppCompatActivity {
             return LocalTime.of(12, 0);
         }
     }
+
 }

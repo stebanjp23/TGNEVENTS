@@ -5,15 +5,42 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D12C2C"
+    android:background="#D90A13"
     tools:context="com.tgneventos.model.Registro">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="412dp"
+        android:layout_height="201dp"
+        android:contentDescription="User Icon"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bandera_de_tarragona_svg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/welcomeTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:shadowColor="#40000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        android:text="TGN Eventos"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutNombre"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="343dp"
         android:layout_height="wrap_content"
-        app:hintEnabled="false"
         app:boxBackgroundColor="@color/white"
         app:boxCornerRadiusBottomEnd="12dp"
         app:boxCornerRadiusBottomStart="12dp"
@@ -21,6 +48,7 @@
         app:boxCornerRadiusTopStart="12dp"
         app:boxStrokeColor="#FFEB3B"
         app:boxStrokeWidthFocused="1dp"
+        app:hintEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +71,6 @@
         android:layout_width="341dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:hintEnabled="false"
         app:boxBackgroundColor="@color/white"
         app:boxCornerRadiusBottomEnd="12dp"
         app:boxCornerRadiusBottomStart="12dp"
@@ -51,6 +78,7 @@
         app:boxCornerRadiusTopStart="12dp"
         app:boxStrokeColor="#FFEB3B"
         app:boxStrokeWidthFocused="1dp"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="@+id/layoutNombre"
         app:layout_constraintStart_toStartOf="@+id/layoutNombre"
         app:layout_constraintTop_toBottomOf="@+id/layoutNombre">
@@ -71,7 +99,6 @@
         android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:hintEnabled="false"
         app:boxBackgroundColor="@color/white"
         app:boxCornerRadiusBottomEnd="12dp"
         app:boxCornerRadiusBottomStart="12dp"
@@ -81,6 +108,7 @@
         app:boxStrokeWidthFocused="1dp"
         app:endIconMode="password_toggle"
         app:endIconTint="#D12C2C"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="@+id/layoutCorreoNuevo"
         app:layout_constraintStart_toStartOf="@+id/layoutCorreoNuevo"
         app:layout_constraintTop_toBottomOf="@+id/layoutCorreoNuevo">
@@ -108,28 +136,5 @@
         app:layout_constraintEnd_toEndOf="@+id/layoutPasswordNueva"
         app:layout_constraintStart_toStartOf="@+id/layoutPasswordNueva"
         app:layout_constraintTop_toBottomOf="@+id/layoutPasswordNueva" />
-
-    <FrameLayout
-        android:id="@+id/lineaDecorativa3"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:background="#FFEB3B"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <FrameLayout
-        android:id="@+id/lineaDecorativa2"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="#FFEB3B"
-        app:layout_constraintBottom_toTopOf="@+id/lineaDecorativa3" />
-
-    <FrameLayout
-        android:id="@+id/lineaDecorativa1"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="#FFEB3B"
-        app:layout_constraintBottom_toTopOf="@+id/lineaDecorativa2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

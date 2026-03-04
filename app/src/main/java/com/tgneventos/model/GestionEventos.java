@@ -277,32 +277,33 @@ public final class GestionEventos extends AppCompatActivity {
             // 1. Cargar Ubicaciones desde la BD
             db.collection("Locacions").get().addOnSuccessListener(queryDocumentSnapshots -> {
                 List<String> ubicaciones = new ArrayList<>();
-                for (com.google.firebase.firestore.DocumentSnapshot doc : queryDocumentSnapshots) {
-                    // Asegurate de que el campo en Firebase se llame "nombre"
-                    String nombre_ubi = doc.getString("Nom");
-                    if (nombre_ubi != null) ubicaciones.add(nombre_ubi);
+                for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                    String nombre = doc.getString("Nom");
+                    if (nombre != null) ubicaciones.add(nombre);
                 }
+                ArrayAdapter<String> adapterUbi = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, ubicaciones);
+                inputUbicacion.setAdapter(adapterUbi);
 
-                ArrayAdapter<String> adapterUbi = new ArrayAdapter<>(this,
-                        android.R.layout.simple_dropdown_item_1line, ubicaciones);
-                inputUbicacion.setAdapter(adapterUbi); // _spinnerCiudad es el ID de tu XML
+                // SI ES EDICIÓN: Seteamos el valor actual después de cargar la lista
+                if (esEdicion && eventoExistente.getLocation() != null) {
+                    inputUbicacion.setText(eventoExistente.getLocation(), false);
+                }
             });
 
+            // --- CARGAR CATEGORÍAS ---
             db.collection("Categorias").get().addOnSuccessListener(queryDocumentSnapshots -> {
                 List<String> categorias = new ArrayList<>();
-                try {
-                    for (com.google.firebase.firestore.DocumentSnapshot doc : queryDocumentSnapshots) {
-                        String nombre_categoria = doc.getString("nombre");
-                        if (nombre_categoria != null) categorias.add(nombre_categoria);
-                    }
-
-                }catch (Exception e){
-                    Log.e("CATEGORIAS CRASH", "Error al inicializar categorias", e);
+                for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                    String nombre = doc.getString("nombre");
+                    if (nombre != null) categorias.add(nombre);
                 }
+                ArrayAdapter<String> adapterCat = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categorias);
+                inputCategoria.setAdapter(adapterCat);
 
-                ArrayAdapter<String> spiner_categorias = new ArrayAdapter<>(this,
-                        android.R.layout.simple_dropdown_item_1line, categorias);
-                inputCategoria.setAdapter(spiner_categorias); // _spinnercat es el ID de tu XML
+                // SI ES EDICIÓN: Seteamos el valor actual
+                if (esEdicion && eventoExistente.getCategory() != null) {
+                    inputCategoria.setText(eventoExistente.getCategory(), false);
+                }
             });
             inputDescripcion.setText(eventoExistente.getDescription());
             inputPrecio.setText(String.valueOf(eventoExistente.getPrice()));
@@ -424,11 +425,11 @@ public final class GestionEventos extends AppCompatActivity {
             return null;
         }
         if (categoria.isEmpty()) {
-            inputTitulo.setError("Categoria obligatorio");
+            inputCategoria.setError("Categoria obligatorio");
             return null;
         }
         if (ubicacion.isEmpty()) {
-            inputDescripcion.setError("Ubicacion obligatoria");
+            inputUbicacion.setError("Ubicacion obligatoria");
             return null;
         }
         if (descripcion.isEmpty()) {

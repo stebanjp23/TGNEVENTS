@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "TGN Eventos"
 include(":app")
- 

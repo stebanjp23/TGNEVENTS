@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -13,6 +14,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.tgneventos.pojo.Usuario;
 import com.tgneventos.R;
 import com.tgneventos.util.NotificationPreferences;
@@ -27,6 +29,8 @@ public final class Login extends AppCompatActivity implements View.OnClickListen
     private EditText Password;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private TextView recuperar_contraseña;
+    private GoogleSignInClient GoogleSignInOptions;
 
 
     @Override
@@ -48,6 +52,31 @@ public final class Login extends AppCompatActivity implements View.OnClickListen
         Password = findViewById(R.id.Password);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        recuperar_contraseña = findViewById(R.id.btnRecuperarPass);
+
+        recuperar_contraseña.setOnClickListener(v -> {
+            String correo = Correo.getText().toString();
+
+            if (correo.isEmpty()) {
+                Correo.setError("Introduce tu correo para enviar el enlace de recuperación");
+                return;
+            }
+
+            // Usamos el FirebaseAuth para enviar el correo de reset
+            FirebaseAuth.getInstance().sendPasswordResetEmail(correo)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            new androidx.appcompat.app.AlertDialog.Builder(this)
+                                    .setTitle("Correo de recuperación")
+                                    .setMessage("Se ha enviado un enlace a " + correo + " para restablecer tu contraseña.")
+                                    .setPositiveButton("Entendido", null)
+                                    .show();
+                        } else {
+                            Toast.makeText(this, "Error: El correo no está registrado o es inválido", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+        });
 
     }
 

@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.legacy.support.v4)
     implementation(libs.cardview)
     implementation(libs.glide)
+    implementation (libs.gms.play.services.auth)
+
 
     // Tests (Eliminados duplicados)
     testImplementation(libs.junit)

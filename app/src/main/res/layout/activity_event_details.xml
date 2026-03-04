@@ -200,8 +200,8 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        app:srcCompat="@android:drawable/ic_menu_set_as"
-                        app:tint="#FF2C2C" />
+                        app:srcCompat="@drawable/icons8_enlace_externo"
+                        app:tint="#D12C2C" />
 
                     <TextView
                         android:id="@+id/eventUbicationText"

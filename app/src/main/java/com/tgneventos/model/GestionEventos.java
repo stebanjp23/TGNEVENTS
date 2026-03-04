@@ -157,67 +157,81 @@ public final class GestionEventos extends AppCompatActivity {
     private List<Event> crearEventosDeEjemplo() {
         List<Event> eventos = new ArrayList<>();
 
-        eventos.add(crearEventoEjemplo(
-                "Tarraco Viva: Recreacion Romana",
-                "Cultura",
-                LocalDateTime.of(2026, 5, 17, 18, 0),
-                "Anfiteatro de Tarragona",
-                12.0,
-                "Visitas teatralizadas y recreaciones historicas del mundo romano.",
-                "https://picsum.photos/id/1040/1200/800"
-        ));
+        // 1. Magia - Mago Hugo
+        eventos.add(crearEventoCompleto("Mago Hugo - Imagina", "Familiar",
+                LocalDateTime.of(2026, 3, 13, 19, 0), "Palau de Congressos", 15.0,
+                "Espectáculo de ilusionismo y magia de cerca.", "https://picsum.photos/seed/magic/800/600",
+                "https://maps.app.goo.gl/9rR5S7Gv7K1uP2pB7", "https://agenda.tarragona.cat/esdeveniment/mago-hugo-imagina/9355"));
 
-        eventos.add(crearEventoEjemplo(
-                "Festival Dixieland Tarragona",
-                "Musica",
-                LocalDateTime.of(2026, 4, 25, 20, 0),
-                "Teatre Metropol",
-                15.0,
-                "Noche de jazz en el centro historico con bandas invitadas.",
-                "https://picsum.photos/id/1011/1200/800"
-        ));
+        // 2. Ópera - Norma
+        eventos.add(crearEventoCompleto("Norma (Ópera)", "Musica",
+                LocalDateTime.of(2026, 3, 13, 18, 0), "Teatre Tarragona", 45.0,
+                "Tragedia lírica en dos actos de Vincenzo Bellini.", "https://picsum.photos/seed/opera/800/600",
+                "https://maps.app.goo.gl/uXv7uF8yS6T2N1rA9", "https://agenda.tarragona.cat/esdeveniment/norma-vincenzo-bellini/9142"));
 
-        eventos.add(crearEventoEjemplo(
-                "Concierto de Santa Tecla",
-                "Fiesta",
-                LocalDateTime.of(2026, 9, 20, 21, 30),
-                "Placa de la Font",
-                0.0,
-                "Concierto al aire libre dentro del programa de fiestas de Santa Tecla.",
-                "https://picsum.photos/id/1062/1200/800"
-        ));
+        // 3. Tributo - Brothers in Band
+        eventos.add(crearEventoCompleto("Brothers in Band (Dire Straits)", "Musica",
+                LocalDateTime.of(2026, 3, 14, 21, 0), "Palau de Congressos", 38.0,
+                "The Very Best of Dire Straits Show.", "https://picsum.photos/seed/rock/800/600",
+                "https://maps.app.goo.gl/9rR5S7Gv7K1uP2pB7", "https://agenda.tarragona.cat/esdeveniment/brothers-in-band/9344"));
 
-        eventos.add(crearEventoEjemplo(
-                "Concurs de Castells",
-                "Tradicion",
-                LocalDateTime.of(2026, 10, 3, 12, 0),
-                "Tarraco Arena Placa",
-                18.0,
-                "Jornada principal del concurso con colles de toda Catalunya.",
-                "https://picsum.photos/id/1025/1200/800"
-        ));
+        // 4. Teatro - La Tempestat
+        eventos.add(crearEventoCompleto("La Tempestat", "Teatro",
+                LocalDateTime.of(2026, 3, 14, 20, 0), "Teatre Tarragona", 24.0,
+                "Obra de Shakespeare dirigida por Oriol Broggi.", "https://picsum.photos/seed/theater/800/600",
+                "https://maps.app.goo.gl/uXv7uF8yS6T2N1rA9", "https://agenda.tarragona.cat/esdeveniment/la-tempestat-de-william-shakespeare/9138"));
+
+        // 5. Pop - Pablo López
+        eventos.add(crearEventoCompleto("Pablo López en Concierto", "Musica",
+                LocalDateTime.of(2026, 3, 15, 21, 0), "Palau de Congressos", 50.0,
+                "Gira 'El Niño del Espacio' en directo.", "https://picsum.photos/seed/pablo/800/600",
+                "https://maps.app.goo.gl/9rR5S7Gv7K1uP2pB7", "https://agenda.tarragona.cat/esdeveniment/pablo-lopez/9350"));
+
+        // 6. Geek - Starraco Infinity
+        eventos.add(crearEventoCompleto("Starraco Infinity 2026", "Feria",
+                LocalDateTime.of(2026, 3, 21, 10, 0), "Recinte Firal", 12.0,
+                "Convención de ciencia ficción y fantasía.", "https://picsum.photos/seed/star/800/600",
+                "https://maps.app.goo.gl/q3E6J9V8H2M1L5R4", "https://agenda.tarragona.cat/esdeveniment/starraco-infinity-2026/9200"));
+
+        // 7. Clásica - Leonard Slatkin
+        eventos.add(crearEventoCompleto("Leonard Slatkin & Simfònica", "Musica",
+                LocalDateTime.of(2026, 3, 21, 20, 0), "Teatre Tarragona", 35.0,
+                "Franz Schubert Filharmonia presenta la 9ª de Schubert.", "https://picsum.photos/seed/classic/800/600",
+                "https://maps.app.goo.gl/uXv7uF8yS6T2N1rA9", "https://agenda.tarragona.cat/esdeveniment/leonard-slatkin-franz-schubert-filharmonia/9144"));
+
+        // 8. Danza - Festival Dansa TGN
+        eventos.add(crearEventoCompleto("Festival Dansa Tarragona", "Danza",
+                LocalDateTime.of(2026, 3, 25, 18, 30), "Espais de la Ciutat", 0.0,
+                "Espectáculos de danza contemporánea en la calle.", "https://picsum.photos/seed/dance/800/600",
+                "https://maps.app.goo.gl/uXv7uF8yS6T2N1rA9", "https://agenda.tarragona.cat/esdeveniment/festival-dansa-tarragona/9400"));
+
+        // 9. Guitarra - Mediterranean Fest
+        eventos.add(crearEventoCompleto("Mediterranean Guitar Festival", "Musica",
+                LocalDateTime.of(2026, 3, 28, 20, 30), "Església Sant Llorenç", 15.0,
+                "Concierto de guitarra clásica y española.", "https://picsum.photos/seed/guitar/800/600",
+                "https://maps.app.goo.gl/K9N8H7L6J5I4U3Y2", "https://agenda.tarragona.cat/esdeveniment/mediterranean-guitar-festival/9500"));
+
+        // 10. Cultura - Portes Obertes MNAT
+        eventos.add(crearEventoCompleto("Portes Obertes: MNAT", "Cultura",
+                LocalDateTime.of(2026, 3, 29, 11, 0), "Museu Arqueològic", 0.0,
+                "Visita gratuita al Museo Nacional Arqueológico de Tarragona.", "https://picsum.photos/seed/roma/800/600",
+                "https://maps.app.goo.gl/P2O1M0L9K8J7I6H5", "https://www.mnat.cat"));
 
         return eventos;
     }
-
-    private Event crearEventoEjemplo(
-            String titulo,
-            String categoria,
-            LocalDateTime fechaHora,
-            String ubicacion,
-            double precio,
-            String descripcion,
-            String imageUrl
-    ) {
-        Event evento = new Event();
-        evento.setTitle(titulo);
-        evento.setCategory(categoria);
-        evento.setDateTime(fechaHora);
-        evento.setLocation(ubicacion);
-        evento.setPrice(precio);
-        evento.setDescription(descripcion);
-        evento.setImageUrl(imageUrl);
-        return evento;
+    // Método auxiliar actualizado para incluir los campos _ubication y _web
+    private Event crearEventoCompleto(String t, String cat, LocalDateTime dt, String loc, double p, String desc, String img, String maps, String web) {
+        Event e = new Event();
+        e.setTitle(t);
+        e.setCategory(cat);
+        e.setDateTime(dt);
+        e.setLocation(loc);
+        e.setPrice(p);
+        e.setDescription(desc);
+        e.setImageUrl(img);
+        e.set_ubication(maps); // Campo para Google Maps
+        e.set_web(web);         // Campo para la web oficial
+        return e;
     }
 
     private void cargarEventosDeFirestore() {

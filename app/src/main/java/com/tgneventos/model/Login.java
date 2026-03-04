@@ -2,6 +2,7 @@ package com.tgneventos.model;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,18 +10,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.tgneventos.pojo.Usuario;
-import com.tgneventos.R;
-import com.tgneventos.util.NotificationPreferences;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
-import androidx.appcompat.app.AlertDialog;
+import com.tgneventos.R;
+import com.tgneventos.pojo.Usuario;
+import com.tgneventos.util.NotificationPreferences;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public final class Login extends AppCompatActivity implements View.OnClickListener {
     private Button Registrar;
@@ -30,20 +43,18 @@ public final class Login extends AppCompatActivity implements View.OnClickListen
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private TextView recuperar_contraseña;
-    private GoogleSignInClient GoogleSignInOptions;
 
+    // Variables de Google
+    private GoogleSignInClient mGoogleSignInClient;
+    private static final int RC_SIGN_IN = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
+        // --- INICIALIZACIÓN ---
         Registrar = findViewById(R.id.Registrar);
         Registrar.setOnClickListener(this);
         Iniciar = findViewById(R.id.Iniciar);
@@ -54,158 +65,181 @@ public final class Login extends AppCompatActivity implements View.OnClickListen
         db = FirebaseFirestore.getInstance();
         recuperar_contraseña = findViewById(R.id.btnRecuperarPass);
 
-        recuperar_contraseña.setOnClickListener(v -> {
-            String correo = Correo.getText().toString();
+        // --- LÓGICA DE GOOGLE (Configuración) ---
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
 
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        // Asignar el click al botón de Google
+        findViewById(R.id.btnGoogle).setOnClickListener(v -> iniciarSesionGoogle());
+
+        // --- LÓGICA RECUPERAR PASS ---
+        recuperar_contraseña.setOnClickListener(v -> {
+            String correo = Correo.getText().toString().trim();
             if (correo.isEmpty()) {
-                Correo.setError("Introduce tu correo para enviar el enlace de recuperación");
+                Correo.setError("Introduce tu correo");
                 return;
             }
-
-            // Usamos el FirebaseAuth para enviar el correo de reset
-            FirebaseAuth.getInstance().sendPasswordResetEmail(correo)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            new androidx.appcompat.app.AlertDialog.Builder(this)
-                                    .setTitle("Correo de recuperación")
-                                    .setMessage("Se ha enviado un enlace a " + correo + " para restablecer tu contraseña.")
-                                    .setPositiveButton("Entendido", null)
-                                    .show();
-                        } else {
-                            Toast.makeText(this, "Error: El correo no está registrado o es inválido", Toast.LENGTH_LONG).show();
-                        }
-                    });
-
+            mAuth.sendPasswordResetEmail(correo).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    new AlertDialog.Builder(this)
+                            .setTitle("Correo enviado")
+                            .setMessage("Revisa tu bandeja para restablecer la contraseña.")
+                            .setPositiveButton("Ok", null).show();
+                }
+            });
         });
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
     }
+
+    // --- MÉTODOS DE GOOGLE ---
+
+    private void iniciarSesionGoogle() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                if (account != null) {
+                    firebaseAuthWithGoogle(account.getIdToken());
+                }
+            } catch (ApiException e) {
+                Log.w("GoogleAuth", "Fallo inicio Google", e);
+                Toast.makeText(this, "Error al conectar con Google", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        // Google ya verifica el email, así que vamos directo a Firestore
+                        comprobarYCrearUsuarioEnFirestore(user);
+                    } else {
+                        Toast.makeText(this, "Error de autenticación con Firebase", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void comprobarYCrearUsuarioEnFirestore(FirebaseUser user) {
+        if (user == null) return;
+
+        db.collection("Usuarios").document(user.getUid()).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // El usuario ya existía, cargamos sus datos
+                        ObtenerDatosUsuario(user.getUid());
+                    } else {
+                        // Es la primera vez que entra con Google: creamos su perfil
+                        Map<String, Object> nuevoUsuario = new HashMap<>();
+                        nuevoUsuario.put("email", user.getEmail());
+                        nuevoUsuario.put("isAdmin", false); // Por defecto no es admin
+
+                        db.collection("Usuarios").document(user.getUid()).set(nuevoUsuario)
+                                .addOnSuccessListener(aVoid -> ObtenerDatosUsuario(user.getUid()));
+                    }
+                });
+    }
+
+    // --- RESTO DE TU LÓGICA (Mantenida) ---
 
     @Override
     protected void onStart() {
         super.onStart();
-        // Verificamos si ya hay un usuario logueado en Firebase
-        com.google.firebase.auth.FirebaseUser currentUser = mAuth.getCurrentUser();
-
+        FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null && currentUser.isEmailVerified()) {
-            // Si el usuario existe y verifico su correo, vamos directo a Firestore
-            // para saber si es admin y mandarlo a la pantalla de Inicio
             ObtenerDatosUsuario(currentUser.getUid());
         }
-        // Si no hay usuario o no esta verificado, la app se queda en el Login normal
     }
 
     @Override
     public void onClick(View v) {
-        String c = Correo.getText().toString();
-        String p = Password.getText().toString();
+        String c = Correo.getText().toString().trim();
+        String p = Password.getText().toString().trim();
 
-        switch (v.getId()) {
-            case R.id.Registrar:
-                Intent registrar = new Intent(this, Registro.class);
-                startActivity(registrar);
-                break;
+        if (v.getId() == R.id.Registrar) {
+            startActivity(new Intent(this, Registro.class));
+        } else if (v.getId() == R.id.Iniciar) {
+            if (!validarCampos(c, p)) return;
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(c).matches()) {
+                Correo.setError("Formato no válido");
+                return;
+            }
 
-            case R.id.Iniciar:
-                // 1. Verificamos el formato antes de entrar al bucle
-                if (!validarCampos(c, p)) {
-                    return;
+            mAuth.signInWithEmailAndPassword(c, p).addOnCompleteListener(this, task -> {
+                if (task.isSuccessful()) {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    if (user != null && user.isEmailVerified()) {
+                        ObtenerDatosUsuario(user.getUid());
+                    } else {
+                        mostrarPopupVerificacion(user);
+                        mAuth.signOut();
+                    }
+                } else {
+                    mostrarPopupRegistro(c);
                 }
-
-                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(c).matches()) {
-                    Correo.setError("Formato de correo no valido");
-                    return;
-                }
-
-                mAuth.signInWithEmailAndPassword(c, p)
-                        .addOnCompleteListener(this, task -> {
-                            if (task.isSuccessful()) {
-                                com.google.firebase.auth.FirebaseUser user = mAuth.getCurrentUser();
-
-                                // 2. FILTRO G FOR LIVE: ¿Ha verificado el correo?
-                                if (user != null && user.isEmailVerified()) {
-                                    // Si esta verificado, buscamos sus datos en Firestore
-                                    ObtenerDatosUsuario(user.getUid());
-                                } else {
-                                    // Si NO esta verificado, le avisamos y ofrecemos reenviar
-                                    mostrarPopupVerificacion(user);
-                                    mAuth.signOut(); // Cerramos sesion para que no se quede logueado a medias
-                                }
-                            } else {
-                                mostrarPopupRegistro(c);
-                            }
-                        });
-                break;
+            });
         }
-
-
     }
 
-        private void ObtenerDatosUsuario(String uid){
-            db.collection("Usuarios").document(uid).get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            Usuario usuario = documentSnapshot.toObject(Usuario.class);
-
-                            if (usuario != null) {
-                                NotificationPreferences.syncTopicWithStoredSetting(this);
-                                NotificationPreferences.refreshAndStoreCurrentToken();
-                                Intent intent = new Intent(this, MainMenu.class);
-                                intent.putExtra("Es_admin", usuario.isAdmin());
-                                startActivity(intent);
-                                finish();
-                            }
-
+    private void ObtenerDatosUsuario(String uid){
+        db.collection("Usuarios").document(uid).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Usuario usuario = documentSnapshot.toObject(Usuario.class);
+                        if (usuario != null) {
+                            NotificationPreferences.syncTopicWithStoredSetting(this);
+                            NotificationPreferences.refreshAndStoreCurrentToken();
+                            Intent intent = new Intent(this, MainMenu.class);
+                            intent.putExtra("Es_admin", usuario.isAdmin());
+                            startActivity(intent);
+                            finish();
                         }
-                    }).addOnFailureListener(e -> {
-                        Toast.makeText(Login.this, "Error al obtener los datos del usuario", Toast.LENGTH_SHORT).show();
-                    });
-        }
-
-        private void mostrarPopupRegistro(String emailOlvidado) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-
-            builder.setTitle("Usuario no encontrado");
-            builder.setMessage("El correo " + emailOlvidado + " no esta registrado. ¿Quieres crear una cuenta ahora?");
-
-            // Boton para ir al Registro
-            builder.setPositiveButton("Registrarme", (dialog, which) -> {
-                Intent intent = new Intent(Login.this, Registro.class);
-                startActivity(intent);
-            });
-
-            // Boton para cancelar
-            builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
-
-            builder.create().show();
-        }
-
-        private boolean validarCampos(String c, String p) {
-            if (c.isEmpty() || p.isEmpty()) {
-                Toast.makeText(this, "Rellena todos los campos", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            return true;
-        }
-
-    private void mostrarPopupVerificacion(com.google.firebase.auth.FirebaseUser user) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-
-        builder.setTitle("Cuenta no verificada");
-        builder.setMessage("Tu correo no ha sido verificado. Revisa tu bandeja de entrada o solicita un nuevo enlace.");
-
-        builder.setPositiveButton("Reenviar Correo", (dialog, which) -> {
-            if (user != null) {
-                user.sendEmailVerification().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(Login.this, "Nuevo enlace enviado.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(Login.this, "Error al enviar: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                });
-            }
-        });
+                }).addOnFailureListener(e -> Toast.makeText(Login.this, "Error de datos", Toast.LENGTH_SHORT).show());
+    }
 
-        builder.setNegativeButton("Entendido", (dialog, which) -> dialog.dismiss());
-        builder.create().show();
+    private void mostrarPopupRegistro(String emailOlvidado) {
+        new AlertDialog.Builder(this)
+                .setTitle("Usuario no encontrado")
+                .setMessage("¿Quieres registrar una cuenta?")
+                .setPositiveButton("Registrarme", (dialog, which) -> startActivity(new Intent(this, Registro.class)))
+                .setNegativeButton("Cancelar", null).show();
+    }
+
+    private void mostrarPopupVerificacion(FirebaseUser user) {
+        new AlertDialog.Builder(this)
+                .setTitle("Cuenta no verificada")
+                .setMessage("Revisa tu correo o solicita un nuevo enlace.")
+                .setPositiveButton("Reenviar", (dialog, which) -> {
+                    if (user != null) user.sendEmailVerification();
+                })
+                .setNegativeButton("Cerrar", null).show();
+    }
+
+    private boolean validarCampos(String c, String p) {
+        if (c.isEmpty() || p.isEmpty()) {
+            Toast.makeText(this, "Rellena todos los campos", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

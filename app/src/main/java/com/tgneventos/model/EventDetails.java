@@ -1,5 +1,8 @@
 package com.tgneventos.model;
 
+import android.content.Intent;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -13,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -156,5 +160,36 @@ public final class EventDetails extends AppCompatActivity {
                                             );
                         }
                 );
+
+        // 1. Referenciar los componentes
+        TextView tvUbication = findViewById(R.id.eventUbicationText);
+        MaterialButton btnWeb = findViewById(R.id.btnGetTickets);
+
+        tvUbication.setOnClickListener(v -> {
+            String url = event.get_ubication();
+            abrirUrl(url);
+        });
+
+        btnWeb.setOnClickListener(v -> {
+            String url = event.get_web();
+            abrirUrl(url);
+        });
+    }
+
+    private void abrirUrl(String url) {
+        if (url != null && !url.trim().isEmpty()) {
+            try {
+                // Nos aseguramos de que la URL tenga el formato correcto
+                if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                    url = "https://" + url;
+                }
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(this, "No se pudo abrir el enlace", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Enlace no disponible", Toast.LENGTH_SHORT).show();
+        }
     }
 }

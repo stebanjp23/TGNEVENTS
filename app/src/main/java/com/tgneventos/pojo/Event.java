@@ -17,6 +17,8 @@ public final class Event implements Serializable
     private String _category;
     private LocalDateTime _dateTime;
     private String _location;
+    private String _ubication;
+    private String _web;
     private double _price;
     private String _description;
     private String _imageUrl;
@@ -24,23 +26,17 @@ public final class Event implements Serializable
     // Constructors
     public Event() {}
 
-    public Event(
-            String title,
-            String category,
-            LocalDateTime dateTime,
-            String location,
-            double price,
-            String description,
-            String imageUrl
-    )
-    {
-        _title = title;
-        _category = category;
-        _dateTime = dateTime;
-        _location = location;
-        _price = price;
-        _description = description;
-        _imageUrl = imageUrl;
+    public Event(String _id, String _title, String _category, LocalDateTime _dateTime, String _location, String _ubication, String _web, double _price, String _description, String _imageUrl) {
+        this._id = _id;
+        this._title = _title;
+        this._category = _category;
+        this._dateTime = _dateTime;
+        this._location = _location;
+        this._ubication = _ubication;
+        this._web = _web;
+        this._price = _price;
+        this._description = _description;
+        this._imageUrl = _imageUrl;
     }
 
     // Getters & setters
@@ -66,6 +62,22 @@ public final class Event implements Serializable
 
     public String getImageUrl() { return _imageUrl; }
     public void setImageUrl(String imageUrl) { _imageUrl = imageUrl; }
+
+    public String get_web() {
+        return _web;
+    }
+
+    public void set_web(String _web) {
+        this._web = _web;
+    }
+
+    public String get_ubication() {
+        return _ubication;
+    }
+
+    public void set_ubication(String _ubication) {
+        this._ubication = _ubication;
+    }
 
     public String getId() { return _id; }
     public void setId(String id) { _id = id; }

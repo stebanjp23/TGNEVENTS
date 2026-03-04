@@ -2,4 +2,5 @@
     <string name="app_name">TGN Eventos</string>
     <string name="navigation_drawer_open">Abrir</string>
     <string name="navigation_drawer_close">Cerrar</string>
+    <string name="texto_subrayado"><u>Click para ver ubicacion</u></string>
 </resources>

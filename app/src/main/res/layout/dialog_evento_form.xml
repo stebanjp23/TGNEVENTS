@@ -84,12 +84,12 @@
             app:boxStrokeColor="#FFEB3B">
 
             <AutoCompleteTextView
-                android:id="@+id/input_ubicacion_evento"
+                android:id="@+id/input_zona_evento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Selecciona ubicacion"
-                android:inputType="none"
                 android:layout_marginTop="8sp"
+                android:hint="Selecciona zona"
+                android:inputType="none"
                 android:textColor="@color/text_primary"
                 android:textColorHint="@color/text_secondary" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -125,6 +125,32 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="URL de la ubicacion">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_ubicacion_evento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:hint="URL de la web original">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_web_evento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginTop="8dp"
             android:hint="URL de imagen (opcional)">
 

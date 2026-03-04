@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.SearchView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -263,51 +262,58 @@ public final class GestionEventos extends AppCompatActivity {
         AutoCompleteTextView inputCategoria = formView.findViewById(R.id.input_categoria_evento);
         EditText inputFecha = formView.findViewById(R.id.input_fecha_evento);
         EditText inputHora = formView.findViewById(R.id.input_hora_evento);
-        AutoCompleteTextView inputUbicacion = formView.findViewById(R.id.input_ubicacion_evento);
+        AutoCompleteTextView inputUbicacion = formView.findViewById(R.id.input_zona_evento);
         EditText inputPrecio = formView.findViewById(R.id.input_precio_evento);
         EditText inputDescripcion = formView.findViewById(R.id.input_descripcion_evento);
         EditText inputImagen = formView.findViewById(R.id.input_imagen_evento);
 
+        // --- NUEVOS CAMPOS ---
+        EditText inputUrlUbicacion = formView.findViewById(R.id.input_ubicacion_evento);
+        EditText inputUrlWeb = formView.findViewById(R.id.input_web_evento);
+
         LocalDate fechaInicial = LocalDate.now();
         LocalTime horaInicial = LocalTime.of(12, 0);
 
+        db.collection("Locacions").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            List<String> ubicaciones = new ArrayList<>();
+            for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                String nombre = doc.getString("Nom");
+                if (nombre != null) ubicaciones.add(nombre);
+            }
+            ArrayAdapter<String> adapterUbi = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, ubicaciones);
+            inputUbicacion.setAdapter(adapterUbi);
+
+            // SI ES EDICIÓN: Seteamos el valor actual después de cargar la lista
+            if (esEdicion && eventoExistente.getLocation() != null) {
+                inputUbicacion.setText(eventoExistente.getLocation(), false);
+            }
+        });
+
+        // --- CARGAR CATEGORÍAS ---
+        db.collection("Categorias").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            List<String> categorias = new ArrayList<>();
+            for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                String nombre = doc.getString("nombre");
+                if (nombre != null) categorias.add(nombre);
+            }
+            ArrayAdapter<String> adapterCat = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categorias);
+            inputCategoria.setAdapter(adapterCat);
+
+            // SI ES EDICIÓN: Seteamos el valor actual
+            if (esEdicion && eventoExistente.getCategory() != null) {
+                inputCategoria.setText(eventoExistente.getCategory(), false);
+            }
+        });
+
         if (esEdicion) {
             inputTitulo.setText(eventoExistente.getTitle());
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            // 1. Cargar Ubicaciones desde la BD
-            db.collection("Locacions").get().addOnSuccessListener(queryDocumentSnapshots -> {
-                List<String> ubicaciones = new ArrayList<>();
-                for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                    String nombre = doc.getString("Nom");
-                    if (nombre != null) ubicaciones.add(nombre);
-                }
-                ArrayAdapter<String> adapterUbi = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, ubicaciones);
-                inputUbicacion.setAdapter(adapterUbi);
-
-                // SI ES EDICIÓN: Seteamos el valor actual después de cargar la lista
-                if (esEdicion && eventoExistente.getLocation() != null) {
-                    inputUbicacion.setText(eventoExistente.getLocation(), false);
-                }
-            });
-
-            // --- CARGAR CATEGORÍAS ---
-            db.collection("Categorias").get().addOnSuccessListener(queryDocumentSnapshots -> {
-                List<String> categorias = new ArrayList<>();
-                for (DocumentSnapshot doc : queryDocumentSnapshots) {
-                    String nombre = doc.getString("nombre");
-                    if (nombre != null) categorias.add(nombre);
-                }
-                ArrayAdapter<String> adapterCat = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, categorias);
-                inputCategoria.setAdapter(adapterCat);
-
-                // SI ES EDICIÓN: Seteamos el valor actual
-                if (esEdicion && eventoExistente.getCategory() != null) {
-                    inputCategoria.setText(eventoExistente.getCategory(), false);
-                }
-            });
             inputDescripcion.setText(eventoExistente.getDescription());
             inputPrecio.setText(String.valueOf(eventoExistente.getPrice()));
             inputImagen.setText(eventoExistente.getImageUrl());
+
+            // --- SETEAR VALORES NUEVOS EN EDICIÓN ---
+            inputUrlUbicacion.setText(eventoExistente.get_ubication());
+            inputUrlWeb.setText(eventoExistente.get_web());
 
             if (eventoExistente.getDateTime() != null) {
                 fechaInicial = eventoExistente.getDateTime().toLocalDate();
@@ -338,12 +344,12 @@ public final class GestionEventos extends AppCompatActivity {
                             inputUbicacion,
                             inputPrecio,
                             inputDescripcion,
-                            inputImagen
+                            inputImagen,
+                            inputUrlUbicacion, // Pasamos los nuevos campos
+                            inputUrlWeb
                     );
 
-                    if (eventoConstruido == null) {
-                        return;
-                    }
+                    if (eventoConstruido == null) return;
 
                     if (esEdicion) {
                         actualizarEvento(eventoExistente, eventoConstruido, dialog);
@@ -409,8 +415,11 @@ public final class GestionEventos extends AppCompatActivity {
             AutoCompleteTextView inputUbicacion,
             EditText inputPrecio,
             EditText inputDescripcion,
-            EditText inputImagen
+            EditText inputImagen,
+            EditText inputUrlUbicacion, // Recibimos nuevos campos
+            EditText inputUrlWeb
     ) {
+        // ... (obtención de textos existentes)
         String titulo = inputTitulo.getText().toString().trim();
         String categoria = inputCategoria.getText().toString().trim();
         String fechaString = inputFecha.getText().toString().trim();
@@ -420,24 +429,35 @@ public final class GestionEventos extends AppCompatActivity {
         String descripcion = inputDescripcion.getText().toString().trim();
         String imageUrl = inputImagen.getText().toString().trim();
 
+        // Obtención de nuevos campos
+        String urlUbi = inputUrlUbicacion.getText().toString().trim();
+        String urlWeb = inputUrlWeb.getText().toString().trim();
+
         if (titulo.isEmpty()) {
             inputTitulo.setError("Titulo obligatorio");
             return null;
         }
+
         if (categoria.isEmpty()) {
             inputCategoria.setError("Categoria obligatorio");
             return null;
         }
+
         if (ubicacion.isEmpty()) {
             inputUbicacion.setError("Ubicacion obligatoria");
             return null;
         }
+
         if (descripcion.isEmpty()) {
             inputDescripcion.setError("Descripcion obligatoria");
             return null;
         }
-        if (!imageUrl.isEmpty() && !URLUtil.isValidUrl(imageUrl)) {
-            inputImagen.setError("URL de imagen invalida");
+        if (urlUbi.isEmpty()) {
+            inputUrlUbicacion.setError("URL de ubicacion obligatoria");
+            return null;
+        }
+        if (urlWeb.isEmpty()) {
+            inputUrlWeb.setError("URL de web obligatoria");
             return null;
         }
 
@@ -445,28 +465,20 @@ public final class GestionEventos extends AppCompatActivity {
         LocalTime hora;
         try {
             fecha = LocalDate.parse(fechaString, DATE_INPUT_FORMAT);
-        } catch (DateTimeParseException e) {
-            inputFecha.setError("Formato: yyyy-MM-dd");
-            return null;
-        }
-
-        try {
             hora = LocalTime.parse(horaString, TIME_INPUT_FORMAT);
         } catch (DateTimeParseException e) {
-            inputHora.setError("Formato: HH:mm");
             return null;
         }
 
         double precio = 0.0;
-        if (!precioString.isEmpty()) {
-            try {
-                precio = Double.parseDouble(precioString);
-            } catch (NumberFormatException e) {
-                inputPrecio.setError("Numero invalido");
-                return null;
-            }
+        try {
+            if (!precioString.isEmpty()) precio = Double.parseDouble(precioString);
+        } catch (NumberFormatException e) {
+            inputPrecio.setError("Numero invalido");
+            return null;
         }
 
+        // --- CONSTRUCCIÓN DEL OBJETO ---
         Event nuevoEvento = new Event();
         nuevoEvento.setTitle(titulo);
         nuevoEvento.setCategory(categoria);
@@ -475,6 +487,10 @@ public final class GestionEventos extends AppCompatActivity {
         nuevoEvento.setPrice(precio);
         nuevoEvento.setDescription(descripcion);
         nuevoEvento.setImageUrl(imageUrl);
+
+        // ASIGNAMOS LOS NUEVOS CAMPOS
+        nuevoEvento.set_ubication(urlUbi);
+        nuevoEvento.set_web(urlWeb);
 
         return nuevoEvento;
     }
